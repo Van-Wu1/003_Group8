@@ -8,3 +8,5 @@ The Mapbox import is complete
 
 Complete point data visualization
 完成点数据可视化
+
+（ 感觉前面的都白学了，gitpush弄了好久...
