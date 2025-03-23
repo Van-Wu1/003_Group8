@@ -4,7 +4,7 @@ import uniData from "./data/uni.js";
 export let map;
 
 export function initMap() {
-  mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_KEY;
+    mapboxgl.accessToken = 'pk.eyJ1IjoidmFuMTEyMDEwMTZ3dSIsImEiOiJjbTd1b2JodnMwMmV1MmpzYTlhcXJxNWJ1In0.PC95-6c3OQtSQoxlvNAWOA';
   
   map = new mapboxgl.Map({
     container: 'map',
