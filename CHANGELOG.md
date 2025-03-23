@@ -1,29 +1,37 @@
 # 📋 Changelog
 
-所有重要的变更记录都会写在这里。
+All important changes will be logged here.
 
 ---
 
-## [v1.0.0] - 2025-03-23
+## [v1.0.1] - 2025-03-23
 ### Added
-- 初始化 Vite 项目结构
-- 集成 Mapbox 地图显示功能
-- 配置 `.env` 加载密钥
-- 自定义房产图标 & 学校图标
-- 编写项目文档（`README.md`）与更新日志（`CHANGELOG.md`）
-
----
-
-## [模板参考格式]
-
-### Added
-- 新增了哪些功能
+- Add an algorithm for 15-minute ride accessibility (`accessibility.ipynb` can also be used on foot and by car)
+- Add `CHANGELOG.md`
 
 ### Changed
-- 改动了哪些逻辑或代码结构
+- Edit `README.md`
 
 ### Fixed
-- 修复了哪些 Bug 或问题
+- Improved `.gitignore`
+- Fixed a history issue that could not be pushed to GitHub due to large files
+
+---
+
+## [v1.0.0] - 2025-03-12
+### Added
+- Complete university data crawler for US apartments and uk23 cities `./scr/py/Crawler/`
+- The Mapbox import is complete `map.js`
+- Complete point data visualization `styles.css`and `index.html`
+
+---
+
+## [Template reference format]
+
+### Added
+
+### Changed
+
+### Fixed
 
 ### Removed
-- 移除了哪些不必要的文件或逻辑
