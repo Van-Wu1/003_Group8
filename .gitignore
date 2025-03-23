@@ -1,4 +1,4 @@
-# Logs
+# ========== Logs ==========
 logs
 *.log
 npm-debug.log*
@@ -7,12 +7,41 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# ========== Node dependencies ==========
 node_modules
 dist
 dist-ssr
 *.local
 
-# Editor directories and files
+# ========== Python & Jupyter ==========
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+
+# ========== GIS / Shapefiles ==========
+*.shp
+*.shx
+*.dbf
+*.prj
+*.cpg
+*.qpj
+
+# ========== Data / Output / Cache ==========
+*.csv
+*.geojson
+*.json
+*.tif
+*.zip
+*.gz
+output/
+data/
+temp/
+cache/
+src/py/cache/
+
+# ========== 🛠️ Editor settings ==========
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -22,3 +51,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# ========== Others ==========
+~$*  # 临时文件（如 Word/Excel 自动保存）
