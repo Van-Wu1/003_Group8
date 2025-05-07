@@ -54,3 +54,5 @@ src/py/cache/
 
 # ========== Others ==========
 ~$*  # 临时文件（如 Word/Excel 自动保存）
+
+/data/raw/*

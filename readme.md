@@ -31,6 +31,7 @@ npm install
 ```bash
 npm run dev
 ```
+或者使用live server
 
 访问浏览器中自动打开的地址（如 http://localhost:5173/ ） 
 
@@ -39,29 +40,17 @@ npm run dev
 
 ## 📁 项目结构说明
 ```bash
-003/
-├── public/                     # 静态资源目录
-├── src/
-│   ├── map.js                 # 地图初始化与点位加载逻辑
-│   ├── main.js                # 项目入口文件
-│   ├── data/                  # 数据文件夹（点位信息）
-│   │   ├── property.js
-│   │   └── uni.js
-├── .env                       # 环境变量配置（需手动添加）
-├── index.html                 # 页面模板
-├── package.json               # 项目信息与启动配置
-└── README.md                  # 本说明文件
+├── index.html
+├── js/
+│   ├── main.js
+│   └── pages/
+│       ├── home.js
+│       ├── network.js
+│       └── resilience.js
+└── styles/
+    └── styles.css
 ```
 
 ---
 
-### 关于可达性部分的代码解释
-
-- 文件位于 ./scr/py/accessibility.ipynb
-- 我在里面设置了备注，应该还是比较明了的
-- 使用时可以修改里面的起终点，好吧只有起点有用，我之前做最短路径的终点忘记删除了，后续会更正
-- 第七模块的代码用于修改距离（目前只对步行、骑行、出租车这种有效，不适用于需要换乘的交通，后续需补充另一种计算模式）
-
----
-
-📦 此版本更新于：2025 年 3 月 23 日
+📦 此版本更新于：2025 年 5 月 2 日
