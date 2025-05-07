@@ -138,13 +138,13 @@ map1.on('load', function () {
     // projection switch
     const toggle = document.getElementById('projectionToggle');
 
-    // toggle.addEventListener('change', (e) => {
-    //     if (e.target.checked) {
-    //         map1.setProjection('globe');
-    //     } else {
-    //         map1.setProjection('equirectangular');
-    //     }
-    // });
+    toggle.addEventListener('change', (e) => {
+        if (e.target.checked) {
+            map1.setProjection('globe');
+        } else {
+            map1.setProjection('equirectangular');
+        }
+    });
 });
 
 
