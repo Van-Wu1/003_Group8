@@ -6,6 +6,7 @@
     <title>PharmaNexus</title>
     <link rel="stylesheet" href="styles/styles.css" />
     <link rel="stylesheet" href="styles/map1.css" />
+    <link rel="stylesheet" href="styles/team.css" />
 
     <!-- amCharts & JS -->
     <!-- <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
@@ -27,9 +28,9 @@
         <h1>PharmaNexus</h1>
         <nav>
             <ol>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Section2</a></li>
-                <li><a href="#">Section3</a></li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#Section2">Section2</a></li>
+                <li><a href="#Section3">Section3</a></li>
                 <li><a href="#">Section4</a></li>
                 <li><a href="#">Team</a></li>
             </ol>
@@ -54,6 +55,7 @@
         </section>
         
         <section class="Section3">
+            <!-- 这个是顶上的文字部分 -->
             <div class="section-header">
                 <h1><strong>Page3: Visualization of the trade overview of the pharmaceutical industry</strong></h1>
                 <p>
@@ -61,17 +63,9 @@
                     using an interactive map and corresponding legend to interpret the trade volume distribution.
                 </p>
             </div>
-        
+            <!-- 这里是主体模块 123 -->
             <div class="map-legend-container">
-                <div class="toggle-container">
-                    <span>Flat</span>
-                    <label class="switch">
-                        <input type="checkbox" id="projectionToggle">
-                        <span class="slider"></span>
-                    </label>
-                    <span>Globe</span>
-                </div>
-                <div id="map1"></div>
+                <!-- 左侧： 图例 -->
                 <div id="Map1BlockLegend">
                     <span class="legend-top">Highest</span>
                     <div class="block-bar">
@@ -85,6 +79,36 @@
                     </div>
                     <span class="legend-bottom">Lowest</span>
                 </div>
+                
+                <!-- 中间：上部地图，下部切换 -->
+                <div class="middle">
+                    <div id="map1"></div>
+
+                    <div class="toggle-container">
+                        <div class="labels">
+                            <span>Total Trade</span>
+                            <span>Import</span>
+                            <span>Export</span>
+                        </div>
+                        <div class="switch">
+                            <input type="range" min="0" max="2" value="0" id="projectionToggle">
+                            <div class="track"></div>
+                            <div class="thumb"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧：图表区 -->
+                <div class="chart">
+                    <div class="rank">
+                        <p>Ranking (Total trade)</p>
+                        <div class="barcontent">这里放rank表</div>
+                    </div>
+                    <div class="pie">
+                        <!-- <p>Pie Chart Title</p> -->
+                        <div class="piecontent">这里放piechart</div>
+                    </div>
+                </div>
             </div>
         </section>
         
@@ -94,9 +118,47 @@
             <p>待定</p>
         </section>
 
-        <section class="Team">
+        <section class="Section5">
             <h1>page5</h1>
             <p>待定</p>
+        </section>
+
+        <section class="Section6">
+            <h1>page6</h1>
+            <p>待定</p>
+        </section>
+
+        <section class="Section7">
+            <h1>page7</h1>
+            <p>待定</p>
+        </section>
+
+        <section class="Section8">
+            <h1>page8</h1>
+            <p>待定</p>
+        </section>
+
+        <section class="Team">
+            <h1><strong>Team</strong></h1>
+            <div class="TeamIntro">
+                <div class="member">
+                    <div class="member1pic"></div>
+                    <p>Borui Wang</p>
+                </div>
+                <div class="member">
+                    <div class="member2pic"></div>
+                    <p>Qiu Yue</p>
+                </div>
+                <div class="member">
+                    <div class="member3pic"></div>
+                    <p>Xinyue Hu</p>
+                </div>
+                <div class="member">
+                    <div class="member4pic"></div>
+                    <p>Yifan Wu</p>
+                </div>
+                <!-- 这里加一行小字：按照字母顺序排列 -->
+            </div>
         </section>
     </main>
 

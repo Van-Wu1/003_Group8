@@ -1,5 +1,3 @@
-// js/map.js
-
 import mapboxgl from 'mapbox-gl';
 import { tradeData } from '../data/clean/trade_data';
 
@@ -22,14 +20,28 @@ const map1 = new mapboxgl.Map({
     container: 'map1',
     style: 'mapbox://styles/van11201016wu/cmabq2dt000lb01sd50i8cp8x',
     center: [0, 0],
-    zoom: 1.15
+    zoom: 0.78
 });
 
-map1.setMinZoom(1.15);
+map1.setMinZoom(0.78);
 map1.setMaxZoom(3);
 
+// 7-class RdYlGn 色带
+const colorStops = ['#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#08519c', '#08306b'];
+
+function getColorForValue(value, min, max) {
+    if (value === undefined || value === null) return '#ccc';
+    const ratio = Math.max(0, Math.min(1, (value - min) / (max - min)));
+    if (ratio < 0.14) return colorStops[0];
+    if (ratio < 0.28) return colorStops[1];
+    if (ratio < 0.42) return colorStops[2];
+    if (ratio < 0.56) return colorStops[3];
+    if (ratio < 0.7) return colorStops[4];
+    if (ratio < 0.84) return colorStops[5];
+    return colorStops[6];
+}
+
 map1.on('load', function () {
-    // shp
     map1.addSource('countries', {
         'type': 'vector',
         'url': 'mapbox://mapbox.country-boundaries-v1'
@@ -42,11 +54,10 @@ map1.on('load', function () {
         'source-layer': 'country_boundaries',
         'paint': {
             'fill-color': '#FFFFFF',
-            'fill-opacity': 0.3
+            'fill-opacity': 0.7
         }
     });
 
-    // line
     map1.addLayer({
         'id': 'country-borders',
         'type': 'line',
@@ -58,127 +69,215 @@ map1.on('load', function () {
         }
     });
 
-    const colorScale = [
-        '#ffffcc',
-        '#c7e9b4',
-        '#7fcdbb',
-        '#41b6c4',
-        '#1d91c0',
-        '#225ea8', 
-        '#0c2c84'
-    ];
-    
-    // 分位数阈值？
-    const thresholds = [89000000, 250000000, 690000000, 1900000000, 5500000000, 15000000000];
-    
-    const colorMatch = ['match', ['get', 'iso_3166_1_alpha_3']];
-    
-    for (const iso in tradeData) {
-        const val = tradeData[iso]?.total;
-        if (typeof val === 'number') {
-            let idx = 0;
-            while (idx < thresholds.length && val > thresholds[idx]) {
-                idx++;
-            }
-            colorMatch.push(iso, colorScale[idx]);
-        }
-    }
-    
-    colorMatch.push('#ccc');
-    
-    // 设置颜色
-    map1.setPaintProperty('country-fills', 'fill-color', colorMatch);
-    
-    
-    // 监听
+    // 轮廓高光
+    map1.addLayer({
+        id: 'country-hover',
+        type: 'line',
+        source: 'countries',
+        'source-layer': 'country_boundaries',
+        paint: {
+            'line-color': '#ff0000',
+            'line-width': 1.5
+        },
+        filter: ['==', 'iso_3166_1_alpha_3', '']
+    });
+
+    // Tooltip
+    const slider = document.getElementById('projectionToggle');
+    const labels = document.querySelectorAll('.labels span');
+
+    slider.addEventListener('input', function() {
+        const value = parseInt(slider.value);
+        labels.forEach((label, index) => {
+            label.style.fontWeight = (index === value) ? 'bold' : 'normal';
+            label.style.color = (index === value) ? '#333' : '#888';
+        });
+        let field = 'total';
+        if (value === 1) field = 'import';
+        if (value === 2) field = 'export';
+
+        // function挂载
+        updateMapColors(field);
+        updateBarChart(field);
+        updatePieChart(isoCode);
+
+    });
+
+    // 初始化先拉一次
+    updateMapColors('total');
+    updateBarChart('total');
+    updatePieChart('GLOBAL');
+
+    // -----hover刷新轮廓-----
     map1.on('mousemove', 'country-fills', function (e) {
-        const isoCode = e.features[0].properties.iso_3166_1_alpha_3;
-        const countryName = e.features[0].properties.name_en;
-        const trade = tradeData[isoCode] || { import: 'N/A', export: 'N/A' };
-    
-        // Convert it into units of "billion"
-        const TotalValue = (typeof trade.total === 'number') ? (trade.total / 1e8).toFixed(2): 'N/A';
-        const importValue = (typeof trade.import === 'number') ? (trade.import / 1e8).toFixed(2): 'N/A';
-        const exportValue = (typeof trade.export === 'number') ? (trade.export / 1e8).toFixed(2): 'N/A';
-    
-        tooltip.style.opacity = 1;
-        tooltip.innerHTML = `
-            <div class="tooltip-header">
-                <span class="country-name">${countryName} (${isoCode})</span>
-            </div>
-    
-            <div class="tooltip-body-row">
-                <div class="trade-block">
-                    <div class="gdp-number">${TotalValue}</div>
-                    <div class="label">Total Trade</div>
-                </div>
-                <div class="middle-block">
-                    <div class="data-block">
-                        <div class="number">${importValue}</div>
-                        <div class="label">Import</div>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="data-block">
-                        <div class="number">${exportValue}</div>
-                        <div class="label">Export</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tooltip-unit" style="margin-top:5px; font-size:10px; color:#ccc;">Unit: 100 million</div>
-            `;
-        tooltip.style.left = (e.originalEvent.pageX + 10) + 'px';
-        tooltip.style.top = (e.originalEvent.pageY - 28) + 'px';
-    });
-    
-    map1.on('mouseleave', 'country-fills', function () {
-        tooltip.style.opacity = 0;
-    });
-    
-    // projection switch
-    const toggle = document.getElementById('projectionToggle');
-
-    toggle.addEventListener('change', (e) => {
-        if (e.target.checked) {
-            map1.setProjection('globe');
-        } else {
-            map1.setProjection('equirectangular');
+        if (!selectedCountry) {
+            map1.setFilter('country-hover', ['==', 'iso_3166_1_alpha_3', e.features[0].properties.iso_3166_1_alpha_3]);
         }
     });
+
+    map1.on('mouseleave', 'country-fills', function () {
+        if (!selectedCountry) {
+            map1.setFilter('country-hover', ['==', 'iso_3166_1_alpha_3', '']);
+        }
+    });
+
+    // -----点击锁死轮廓-----
+    let selectedCountry = null;
+
+    map1.on('click', 'country-fills', function (e) {
+        const isoCode = e.features[0].properties.iso_3166_1_alpha_3;
+        selectedCountry = isoCode;
+    
+        map1.setFilter('country-hover', ['==', 'iso_3166_1_alpha_3', isoCode]);
+    
+        updatePieChart(isoCode);
+    });    
 });
 
 
-//legend
-// 创建一个映射关系（isoCode -> totalValue）
-const totalValueStops = Object.keys(tradeData).map(iso => {
-    const value = tradeData[iso]?.total;
-    // 正常化一下，避免 null/undefined
-    return [iso, value ?? 0];
-});
+// -----Function Section-----
+// 热力图的function
+function updateMapColors(field) {
+    const values = Object.values(tradeData).map(d => d[field]).filter(v => typeof v === 'number');
+    if (values.length === 0) return;
+    const sorted = [...values].sort((a, b) => a - b);
+    const min = sorted[0];
+    const max = sorted[Math.floor(sorted.length * 0.98)]; // 98% 分位数（可以写进方法论）
 
-// 计算颜色分段 (你可以改色值)
-const colors = [
-    '#f2f0f7',
-    '#cbc9e2',
-    '#9e9ac8',
-    '#756bb1',
-    '#54278f'
-];
+    const colorMatch = ['match', ['get', 'iso_3166_1_alpha_3']];
+    for (const iso in tradeData) {
+        const val = tradeData[iso]?.[field];
+        colorMatch.push(iso, getColorForValue(val, min, max));
+    }
+    colorMatch.push('#ccc');
+    map1.setPaintProperty('country-fills', 'fill-color', colorMatch);
+}
 
-const getColor = (value) => {
-    if (value > 1000000000) return colors[4]; // > 10亿
-    if (value > 500000000) return colors[3];  // 5-10亿
-    if (value > 100000000) return colors[2];  // 1-5亿
-    if (value > 10000000) return colors[1];   // 1000万-1亿
-    return colors[0];                         // < 1000万
-};
+// 滑块移动--rank的柱状图的function
+function updateBarChart(field) {
+    const barContainer = document.querySelector('.barcontent');
+    if (!barContainer) return;
 
-// 生成 match 表达式
-const colorMatch = ['match', ['get', 'iso_3166_1_alpha_3']];
-totalValueStops.forEach(([iso, val]) => {
-    colorMatch.push(iso, getColor(val));
-});
-colorMatch.push('#eee'); // 默认色
+    barContainer.innerHTML = '';
 
-// 更新填充图层颜色
-map1.setPaintProperty('country-fills', 'fill-color', colorMatch);
+    // 提取数据并排序
+    const sortedData = Object.entries(tradeData)
+        .map(([iso, data]) => ({
+            iso,
+            name: data.name || iso,
+            value: typeof data[field] === 'number' ? data[field] : 0
+        }))
+        .sort((a, b) => b.value - a.value)
+        .slice(0, 10); // 前10名
+
+    // 最大值
+    const maxValue = sortedData[0]?.value || 1;
+
+    // 创建柱状图元素（先把css放在这里了，后续要拿出来;好的拿出来了）
+    sortedData.forEach(item => {
+        const barRow = document.createElement('div');
+        barRow.className = 'bar-row';
+    
+        const label = document.createElement('div');
+        label.className = 'bar-label';
+        label.textContent = item.name;
+    
+        const bar = document.createElement('div');
+        bar.className = 'bar-bar';
+        bar.style.width = `${(item.value / maxValue) * 100}%`;
+    
+        const value = document.createElement('div');
+        value.className = 'bar-value';
+        value.textContent = (item.value / 1e8).toFixed(2);
+    
+        barRow.appendChild(label);
+        barRow.appendChild(bar);
+        barRow.appendChild(value);
+        barContainer.appendChild(barRow);
+    });    
+}
+
+//饼图的function
+let pieChartInstance = null;
+let globalSummary = null;
+
+function computeGlobalSummary() {
+    let totalImport = 0;
+    let totalExport = 0;
+    Object.values(tradeData).forEach(d => {
+        if (typeof d.import === 'number') totalImport += d.import;
+        if (typeof d.export === 'number') totalExport += d.export;
+    });
+    return { import: totalImport, export: totalExport };
+}
+
+function initGlobalSummary() {
+    if (!globalSummary) {
+        globalSummary = computeGlobalSummary();
+    }
+}
+
+function updatePieChart(isoCode = 'GLOBAL') {
+    const pieContainer = document.querySelector('.piecontent');
+    if (!pieContainer) return;
+
+    // 清空
+    pieContainer.innerHTML = '<canvas id="pieChart"></canvas>';
+    const ctx = document.getElementById('pieChart').getContext('2d');
+
+    let importValue, exportValue;
+    let label = 'Global';
+
+    if (isoCode === 'GLOBAL') {
+        initGlobalSummary();
+        importValue = globalSummary.import;
+        exportValue = globalSummary.export;
+    } else {
+        const countryData = tradeData[isoCode] || { import: 0, export: 0 };
+        importValue = countryData.import || 0;
+        exportValue = countryData.export || 0;
+        label = countryData.name || isoCode;
+    }
+
+    const total = importValue + exportValue;
+    const importPercent = total ? ((importValue / total) * 100).toFixed(1) : 0;
+    const exportPercent = total ? ((exportValue / total) * 100).toFixed(1) : 0;
+
+    const chartData = {
+        labels: [`Import ${importPercent}%`, `Export ${exportPercent}%`],
+        datasets: [{
+            data: [importValue, exportValue],
+            backgroundColor: ['rgb(95, 191, 255)', 'rgb(34, 0, 255)']
+        }]
+    };
+
+    const chartOptions = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            },
+            tooltip: {
+                callbacks: {
+                    label: function (context) {
+                        const value = (context.raw / 1e8).toFixed(2);
+                        return `${context.label}: ${value}`;
+                    }
+                }
+            },
+            title: {
+                display: true,
+                text: `${label} Import / Export`
+            }
+        }
+    };
+
+    if (pieChartInstance) {
+        pieChartInstance.destroy();
+    }
+    pieChartInstance = new Chart(ctx, {
+        type: 'pie',
+        data: chartData,
+        options: chartOptions
+    });
+}
