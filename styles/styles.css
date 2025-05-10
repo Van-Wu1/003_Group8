@@ -117,11 +117,26 @@ header a:hover{
 
     background-position: center;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     text-align: center;
     min-height: 90vh;
+}
+
+.section2pic{
+    flex: 1;
+    height: 100%;
+    background-image: url('../img/5.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #000000;
+}
+
+.section2words{
+    flex: 1;
+    height: 100%;
+    background-color: rgb(79, 79, 79);
 }
 
 .Section3{
@@ -211,6 +226,15 @@ header a:hover{
 .Team {
     background-color: rgba(255, 255, 255, 0.927);
     color: rgb(0, 0, 0);
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.DataReference {
+    background-color: rgba(0, 0, 0, 0.927);
+    color: rgb(255, 255, 255);
     min-height: 90vh;
     display: flex;
     flex-direction: column;

@@ -18,16 +18,18 @@ mapboxgl.accessToken = 'pk.eyJ1IjoidmFuMTEyMDEwMTZ3dSIsImEiOiJjbTd1b2JodnMwMmV1M
 
 const map1 = new mapboxgl.Map({
     container: 'map1',
-    style: 'mapbox://styles/van11201016wu/cmabq2dt000lb01sd50i8cp8x',
-    center: [0, 0],
-    zoom: 0.78
+    style: 'mapbox://styles/van11201016wu/cmaicl244001t01s90chs5mfb',
+    center: [10, 30],
+    zoom: 0.8
 });
 
-map1.setMinZoom(0.78);
-map1.setMaxZoom(3);
+// map1.setMinZoom(0.78);
+// map1.setMaxZoom(3);
 
 // 7-class RdYlGn 色带
 const colorStops = ['#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#08519c', '#08306b'];
+// const colorStops = ['#fee5d9', '#fcbba1', '#fc9272', '#fb6a4a', '#ef3b2c', '#cb181d', '#99000d'];
+
 
 function getColorForValue(value, min, max) {
     if (value === undefined || value === null) return '#ccc';
@@ -42,6 +44,7 @@ function getColorForValue(value, min, max) {
 }
 
 map1.on('load', function () {
+    // 加载国家矢量切片
     map1.addSource('countries', {
         'type': 'vector',
         'url': 'mapbox://mapbox.country-boundaries-v1'
@@ -69,7 +72,6 @@ map1.on('load', function () {
         }
     });
 
-    // 轮廓高光
     map1.addLayer({
         id: 'country-hover',
         type: 'line',
@@ -82,36 +84,50 @@ map1.on('load', function () {
         filter: ['==', 'iso_3166_1_alpha_3', '']
     });
 
-    // Tooltip
+    map1.once('idle', function() {
+    const features = map1.querySourceFeatures('countries', { sourceLayer: 'country_boundaries' });
+    features.forEach(feature => {
+        const iso = feature.properties.iso_3166_1_alpha_3;
+        const name = feature.properties.name_en;
+        if (tradeData[iso]) {
+            tradeData[iso].name = name;
+        }
+    });
+
+    // 初始化
+    updateMapColors('total');
+    updateD3Treemap('total');
+    updatePieChart('GLOBAL');
+
+    // 绑定滑条
     const slider = document.getElementById('projectionToggle');
     const labels = document.querySelectorAll('.labels span');
+    let selectedCountry = null;
 
-    slider.addEventListener('input', function() {
+    slider.addEventListener('input', function () {
         const value = parseInt(slider.value);
         labels.forEach((label, index) => {
             label.style.fontWeight = (index === value) ? 'bold' : 'normal';
             label.style.color = (index === value) ? '#333' : '#888';
         });
+
         let field = 'total';
         if (value === 1) field = 'import';
         if (value === 2) field = 'export';
 
-        // function挂载
         updateMapColors(field);
-        updateBarChart(field);
-        updatePieChart(isoCode);
-
+        updateD3Treemap(field);
+        updatePieChart(selectedCountry || 'GLOBAL');
     });
+});
 
-    // 初始化先拉一次
-    updateMapColors('total');
-    updateBarChart('total');
-    updatePieChart('GLOBAL');
+    // ---------- Hover 刷新轮廓 ----------
+    let selectedCountry = null;
 
-    // -----hover刷新轮廓-----
     map1.on('mousemove', 'country-fills', function (e) {
         if (!selectedCountry) {
-            map1.setFilter('country-hover', ['==', 'iso_3166_1_alpha_3', e.features[0].properties.iso_3166_1_alpha_3]);
+            const isoCode = e.features[0].properties.iso_3166_1_alpha_3;
+            map1.setFilter('country-hover', ['==', 'iso_3166_1_alpha_3', isoCode]);
         }
     });
 
@@ -121,17 +137,23 @@ map1.on('load', function () {
         }
     });
 
-    // -----点击锁死轮廓-----
-    let selectedCountry = null;
-
+    // ---------- 点击锁定国家 ----------
     map1.on('click', 'country-fills', function (e) {
         const isoCode = e.features[0].properties.iso_3166_1_alpha_3;
         selectedCountry = isoCode;
-    
         map1.setFilter('country-hover', ['==', 'iso_3166_1_alpha_3', isoCode]);
-    
         updatePieChart(isoCode);
-    });    
+    });
+
+    // ---------- 点击地图空白处清除锁定 ----------
+    map1.on('click', function (e) {
+        const features = map1.queryRenderedFeatures(e.point, { layers: ['country-fills'] });
+        if (!features.length) {
+            selectedCountry = null;
+            map1.setFilter('country-hover', ['==', 'iso_3166_1_alpha_3', '']);
+            updatePieChart('GLOBAL');
+        }
+    });
 });
 
 
@@ -154,48 +176,109 @@ function updateMapColors(field) {
 }
 
 // 滑块移动--rank的柱状图的function
-function updateBarChart(field) {
-    const barContainer = document.querySelector('.barcontent');
-    if (!barContainer) return;
+// function updateBarChart(field) {
+//     const barContainer = document.querySelector('.barcontent');
+//     if (!barContainer) return;
 
-    barContainer.innerHTML = '';
+//     barContainer.innerHTML = '';
 
-    // 提取数据并排序
-    const sortedData = Object.entries(tradeData)
-        .map(([iso, data]) => ({
+//     // 提取数据并排序
+//     const sortedData = Object.entries(tradeData)
+//         .map(([iso, data]) => ({
+//             iso,
+//            name: data.name || iso,
+//            value: typeof data[field] === 'number' ? data[field] : 0
+//        }))
+//         .sort((a, b) => b.value - a.value)
+//         .slice(0, 10); // 前10名
+
+//     // 最大值
+//     const maxValue = sortedData[0]?.value || 1;
+
+//     // 创建柱状图元素
+//     sortedData.forEach(item => {
+//         const barRow = document.createElement('div');
+//         barRow.className = 'bar-row';
+    
+//         const label = document.createElement('div');
+//         label.className = 'bar-label';
+//         label.textContent = item.name;
+    
+//         const bar = document.createElement('div');
+//         bar.className = 'bar-bar';
+//         bar.style.width = `${(item.value / maxValue) * 100}%`;
+    
+//         const value = document.createElement('div');
+//         value.className = 'bar-value';
+//         value.textContent = (item.value / 1e8).toFixed(2);
+    
+//         bar.appendChild(value);
+    
+//         barRow.appendChild(label);
+//         barRow.appendChild(bar);
+//         barContainer.appendChild(barRow);
+//     });    
+// }
+
+// 矩形树图
+function updateD3Treemap(field) {
+    const data = Object.entries(tradeData)
+        .map(([iso, d]) => ({
             iso,
-            name: data.name || iso,
-            value: typeof data[field] === 'number' ? data[field] : 0
+            name: d.name || iso,  // 用全称（来自 Mapbox），没有就用 ISO
+            value: typeof d[field] === 'number' ? d[field] : 0
         }))
         .sort((a, b) => b.value - a.value)
-        .slice(0, 10); // 前10名
+        .slice(0, 10);
 
-    // 最大值
-    const maxValue = sortedData[0]?.value || 1;
+    const container = document.querySelector('.treecontent');
+    const width = container.clientWidth;
+    const height = container.clientHeight;
 
-    // 创建柱状图元素（先把css放在这里了，后续要拿出来;好的拿出来了）
-    sortedData.forEach(item => {
-        const barRow = document.createElement('div');
-        barRow.className = 'bar-row';
-    
-        const label = document.createElement('div');
-        label.className = 'bar-label';
-        label.textContent = item.name;
-    
-        const bar = document.createElement('div');
-        bar.className = 'bar-bar';
-        bar.style.width = `${(item.value / maxValue) * 100}%`;
-    
-        const value = document.createElement('div');
-        value.className = 'bar-value';
-        value.textContent = (item.value / 1e8).toFixed(2);
-    
-        barRow.appendChild(label);
-        barRow.appendChild(bar);
-        barRow.appendChild(value);
-        barContainer.appendChild(barRow);
-    });    
+    const svg = d3.select("#d3-treemap")
+        .attr("width", width)
+        .attr("height", height);
+
+    svg.selectAll("*").remove();  // 清空旧图形
+
+    const root = d3.hierarchy({ children: data })
+        .sum(d => d.value);
+
+    d3.treemap()
+        .size([width, height])
+        .padding(2)(root);
+
+    const color = d3.scaleSequential([0, d3.max(data, d => d.value)], d3.interpolateBlues);
+
+    const nodes = svg.selectAll("g")
+        .data(root.leaves())
+        .enter()
+        .append("g")
+        .attr("transform", d => `translate(${d.x0},${d.y0})`);
+
+    nodes.append("rect")
+        .attr("width", d => d.x1 - d.x0)
+        .attr("height", d => d.y1 - d.y0)
+        .attr("fill", d => color(d.value));
+
+    nodes.append("text")
+        .attr("x", 4)
+        .attr("y", 14)
+        .text(d => d.data.name)
+        .attr("font-size", "10px")
+        .attr("fill", "white");
+
+    nodes.append("text")
+        .attr("x", 4)
+        .attr("y", 28)
+        .text(d => (d.data.value / 1e8).toFixed(2))
+        .attr("font-size", "10px")
+        .attr("fill", "white");
+
+    nodes.append("title")
+        .text(d => `${d.data.name}: ${(d.data.value / 1e8).toFixed(2)}`);
 }
+
 
 //饼图的function
 let pieChartInstance = null;
@@ -221,7 +304,6 @@ function updatePieChart(isoCode = 'GLOBAL') {
     const pieContainer = document.querySelector('.piecontent');
     if (!pieContainer) return;
 
-    // 清空
     pieContainer.innerHTML = '<canvas id="pieChart"></canvas>';
     const ctx = document.getElementById('pieChart').getContext('2d');
 
@@ -244,7 +326,7 @@ function updatePieChart(isoCode = 'GLOBAL') {
     const exportPercent = total ? ((exportValue / total) * 100).toFixed(1) : 0;
 
     const chartData = {
-        labels: [`Import ${importPercent}%`, `Export ${exportPercent}%`],
+        labels: ['Import', 'Export'],
         datasets: [{
             data: [importValue, exportValue],
             backgroundColor: ['rgb(95, 191, 255)', 'rgb(34, 0, 255)']
@@ -253,21 +335,43 @@ function updatePieChart(isoCode = 'GLOBAL') {
 
     const chartOptions = {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
-            legend: {
-                position: 'bottom'
+            legend: { display: false },
+            datalabels: {
+                color: '#fff',
+                formatter: (value, context) => {
+                    const percent = total ? ((value / total) * 100).toFixed(1) : 0;
+                    const numValue = (value / 1e8).toFixed(2);
+                    return `${context.chart.data.labels[context.dataIndex]} ${percent}%\n(${numValue})`;
+                },
+                anchor: 'center',
+                align: 'center',
+                font: {
+                    weight: 'bold',
+                    size: 12
+                }
             },
             tooltip: {
                 callbacks: {
                     label: function (context) {
                         const value = (context.raw / 1e8).toFixed(2);
-                        return `${context.label}: ${value}`;
+                        const percent = total ? ((context.raw / total) * 100).toFixed(1) : 0;
+                        return `${context.label}: ${value} (${percent}%)`;
                     }
                 }
             },
             title: {
                 display: true,
-                text: `${label} Import / Export`
+                text: `${label} Import / Export`,
+                font: {
+                    size: 17
+                },
+                padding: {
+                    top: 5,
+                    bottom: 10
+                },
+                align: 'center'
             }
         }
     };
@@ -278,6 +382,7 @@ function updatePieChart(isoCode = 'GLOBAL') {
     pieChartInstance = new Chart(ctx, {
         type: 'pie',
         data: chartData,
-        options: chartOptions
+        options: chartOptions,
+        plugins: [ChartDataLabels]
     });
 }

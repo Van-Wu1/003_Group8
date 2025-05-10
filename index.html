@@ -17,9 +17,11 @@
     <!-- Mapbox CDN -->
     <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
     <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet" />
-    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="js/1map_imexport.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 
 </head>
 
@@ -32,7 +34,7 @@
                 <li><a href="#Section2">Section2</a></li>
                 <li><a href="#Section3">Section3</a></li>
                 <li><a href="#">Section4</a></li>
-                <li><a href="#">Team</a></li>
+                <li><a href="#Team">Team</a></li>
             </ol>
         </nav>
     </header>
@@ -50,8 +52,11 @@
         </section>
 
         <section class="Section2">
-            <h1>page2</h1>
-            <p>这个地方放一些background</p>
+            <div class="section2pic"><p>Picture</p></div>
+            <div class="section2words">
+                <h1>page2</h1>
+                <p>这个地方放一些background</p>
+            </div>
         </section>
         
         <section class="Section3">
@@ -69,13 +74,13 @@
                 <div id="Map1BlockLegend">
                     <span class="legend-top">Highest</span>
                     <div class="block-bar">
-                        <div class="block" style="background:#0c2c84;"></div>
-                        <div class="block" style="background:#225ea8;"></div>
-                        <div class="block" style="background:#1d91c0;"></div>
-                        <div class="block" style="background:#41b6c4;"></div>
-                        <div class="block" style="background:#7fcdbb;"></div>
-                        <div class="block" style="background:#c7e9b4;"></div>
-                        <div class="block" style="background:#ffffcc;"></div>
+                        <div class="block" style="background:#08306b;"></div>
+                        <div class="block" style="background:#08519c;"></div>
+                        <div class="block" style="background:#2171b5;"></div>
+                        <div class="block" style="background:#4292c6;"></div>
+                        <div class="block" style="background:#6baed6;"></div>
+                        <div class="block" style="background:#9ecae1;"></div>
+                        <div class="block" style="background:#c6dbef;"></div>
                     </div>
                     <span class="legend-bottom">Lowest</span>
                 </div>
@@ -102,11 +107,12 @@
                 <div class="chart">
                     <div class="rank">
                         <p>Ranking (Total trade)</p>
-                        <div class="barcontent">这里放rank表</div>
+                        <div class="treecontent">
+                            <svg id="d3-treemap" width="300" height="300"></svg>
+                        </div>
                     </div>
                     <div class="pie">
-                        <!-- <p>Pie Chart Title</p> -->
-                        <div class="piecontent">这里放piechart</div>
+                        <div class="piecontent"></div>
                     </div>
                 </div>
             </div>
@@ -114,8 +120,9 @@
         
 
         <section class="Section4">
-            <h1>page4</h1>
-            <p>待定</p>
+            <h1><strong>Borui words</strong></h1>
+            <a href="#section5" class="btn btn-primary">explore</a>
+
         </section>
 
         <section class="Section5">
@@ -124,8 +131,8 @@
         </section>
 
         <section class="Section6">
-            <h1>page6</h1>
-            <p>待定</p>
+            <h1><strong>Qiu words</strong></h1>
+            <a href="#section7" class="btn btn-primary">explore</a>
         </section>
 
         <section class="Section7">
@@ -159,6 +166,10 @@
                 </div>
                 <!-- 这里加一行小字：按照字母顺序排列 -->
             </div>
+        </section>
+
+        <section class="DataReference">
+            <p>这里放数据和refer</p>
         </section>
     </main>
 
