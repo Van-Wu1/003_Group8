@@ -1,115 +1,54 @@
-*{
-    padding: 0;
-    margin: 0;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Helvetica Neue', sans-serif;
 }
 
-header{
-    background-color: rgba(0, 0, 0);
-    height: 80px;
-    width: 100%;
-    position:relative;
+body {
+  background: #f7f9fb;
+  color: #1c1e21;
+  line-height: 1.6;
 }
 
-header h1{
-    color: aliceblue;
-    position:absolute;
-    left: 7%;
-    top:0;
-    width: 150px;
-    height: 80px;
-    line-height: px;
-    text-indent: -99999px;
-    background-image: url("../img/logo3.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+.navbar {
+  width: 100%;
+  padding: 20px 50px;
+  background: #ffffffcc;
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
-header ol{
-    position: absolute;
-    right: 4%;
-    top: 0;
-    line-height: 80px;
-    width: 500px;
+.logo {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #2978b5;
 }
 
-header li{
-    display:inline;
-    margin-right: 6%;
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
 }
 
-header a{
-    color: aliceblue;
-    text-decoration: none;
+.navbar ul li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
-header a:hover{
-    color: rgba(0, 0, 0, 0.9);
-    background-color: rgb(255, 255, 255);
+.navbar ul li a:hover {
+  color: #2978b5;
 }
-
 
 /* main */
-.home{
-    background-color:rgba(0, 0, 0, 0.927);
-    color: white;
-    height: 85vh;
-    /* background-image: url("../img/1.jpg"); */
-    background-repeat: no-repeat;
-    background-size: cover;
-
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    min-height: 90vh;
-}
-  
-.home h1 {
-    font-size: 3rem;
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-  
-.home h2 {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-    color: #cccccc;
-    font-weight: normal;
-}
-  
-.home p {
-    max-width: 700px;
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 30px;
-}
-  
-.buttons {
-    display: flex;
-    gap: 15px;
-}
-  
-.btn {
-    text-decoration: none;
-    padding: 12px 25px;
-    border-radius: 5px;
-    font-size: 1rem;
-    transition: background 0.3s, color 0.3s;
-}
-  
-.btn-primary {
-    border: 1px solid #ffffff;
-    color: #ffffff;
-}
-  
-.btn-primary:hover {
-    background: #ffffff;
-    color: #000000;
-}
-
 .Section2{
     background-color:rgba(0, 0, 0, 0.927);
     color: rgb(255, 255, 255);

@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PharmaNexus</title>
+    <title>PharmaNexus – Global Pharma City Network</title>
     <link rel="stylesheet" href="styles/styles.css" />
     <link rel="stylesheet" href="styles/map1.css" />
     <link rel="stylesheet" href="styles/team.css" />
+    <link rel="stylesheet" href="styles/home.css" />
 
     <!-- amCharts & JS -->
     <!-- <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
@@ -26,29 +27,28 @@
 </head>
 
 <body>
-    <header>
-        <h1>PharmaNexus</h1>
+    <header class="navbar">
+        <div class="logo">PharmaNexus</div>
         <nav>
-            <ol>
+            <ul>
                 <li><a href="#home">Home</a></li>
-                <li><a href="#Section2">Section2</a></li>
-                <li><a href="#Section3">Section3</a></li>
-                <li><a href="#">Section4</a></li>
-                <li><a href="#Team">Team</a></li>
-            </ol>
+            <li><a href="#map">Map</a></li>
+            <li><a href="#charts">Charts</a></li>
+            <li><a href="#team">Team</a></li>
+            </ul>
         </nav>
     </header>
 
     <main>
-        <section class="home">
-            <h1>PharmaNexus</h1>
-            <h2>Connecting Cities, Empowering Health</h2>
-            <p>
-              We are dedicated to revealing the dynamic structure of the global pharmaceutical network, exploring how the industry advances global health through complex transnational city connections. Our real-time data visualizations provide insights into the spatial patterns and functional mechanisms of the pharmaceutical supply chain.
-            </p>
-            <div class="buttons">
-              <a href="#section2" class="btn btn-primary">Explore Now</a>
+        <section class="hero" id="home">
+            <div class="hero-text">
+                <h1>
+                    <span id="typed-line1"></span><br>
+                    <span id="typed-line2"></span>
+                </h1>
+                <p>Revealing the global pharmaceutical network through dynamic visualizations of city connections, trade structures, and spatial complexity.</p>
             </div>
+            <div class="hero-3d" id="3d-model"></div>
         </section>
 
         <section class="Section2">
@@ -182,6 +182,8 @@
             </p>
         </div>
     </footer>
+
+    <script src="js/home.js"></script>
       
 </body>
 </html>
