@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const line2 = document.getElementById("typed-line2");
 
   const text1 = "Connecting Cities,";
-  const text2 = "through Pharmaceutical.";
+  const text2 = "Through Pharmaceutical.";
 
   // 提前占位
   line1.innerHTML = "&nbsp;";
