@@ -1,0 +1,46 @@
+#legend {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+#legend h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+}
+#legend div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+}
+#legend span {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin-right: 8px;
+    border: 1px solid #333;
+}
+#chart-container {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    height: 200px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    z-index: 9999;
+}
+
+#rankingChart {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
