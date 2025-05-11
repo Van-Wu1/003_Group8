@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>deck.gl 3D Resilience Map</title>
+    <link rel="stylesheet" href="./styleHu.css">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!--deck.gl-->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+    <script src="https://unpkg.com/deck.gl@8.9.27/dist.min.js"></script>
+    <style>
+        body {margin: 0; padding: 0;}
+        #map {position: absolute; top: 0; bottom: 0; width: 100%;}
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<!-- ✅ Legend内容 -->
+<div id="legend">
+    <h4>Cluster Legend</h4>
+    <div><span style="background-color: rgb(31, 119, 180);"></span> 环境导向</div>
+    <div><span style="background-color: rgb(44, 160, 44);"></span> 社会导向</div>
+    <div><span style="background-color: rgb(214, 39, 40);"></span> 治理导向</div>
+</div>
+<div id="chart-container">
+    <canvas id="rankingChart"></canvas>
+</div>
+
+<!-- ✅ 只引入js逻辑 -->
+<script src="./resilience.js"></script>
+</body>
+</html>
+
+
+
