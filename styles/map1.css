@@ -1,7 +1,11 @@
 .Section3 {
     position: relative;
-    padding: 20px;
+    padding: 40px 20px;
+    background: linear-gradient(to bottom, #f6f9fc, #e9f0f7); /* 更柔和的背景 */
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
+
 
 /* !!!!!!!!!!!! 1 顶部标题 !!!!!!!!!!!!*/
 .section-header {
@@ -9,17 +13,16 @@
     margin-bottom: 20px;
 }
 
-.section-header h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
+.section-header h2 {
+    font-size: 21px;
+    font-weight: 600;
+    color: #222;
+    max-width: 900px;
+    margin: 0 auto 25px auto;
+    line-height: 1.6;
+    text-align: center;
 }
 
-.section-header p {
-    font-size: 16px;
-    color: #555;
-    max-width: 800px;
-    margin: 0 auto;
-}
 
 /* !!!!!!!!!!!! 2 main !!!!!!!!!!!!*/
 .map-legend-container {
@@ -158,6 +161,7 @@ input[type="range"]::-moz-range-thumb:hover {
     color: #333;
     font-size: 14px;
     box-sizing: border-box;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .treecontent {
@@ -179,38 +183,6 @@ input[type="range"]::-moz-range-thumb:hover {
     font-weight: bold;
     margin: 5px 0 10px 0;
 }
-
-/*
-.bar-row {
-    display: flex;
-    align-items: center;
-    margin: 5px 0 5px 0;
-}
-
-.bar-label {
-    width: 60px;
-    font-size: 12px;
-     flex-shrink: 0;
-} 
-
-.bar-bar {
-    position: relative;
-    height: 20px;
-    background-color: #6bc8f3;
-    transition: width 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 5px;
-    box-sizing: border-box;
-}
-
-.bar-value {
-    color: #000;
-    font-size: 12px;
-    font-weight: bold;
-}
-*/
 
 /* 饼图 */
 .pie{
