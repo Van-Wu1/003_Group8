@@ -1,54 +1,61 @@
 .Section3 {
-    position: relative;
-    padding: 40px 20px;
-    background: linear-gradient(to bottom, #f6f9fc, #e9f0f7); /* 更柔和的背景 */
-    border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    height: 100vh;
+    scroll-snap-align: start;
+    padding: 80px 40px 20px;
+    background: linear-gradient(to bottom, #f6f9fc, #e9f0f7);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
 }
-
 
 /* !!!!!!!!!!!! 1 顶部标题 !!!!!!!!!!!!*/
 .section-header {
+    margin-top: 20px;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .section-header h2 {
-    font-size: 21px;
-    font-weight: 600;
-    color: #222;
-    max-width: 900px;
-    margin: 0 auto 25px auto;
-    line-height: 1.6;
-    text-align: center;
+  font-size: 18px; 
+  font-weight: 500;
+  color: #333;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.4;
+  letter-spacing: 0.3px;
+  text-align: center;
+  text-wrap: balance;
 }
 
 
 /* !!!!!!!!!!!! 2 main !!!!!!!!!!!!*/
 .map-legend-container {
     display: flex;
+    flex: 1;
     width: 100%;
-    height: 600px;
-    /* background-color: #333; */
-    padding: 10px;
-    box-sizing: border-box;
     gap: 20px;
+    box-sizing: border-box;
+    max-height: 700px;
+    min-height: 480px;
 }
 
 /* !!!!!!!!! Left: legend !!!!!!!!!*/
 #Map1BlockLegend {
-    width: 3%;
+    width: 1%;
+    margin-right: 1%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     font-size: 12px;
     color: #000000ea;
-    padding: 10px 0;
 }
 
 .block-bar {
     width: 20px;
+    height: 80vh;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -66,24 +73,27 @@
 
 /* !!!!!!!!! Middle !!!!!!!!! */
 .middle {
-    width: 77%;
+    width: 75%;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: space-between;
+    height: 100%;
 }
 
 #map1 {
+    flex: 1;
     width: 100%;
-    height: 100%;
     background-color: #eee;
-    margin-bottom: 5px;
+    border-radius: 10px;
+    overflow: hidden;
 }
+
 
 /* Bottom: switch */
 .toggle-container {
-    width: 100%;
+    margin-top: 10px;
 }
+
 
 .labels {
     display: flex;
@@ -152,16 +162,13 @@ input[type="range"]::-moz-range-thumb:hover {
 /* 右侧整体 */
 .chart {
     width: 22%;
-    min-height: 400px;
-    background-color: rgb(255, 255, 255);
     display: flex;
     flex-direction: column;
-    justify-content: stretch; /* 拉满爸爸容器高度 */
-    align-items: stretch;     /* 横向拉满 */
-    color: #333;
-    font-size: 14px;
+    justify-content: space-between;
+    height: 100%;
+    background-color: #fff;
     box-sizing: border-box;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
 }
 
 .treecontent {
@@ -173,28 +180,41 @@ input[type="range"]::-moz-range-thumb:hover {
 /* 矩形树图 */
 .rank{
     flex: 1.45;
-    /* background-color: #00ff66; */
-    background-color: #ededed;
+    background-color: #ffffff;
     margin-bottom: 5px;
 }
 
 .rank p{
     font-size: 17px;
     font-weight: bold;
-    margin: 5px 0 10px 0;
 }
 
 /* 饼图 */
-.pie{
-    flex: 1;
-    background-color: #ededed;
+.pie {
+  flex: 1;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 10px 0 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .piecontent {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* background-color: aqua; */
-    width: 100%;
-    height: 80%;
+  width: 100%;
+  height: auto;
+  max-height: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.pie-label {
+  font-size: 13px;
+  color: #444;
+  margin-top: 6px;
+  text-align: center;
 }

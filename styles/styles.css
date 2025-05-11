@@ -5,6 +5,14 @@
   font-family: 'Helvetica Neue', sans-serif;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  scroll-behavior: smooth;
+  overscroll-behavior: none;
+}
+
 body {
   background: #f7f9fb;
   color: #1c1e21;
@@ -49,6 +57,27 @@ body {
 }
 
 /* main */
+main {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+
+  /* 隐藏滚动条 */
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+}
+
+main::-webkit-scrollbar {
+  display: none;  
+}
+
+section {
+  height: 100vh;
+  scroll-snap-align: start;
+}
+
+
 .hero {
   width: 100%;
   margin: 0;
@@ -192,6 +221,7 @@ body {
 
 /* footer */
 footer {
+  position: fixed;
     background-color: #000000;
     color: #999999;
     text-align: center;

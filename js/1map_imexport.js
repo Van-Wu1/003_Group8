@@ -304,8 +304,12 @@ function updatePieChart(isoCode = 'GLOBAL') {
     const pieContainer = document.querySelector('.piecontent');
     if (!pieContainer) return;
 
-    pieContainer.innerHTML = '<canvas id="pieChart"></canvas>';
+    pieContainer.innerHTML = `
+        <canvas id="pieChart" width="160" height="160" style="max-width: 100%;"></canvas>
+        <p class="pie-label"></p>
+    `;
     const ctx = document.getElementById('pieChart').getContext('2d');
+    const labelEl = pieContainer.querySelector('.pie-label');
 
     let importValue, exportValue;
     let label = 'Global';
@@ -325,6 +329,8 @@ function updatePieChart(isoCode = 'GLOBAL') {
     const importPercent = total ? ((importValue / total) * 100).toFixed(1) : 0;
     const exportPercent = total ? ((exportValue / total) * 100).toFixed(1) : 0;
 
+    labelEl.textContent = `Import ${importPercent}% · Export ${exportPercent}%`;
+
     const chartData = {
         labels: ['Import', 'Export'],
         datasets: [{
@@ -339,18 +345,7 @@ function updatePieChart(isoCode = 'GLOBAL') {
         plugins: {
             legend: { display: false },
             datalabels: {
-                color: '#fff',
-                formatter: (value, context) => {
-                    const percent = total ? ((value / total) * 100).toFixed(1) : 0;
-                    const numValue = (value / 1e8).toFixed(2);
-                    return `${context.chart.data.labels[context.dataIndex]} ${percent}%\n(${numValue})`;
-                },
-                anchor: 'center',
-                align: 'center',
-                font: {
-                    weight: 'bold',
-                    size: 12
-                }
+                display: false  // 不在图中显示文字
             },
             tooltip: {
                 callbacks: {
@@ -365,11 +360,11 @@ function updatePieChart(isoCode = 'GLOBAL') {
                 display: true,
                 text: `${label} Import / Export`,
                 font: {
-                    size: 17
+                    size: 16
                 },
                 padding: {
                     top: 5,
-                    bottom: 10
+                    bottom: 8
                 },
                 align: 'center'
             }
