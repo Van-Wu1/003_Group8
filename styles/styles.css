@@ -49,9 +49,20 @@ body {
 }
 
 /* main */
+.hero {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
+}
+
 .Section2{
-    background-color:rgba(0, 0, 0, 0.927);
-    color: rgb(255, 255, 255);
+    background: linear-gradient(to top, #ffffff 0%, #f0f4f8 100%);
+    color: rgb(0, 0, 0);
     height: 100vh;
 
     background-position: center;
@@ -79,7 +90,7 @@ body {
 }
 
 .Section3{
-    background-color:rgb(255, 255, 255);
+    background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
     color: rgb(0, 0, 0);
     height: 100vh;
 
@@ -93,8 +104,8 @@ body {
 }
 
 .Section4{
-    background-color:rgba(0, 0, 0, 0.927);
-    color: rgb(255, 255, 255);
+    background: linear-gradient(to top, #ffffff 0%, #f0f4f8 100%);
+    color: rgb(0, 0, 0);
     height: 100vh;
 
     background-position: center;
@@ -107,8 +118,8 @@ body {
 }
 
 .Section5{
-    background-color:rgba(0, 0, 0, 0.927);
-    color: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
+    color: rgb(0, 0, 0);
     height: 100vh;
 
     background-position: center;
@@ -121,8 +132,8 @@ body {
 }
 
 .Section6{
-    background-color:rgba(0, 0, 0, 0.927);
-    color: rgb(255, 255, 255);
+    background: linear-gradient(to top, #ffffff 0%, #f0f4f8 100%);
+    color: rgb(0, 0, 0);
     height: 100vh;
 
     background-position: center;
@@ -135,8 +146,8 @@ body {
 }
 
 .Section7{
-    background-color:rgba(0, 0, 0, 0.927);
-    color: rgb(255, 255, 255);
+    background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
+    color: rgb(0, 0, 0);
     height: 100vh;
 
     background-position: center;
@@ -149,8 +160,8 @@ body {
 }
 
 .Section8{
-    background-color:rgba(0, 0, 0, 0.927);
-    color: rgb(255, 255, 255);
+    background: linear-gradient(to top, #ffffff 0%, #f0f4f8 100%);
+    color: rgb(0, 0, 0);
     height: 100vh;
 
     background-position: center;
@@ -163,7 +174,7 @@ body {
 }
 
 .Team {
-    background-color: rgba(255, 255, 255, 0.927);
+    background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
     color: rgb(0, 0, 0);
     min-height: 90vh;
     display: flex;
@@ -172,8 +183,8 @@ body {
 }
 
 .DataReference {
-    background-color: rgba(0, 0, 0, 0.927);
-    color: rgb(255, 255, 255);
+    background: linear-gradient(to top, #ffffff 0%, #f0f4f8 100%);
+    color: rgb(0, 0, 0);
     min-height: 90vh;
     display: flex;
     flex-direction: column;

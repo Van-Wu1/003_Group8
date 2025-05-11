@@ -22,15 +22,6 @@
 </head>
 
 <body>
-    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-    <div class="sidebar" id="sidebar">
-        <a href="#home">Home</a>
-        <a href="#map">Map</a>
-        <a href="#data">Data</a>
-        <a href="#Team">Team</a>
-        <a href="#about">About</a>
-    </div>
-
     <header class="navbar">
         <div class="logo">PharmaNexus</div>
         <div class="menu-toggle" onclick="toggleMenu()">☰</div>
@@ -46,14 +37,25 @@
     <main>
         <!-- 封面页！！ -->
         <section class="hero" id="home">
-            <div class="hero-text">
-                <h1>
-                    <span id="typed-line1"></span><br>
-                    <span id="typed-line2"></span>
-                </h1>
-                <p>Revealing the global pharmaceutical network through dynamic visualizations of city connections, trade structures, and spatial complexity.</p>
+            <div class="hero-wrapper">
+                <div class="hero-text">
+                    <h1>
+                        <span id="typed-line1">Connecting Cities,</span><br>
+                        <span id="typed-line2">Through Pharmaceutical.</span>
+                    </h1>
+                    <p>
+                        Revealing the global pharmaceutical network through dynamic visualizations of city connections, trade structures, and spatial complexity.
+                    </p>
+                </div>
+                <div class="hero-3d">
+                    <iframe
+                    src="https://my.spline.design/aheadpill-ZYVJSqnWfJ0Wzf8LNnxBUetX/"
+                    frameborder="0"
+                    allowfullscreen
+                    ></iframe>
+                    <div class="spline-cover"></div>
+                </div>
             </div>
-            <div class="hero-3d" id="3d-model"></div>
         </section>
 
         <!-- 第二页的切入 -->

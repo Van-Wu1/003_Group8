@@ -1,13 +1,20 @@
-.hero {
+.hero-wrapper {
+  width: 100vw;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 120px 60px 80px;
-  min-height: 100vh;
-  background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
+  padding: 0 0 0 5%;
+  gap: 40px;
+  box-sizing: border-box;
 }
 
 .hero-text {
+  flex: 1 1 50%;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   max-width: 600px;
 }
 
@@ -15,17 +22,52 @@
   font-size: 2.8rem;
   margin-bottom: 20px;
   color: #2d2f31;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid #2978b5;
 }
 
 .hero-text p {
   font-size: 1.2rem;
   color: #4d4f52;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 1.4s ease-out 1.5s forwards;
 }
 
 .hero-3d {
-  width: 400px;
-  height: 400px;
+  position: relative;
+  flex: 1 1 50%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+  background-color: transparent;
 }
+
+.hero-3d iframe {
+  width: 100%;
+  height: 100%;
+  transform: scale(1.15);
+  transform-origin: right center;
+  border: none;
+  pointer-events: auto;
+  clip-path: inset(0px 0px 60px 0px round 0px);
+}
+
+.spline-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background-color: transparent;
+  pointer-events: all; /* 吃掉所有事件，阻断 iframe，妈的曲线救国了 */
+}
+
+
 
 /* 滚动淡入动画 */
 .fade-in {
@@ -33,30 +75,15 @@
   transform: translateY(30px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
-
 .fade-in.visible {
   opacity: 1;
   transform: translateY(0);
-}
-
-/* 打字效果额外样式可扩展 */
-.hero-text h1 {
-  border-right: 2px solid #2978b5;
-  white-space: nowrap;
-  overflow: hidden;
 }
 
 /* 鼠标悬停卡片缩放等通用动效 */
 .card:hover, .section:hover {
   transition: transform 0.4s ease;
   transform: scale(1.01);
-}
-
-
-.hero-text p {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeUp 1.4s ease-out 1.5s forwards;
 }
 
 @keyframes fadeUp {
