@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PharmaNexus – Global Pharma City Network</title>
+    <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="stylesheet" href="styles/map1.css" />
+    <link rel="stylesheet" href="styles/team.css" />
+    <link rel="stylesheet" href="styles/home.css" />
+    <link rel="stylesheet" href="styles/navbar.css" />
+
+    <!-- Mapbox CDN -->
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet" />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="js/1map_imexport.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="logo">PharmaNexus</div>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <div class="sidebar" id="sidebar">
+            <a href="#home">Home</a>
+            <a href="#map">Map</a>
+            <a href="#data">Data</a>
+            <a href="#Team">Team</a>
+            <a href="#about">About</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- 封面页！！ -->
+        <section class="hero" id="home">
+            <div class="hero-wrapper">
+                <div class="hero-text">
+                    <h1>
+                        <span id="typed-line1">Connecting Cities,</span><br>
+                        <span id="typed-line2">Through Pharmaceutical.</span>
+                    </h1>
+                    <p>
+                        Revealing the global pharmaceutical network through dynamic visualizations of city connections, trade structures, and spatial complexity.
+                    </p>
+                </div>
+                <div class="hero-3d">
+                    <iframe src='https://my.spline.design/aheadpill-ZYVJSqnWfJ0Wzf8LNnxBUetX/' frameborder='0' width='100%' height='100%'></iframe>
+                    <div class="spline-cover"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第二页的切入 -->
+        <section class="Section2">
+            <div class="section2pic"><p>Picture</p></div>
+            <div class="section2words">
+                <h1>page2</h1>
+                <p>这个地方放一些background</p>
+            </div>
+        </section>
+        
+        <!-- 第三张也是第一张贸易总览地图 -->
+        <section class="Section3">
+            <!-- 这个是顶上的文字部分 -->
+            <div class="section-header">
+                <h2>Here we show the trade data of the pharmaceutical industry across countries,
+                    using an interactive map and corresponding legend to interpret the trade volume distribution.</h2>
+            </div>
+            <!-- 这里是主体模块 123 -->
+            <div class="map-legend-container">
+                <!-- 左侧： 图例 -->
+                <div id="Map1BlockLegend">
+                    <span class="legend-top">Highest</span>
+                    <div class="block-bar">
+                        <div class="block" style="background:#08306b;"></div>
+                        <div class="block" style="background:#08519c;"></div>
+                        <div class="block" style="background:#2171b5;"></div>
+                        <div class="block" style="background:#4292c6;"></div>
+                        <div class="block" style="background:#6baed6;"></div>
+                        <div class="block" style="background:#9ecae1;"></div>
+                        <div class="block" style="background:#c6dbef;"></div>
+                    </div>
+                    <span class="legend-bottom">Lowest</span>
+                </div>
+                
+                <!-- 中间：上部地图，下部切换 -->
+                <div class="middle">
+                    <div id="map1"></div>
+
+                    <div class="toggle-container">
+                        <div class="labels">
+                            <span>Total Trade</span>
+                            <span>Import</span>
+                            <span>Export</span>
+                        </div>
+                        <div class="switch">
+                            <input type="range" min="0" max="2" value="0" id="projectionToggle">
+                            <div class="track"></div>
+                            <div class="thumb"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧：图表区 -->
+                <div class="chart">
+                    <div class="rank">
+                        <p>Ranking (Total trade)</p>
+                        <div class="treecontent">
+                            <svg id="d3-treemap" width="300" height="300"></svg>
+                        </div>
+                    </div>
+                    <div class="pie">
+                        <div class="piecontent"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+
+        <section class="Section4">
+            <h1><strong>Borui words</strong></h1>
+            <a href="#section5" class="btn btn-primary">explore</a>
+
+        </section>
+
+        <section class="Section5">
+            <h1>page5</h1>
+            <p>待定</p>
+        </section>
+
+        <section class="Section6">
+            <h1><strong>Qiu words</strong></h1>
+            <a href="#section7" class="btn btn-primary">explore</a>
+        </section>
+
+        <section class="Section7">
+            <h1>page7</h1>
+            <p>待定</p>
+        </section>
+
+        <section class="Section8">
+            <h1>page8</h1>
+            <p>待定</p>
+        </section>
+
+        <section class="Team" id="Team">
+            <h1><strong>Team</strong></h1>
+            <div class="TeamIntro">
+                <div class="member">
+                    <div class="member1pic"></div>
+                    <p>Borui Wang</p>
+                </div>
+                <div class="member">
+                    <div class="member2pic"></div>
+                    <p>Qiu Yue</p>
+                </div>
+                <div class="member">
+                    <div class="member3pic"></div>
+                    <p>Xinyue Hu</p>
+                </div>
+                <div class="member">
+                    <div class="member4pic"></div>
+                    <p>Yifan Wu</p>
+                </div>
+                <!-- 这里加一行小字：按照字母顺序排列 -->
+            </div>
+        </section>
+
+        <section class="DataReference">
+            <p>这里放数据和refer</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>
+                &copy; 2025 Centre for Advanced Spatial Analysis, University College London
+                |
+                <a href="https://github.com/Van-Wu1/CASA0025_GroupWork.git" target="_blank">GitHub</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="js/navbar.js" defer></script>
+    <script src="js/home.js"></script>
+
+</body>
+</html>

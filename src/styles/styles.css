@@ -1,0 +1,241 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  scroll-behavior: smooth;
+  overscroll-behavior: none;
+}
+
+body {
+  background: #f7f9fb;
+  color: #1c1e21;
+  line-height: 1.6;
+}
+
+.navbar {
+  width: 100%;
+  padding: 20px 50px;
+  background: #ffffffcc;
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #2978b5;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar ul li a:hover {
+  color: #2978b5;
+}
+
+/* main */
+main {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+
+  /* 隐藏滚动条 */
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+}
+
+main::-webkit-scrollbar {
+  display: none;  
+}
+
+section {
+  height: 100vh;
+  scroll-snap-align: start;
+}
+
+
+.hero {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
+}
+
+.Section2{
+    background: linear-gradient(to top, #ffffff 0%, #f0f4f8 100%);
+    color: rgb(0, 0, 0);
+    height: 100vh;
+
+    background-position: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 90vh;
+}
+
+.section2pic{
+    flex: 1;
+    height: 100%;
+    /* background-image: url('../img/p2.png'); */
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #000000;
+}
+
+.section2words{
+    flex: 1;
+    height: 100%;
+}
+
+.Section3{
+    background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
+    color: rgb(0, 0, 0);
+    height: 100vh;
+
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 90vh;
+}
+
+.Section4{
+    background: linear-gradient(to top, #ffffff 0%, #f0f4f8 100%);
+    color: rgb(0, 0, 0);
+    height: 100vh;
+
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 90vh;
+}
+
+.Section5{
+    background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
+    color: rgb(0, 0, 0);
+    height: 100vh;
+
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 90vh;
+}
+
+.Section6{
+    background: linear-gradient(to top, #ffffff 0%, #f0f4f8 100%);
+    color: rgb(0, 0, 0);
+    height: 100vh;
+
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 90vh;
+}
+
+.Section7{
+    background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
+    color: rgb(0, 0, 0);
+    height: 100vh;
+
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 90vh;
+}
+
+.Section8{
+    background: linear-gradient(to top, #ffffff 0%, #f0f4f8 100%);
+    color: rgb(0, 0, 0);
+    height: 100vh;
+
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 90vh;
+}
+
+.Team {
+    background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
+    color: rgb(0, 0, 0);
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.DataReference {
+    background: linear-gradient(to top, #ffffff 0%, #f0f4f8 100%);
+    color: rgb(0, 0, 0);
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* footer */
+footer {
+  position: fixed;
+    background-color: #000000;
+    color: #999999;
+    text-align: center;
+    padding: 20px 10px;
+    font-size: 0.85rem;
+}
+  
+.footer-content a {
+    color: #cccccc;
+    text-decoration: none;
+    margin: 0 5px;
+    transition: color 0.3s;
+}
+  
+.footer-content a:hover {
+    color: #ffffff;
+}
