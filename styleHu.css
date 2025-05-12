@@ -42,5 +42,27 @@
     width: 100% !important;
     height: 100% !important;
 }
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#mapContainer {
+    display: none;
+    width: 100%;
+    height: 100%;
+    display: flex;             /* ✅ 改为flex布局 */
+}
+
+#mapA, #mapB {
+    flex: 1;                   /* ✅ 左右平分空间 */
+    position: relative;
+}
+
+.mapBox {
+    width: 100%;
+    height: 100%;
+}
 
 

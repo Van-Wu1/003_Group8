@@ -227,7 +227,3 @@ document.getElementById('closeRadar').addEventListener('click', () => {
 document.getElementById('gotoComparison').addEventListener('click', () => {
     window.location.href = 'comparison.html';    // 改成你的双地图文件名
 });
-
-
-
-
