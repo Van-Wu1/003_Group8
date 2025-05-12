@@ -1,23 +1,69 @@
+.Section8 {
+    background: linear-gradient(to bottom, #f6f9fc, #e9f0f7);
+    color: rgb(0, 0, 0);
+    height: 100vh;
+
+    background-position: center;
+    display: flex;
+    flex-direction:row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 90vh;
+    position: relative;
+    padding: 80px 0 0 0;
+}
+
+#map {
+    background-color: #333;
+    position: relative;
+    left: 0;
+    width: 72vw;
+    height: 100%;
+    margin-left: 0;
+}
+
+.menu{
+    background-color: rgb(255, 0, 0);
+    position: relative;
+    width: 28vw;
+    height: 100%;
+    right: 0;
+    margin-right: 0;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+#citySelector{
+    background: rgba(255, 255, 255, 0.9);
+    position:absolute; 
+    top:10px; 
+    left:10px; 
+    z-index:9999; 
+    padding: 10px 17px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    font-family: Arial, sans-serif;
+}
+
 #legend {
     position: absolute;
-    bottom: 20px;
-    left: 20px;
+    bottom: 10px;
+    left: 10px;
     background: rgba(255, 255, 255, 0.9);
     padding: 10px 15px;
     border-radius: 5px;
     font-family: Arial, sans-serif;
     font-size: 13px;
     box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    z-index: 999;
 }
-#legend h4 {
-    margin: 0 0 5px 0;
-    font-size: 14px;
-}
+
 #legend div {
     display: flex;
     align-items: center;
     margin-bottom: 4px;
 }
+
 #legend span {
     display: inline-block;
     width: 15px;
@@ -25,44 +71,23 @@
     margin-right: 8px;
     border: 1px solid #333;
 }
-#chart-container {
-    position: absolute;
-    bottom: 20px;
-    right: 10px;
-    width: 350px;
-    height: 250px;
-    background: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
-    z-index: 9999;
+
+.menu{
+    display: flex;
+    flex-direction:column;
 }
 
-#rankingChart {
+#radar{
+    flex: 1.5;
+    background-color: black;
+}
+
+#rank {
+    flex: 1;
+    background-color: rgb(255, 145, 0);
+}
+
+/* #rankingChart {
     width: 100% !important;
     height: 100% !important;
-}
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-#mapContainer {
-    display: none;
-    width: 100%;
-    height: 100%;
-    display: flex;             /* ✅ 改为flex布局 */
-}
-
-#mapA, #mapB {
-    flex: 1;                   /* ✅ 左右平分空间 */
-    position: relative;
-}
-
-.mapBox {
-    width: 100%;
-    height: 100%;
-}
-
-
+} */

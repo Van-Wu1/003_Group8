@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="./styles/team.css" />
     <link rel="stylesheet" href="./styles/home.css" />
     <link rel="stylesheet" href="./styles/navbar.css" />
+    <link rel="stylesheet" href="./styles/styleHu.css"/>
 
     <!-- Mapbox CDN -->
     <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
@@ -142,11 +143,31 @@
             <p>待定</p>
         </section>
 
+        <!-- huxinyue -->
         <section class="Section8">
-            <h1>page8</h1>
-            <p>待定</p>
+            <div id="map">
+                <div id="citySelector">
+                    <label for="cityDropdown">Select City:</label>
+                    <select id="cityDropdown">
+                        <option value="">please select city</option>
+                    </select>
+                </div>
+                <div id="legend">
+                    <div><span style="background-color: rgb(158, 193, 207);"></span> environmentally oriented city</div>
+                    <div><span style="background-color: rgb(168, 213, 186);"></span> Socially orientated city</div>
+                    <div><span style="background-color: rgb(203, 170, 203);"></span> Governance-oriented city</div>
+                </div>
+            </div>
+            
+            <div class="menu">
+                <div id="radar"></div>
+                <div id="rank">
+                    <canvas id="rankingChart"></canvas>
+                </div>
+            </div>
         </section>
 
+        <!-- TeamIntro -->
         <section class="Team" id="Team">
             <h1><strong>Team</strong></h1>
             <div class="TeamIntro">
@@ -187,6 +208,7 @@
 
     <script src="./js/navbar.js" defer></script>
     <script src="./js/home.js"></script>
+    <script src="./js/resilience.js"></script>
 
 </body>
 </html>
