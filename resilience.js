@@ -10,9 +10,9 @@ mapboxgl.accessToken = 'pk.eyJ1IjoieGlueXVlMjMiLCJhIjoiY203amU4bzlrMDR1ZzJvcXR2b
 const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/light-v11',
-    center: [0, 20],
-    zoom: 2,
-    pitch: 30,
+    center: [-1.5, 52.5],
+    zoom: 3.5,
+    pitch: 65,
     bearing: 0,
     projection: 'mercator'
 });

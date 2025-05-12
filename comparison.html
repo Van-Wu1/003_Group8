@@ -65,8 +65,8 @@
 <button id="backButton">Return to Single Map</button>
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoieGlueXVlMjMiLCJhIjoiY203amU4bzlrMDR1ZzJvcXR2bW42Y2lmeCJ9.ctzNnLvN8LSMRuOQsa1ktg';
-const mapA = new mapboxgl.Map({ container: 'map1', style: 'mapbox://styles/mapbox/light-v11', center: [0, 20], zoom: 2, pitch: 30, bearing: 0, projection: 'mercator' });
-const mapB = new mapboxgl.Map({ container: 'map2', style: 'mapbox://styles/mapbox/light-v11', center: [0, 20], zoom: 2, pitch: 30, bearing: 0, projection: 'mercator' });
+const mapA = new mapboxgl.Map({ container: 'map1', style: 'mapbox://styles/mapbox/light-v11', center: [0, 20], zoom: 2, pitch: 65, bearing: 0, projection: 'mercator' });
+const mapB = new mapboxgl.Map({ container: 'map2', style: 'mapbox://styles/mapbox/light-v11', center: [0, 20], zoom: 2, pitch: 65, bearing: 0, projection: 'mercator' });
 let radarChartA = null, radarChartB = null, points = [];
 fetch('./City_level_resilience_data_FINAL_FIXED.geojson').then(res => res.json()).then(data => {
     points = data.features.map(f => ({
