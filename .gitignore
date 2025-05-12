@@ -36,7 +36,6 @@ __pycache__/
 *.zip
 *.gz
 output/
-data/
 temp/
 cache/
 src/py/cache/
