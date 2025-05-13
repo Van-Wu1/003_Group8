@@ -68,7 +68,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoieGlueXVlMjMiLCJhIjoiY203amU4bzlrMDR1ZzJvcXR2b
 const mapA = new mapboxgl.Map({ container: 'map1', style: 'mapbox://styles/mapbox/light-v11', center: [0, 20], zoom: 2, pitch: 65, bearing: 0, projection: 'mercator' });
 const mapB = new mapboxgl.Map({ container: 'map2', style: 'mapbox://styles/mapbox/light-v11', center: [0, 20], zoom: 2, pitch: 65, bearing: 0, projection: 'mercator' });
 let radarChartA = null, radarChartB = null, points = [];
-fetch('./City_level_resilience_data_FINAL_FIXED.geojson').then(res => res.json()).then(data => {
+fetch('./data/clean/City_level_resilience_data_FINAL_FIXED.geojson').then(res => res.json()).then(data => {
     points = data.features.map(f => ({
         position: f.geometry.coordinates, resilienceIndex: f.properties.resilienceIndex, cluster: f.properties.Cluster,
         city: f.properties.City.trim(), MSCIoverall: f.properties.MSCIoverall, MSCIenvi: f.properties.MSCIenvi,
@@ -125,8 +125,10 @@ fetch('./City_level_resilience_data_FINAL_FIXED.geojson').then(res => res.json()
 });
 
 document.getElementById('backButton').addEventListener('click', () => {
-    window.location.href = './resilience.html'; // 修改为你的单地图文件路径
+    document.querySelector('.Section8-Comparison').style.display = 'none';
+    document.querySelector('.Section8').style.display = 'block';
 });
+
 </script>
 </body>
 </html>

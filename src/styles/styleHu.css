@@ -79,15 +79,11 @@
 
 #radar{
     flex: 1.5;
-    background-color: black;
+    background-color: #c9ddf3;
 }
 
 #rank {
     flex: 1;
-    background-color: rgb(255, 145, 0);
+    background-color: #e6f2ff;
 }
 
-/* #rankingChart {
-    width: 100% !important;
-    height: 100% !important;
-} */
