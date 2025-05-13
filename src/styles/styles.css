@@ -116,20 +116,6 @@ section {
   min-height: 90vh;
 }
 
-.Section5{
-  background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
-  color: rgb(0, 0, 0);
-  height: 100vh;
-
-  background-position: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  min-height: 90vh;
-}
-
 .Section6{
   background: linear-gradient(to top, #ffffff 0%, #f0f4f8 100%);
   color: rgb(0, 0, 0);

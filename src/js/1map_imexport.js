@@ -20,15 +20,14 @@ const map1 = new mapboxgl.Map({
     container: 'map1',
     style: 'mapbox://styles/van11201016wu/cmaicl244001t01s90chs5mfb',
     center: [10, 30],
-    zoom: 0.8
+    zoom: 0.78
 });
 
-// map1.setMinZoom(0.78);
-// map1.setMaxZoom(3);
+map1.setMinZoom(0.78);
+map1.setMaxZoom(3);
 
 // 7-class RdYlGn 色带
 const colorStops = ['#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#08519c', '#08306b'];
-// const colorStops = ['#fee5d9', '#fcbba1', '#fc9272', '#fb6a4a', '#ef3b2c', '#cb181d', '#99000d'];
 
 
 function getColorForValue(value, min, max) {
@@ -104,6 +103,8 @@ map1.on('load', function () {
     const labels = document.querySelectorAll('.labels span');
     let selectedCountry = null;
 
+    labels[0].classList.add('active');
+
     slider.addEventListener('input', function () {
         const value = parseInt(slider.value);
         labels.forEach((label, index) => {
@@ -175,51 +176,6 @@ function updateMapColors(field) {
     map1.setPaintProperty('country-fills', 'fill-color', colorMatch);
 }
 
-// 滑块移动--rank的柱状图的function
-// function updateBarChart(field) {
-//     const barContainer = document.querySelector('.barcontent');
-//     if (!barContainer) return;
-
-//     barContainer.innerHTML = '';
-
-//     // 提取数据并排序
-//     const sortedData = Object.entries(tradeData)
-//         .map(([iso, data]) => ({
-//             iso,
-//            name: data.name || iso,
-//            value: typeof data[field] === 'number' ? data[field] : 0
-//        }))
-//         .sort((a, b) => b.value - a.value)
-//         .slice(0, 10); // 前10名
-
-//     // 最大值
-//     const maxValue = sortedData[0]?.value || 1;
-
-//     // 创建柱状图元素
-//     sortedData.forEach(item => {
-//         const barRow = document.createElement('div');
-//         barRow.className = 'bar-row';
-    
-//         const label = document.createElement('div');
-//         label.className = 'bar-label';
-//         label.textContent = item.name;
-    
-//         const bar = document.createElement('div');
-//         bar.className = 'bar-bar';
-//         bar.style.width = `${(item.value / maxValue) * 100}%`;
-    
-//         const value = document.createElement('div');
-//         value.className = 'bar-value';
-//         value.textContent = (item.value / 1e8).toFixed(2);
-    
-//         bar.appendChild(value);
-    
-//         barRow.appendChild(label);
-//         barRow.appendChild(bar);
-//         barContainer.appendChild(barRow);
-//     });    
-// }
-
 // 矩形树图
 function updateD3Treemap(field) {
     const data = Object.entries(tradeData)
@@ -277,6 +233,14 @@ function updateD3Treemap(field) {
 
     nodes.append("title")
         .text(d => `${d.data.name}: ${(d.data.value / 1e8).toFixed(2)}`);
+
+    const formatField = (field) => {
+        if (field === 'total') return 'Total Trade';
+        if (field === 'import') return 'Import';
+        if (field === 'export') return 'Export';
+        return field;
+    };
+    document.querySelector('.rank p').textContent = `Ranking (${formatField(field)})`;
 }
 
 
@@ -309,7 +273,7 @@ function updatePieChart(isoCode = 'GLOBAL') {
         <p class="pie-label"></p>
     `;
     const ctx = document.getElementById('pieChart').getContext('2d');
-    const labelEl = pieContainer.querySelector('.pie-label');
+    // const labelEl = pieContainer.querySelector('.pie-label');
 
     let importValue, exportValue;
     let label = 'Global';
@@ -324,12 +288,10 @@ function updatePieChart(isoCode = 'GLOBAL') {
         exportValue = countryData.export || 0;
         label = countryData.name || isoCode;
     }
+    document.querySelector('.pie-chart-title').textContent = `${label} Import / Export`;
+
 
     const total = importValue + exportValue;
-    const importPercent = total ? ((importValue / total) * 100).toFixed(1) : 0;
-    const exportPercent = total ? ((exportValue / total) * 100).toFixed(1) : 0;
-
-    labelEl.textContent = `Import ${importPercent}% · Export ${exportPercent}%`;
 
     const chartData = {
         labels: ['Import', 'Export'],
@@ -348,25 +310,21 @@ function updatePieChart(isoCode = 'GLOBAL') {
                 display: false  // 不在图中显示文字
             },
             tooltip: {
+                displayColors: false,
                 callbacks: {
                     label: function (context) {
                         const value = (context.raw / 1e8).toFixed(2);
                         const percent = total ? ((context.raw / total) * 100).toFixed(1) : 0;
-                        return `${context.label}: ${value} (${percent}%)`;
+                        return [
+                            `Value: ${value} (100 million)`,
+                            `Percent: ${percent}%`
+                        ]
                     }
                 }
             },
+            // 饼图title不显示！！！
             title: {
-                display: true,
-                text: `${label} Import / Export`,
-                font: {
-                    size: 16
-                },
-                padding: {
-                    top: 5,
-                    bottom: 8
-                },
-                align: 'center'
+                display: false
             }
         }
     };

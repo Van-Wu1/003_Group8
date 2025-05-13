@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./styles/navbar.css" />
     <link rel="stylesheet" href="./styles/styleHu.css"/>
     <link rel="stylesheet" href="./styles/page2.css"/>
+    <link rel="stylesheet" href="./styles/bubble.css"/>
 
     <!-- Mapbox CDN -->
     <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
@@ -96,9 +97,14 @@
         <section class="Section3">
             <!-- 这个是顶上的文字部分 -->
             <div class="section-header">
-                <h2>Here we show the trade data of the pharmaceutical industry across countries,
-                    using an interactive map and corresponding legend to interpret the trade volume distribution.</h2>
+                <h2 class="section-header-animate">
+                    Here we show the trade data of the 
+                    <span class="highlight">pharmaceutical industry</span> across countries,
+                    using an <span class="highlight">interactive map</span> and corresponding legend to interpret the 
+                    <span class="highlight">trade volume</span> distribution.
+                </h2>
             </div>
+
             <!-- 这里是主体模块 123 -->
             <div class="map-legend-container">
                 <!-- 左侧： 图例 -->
@@ -143,7 +149,12 @@
                         </div>
                     </div>
                     <div class="pie">
+                        <p class="pie-chart-title">Global Import / Export</p>
                         <div class="piecontent"></div>
+                        <div class="pie-legend">
+                            <div><span class="dot import-dot"></span> Import</div>
+                            <div><span class="dot export-dot"></span> Export</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -156,9 +167,81 @@
 
         </section>
 
-        <section class="Section5">
-            <h1>page5</h1>
-            <p>待定</p>
+        <section class="Section5" id="section5">
+            <div id="top-panel" style="position: relative;">
+                <div id="mapbubble"></div>
+                <div id="border-legend" style="
+                position: absolute;
+                bottom: 20px;
+                left: 20px;
+                background: rgba(255,255,255,0.95);
+                padding: 10px 14px;
+                border-radius: 6px;
+                font-size: 13px;
+                z-index: 999;
+                box-shadow: 0 0 6px rgba(0,0,0,0.1);
+                pointer-events: none;">
+                    <div style="font-weight: bold; margin-bottom: 6px;">Legend</div>
+                    <div style="display: flex; align-items: center; margin-bottom: 4px;">
+                        <svg width="22" height="22" style="margin-right: 6px;">
+                            <circle cx="11" cy="11" r="9" fill="#f0f0f0" stroke="#2980b9" stroke-width="2" />
+                        </svg>
+                        <span>Single-function</span>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <svg width="22" height="22" style="margin-right: 6px;">
+                            <circle cx="11" cy="11" r="9" fill="#f0f0f0" stroke="#ffffff" stroke-width="2" />
+                        </svg>
+                        <span>Multi-functional</span>
+                    </div>
+                </div>
+            </div>
+            <div id="bottom-panel">
+                <div id="filter-panel">
+                    <h3>Function Type Filter</h3>
+                    <label><input type="checkbox" value="R&D" checked> R&D</label>
+                    <label><input type="checkbox" value="Manufacturing" checked> Manufacturing</label>
+                    <label><input type="checkbox" value="Packaging" checked> Packaging</label>
+                    <label><input type="checkbox" value="Wholesale" checked> Wholesale</label>
+                    <label><input type="checkbox" value="Retail/Medical" checked> Retail/Medical</label>
+                    <label><input type="checkbox" value="API" checked> API</label>
+                    <label><input type="checkbox" value="Support/Other" checked> Support/Other</label>
+                    <div style="margin-top:12px;"><label>Company counts ≥ <input type="number" id="minCompanyCount" value="1" min="0"></label></div>
+                    <button id="applyFilterBtn">Apply Filter</button>
+                </div>
+                <div id="top-cities">
+                    <input id="cityRangeSlider" type="range" min="10" max="50" step="1" value="10" style="width:100%; margin-bottom:10px;">
+                    <canvas id="stackedBarChart"></canvas>
+                </div>
+                <div id="function-legend">
+                    <strong style="display:block; margin-bottom:10px;">Function Type Legend</strong>
+                    <div><span class="legend-box" style="background:#4CAF50;"></span> R&D</div>
+                    <div><span class="legend-box" style="background:#2196F3;"></span> Manufacturing</div>
+                    <div><span class="legend-box" style="background:#FF9800;"></span> Sales</div>
+                    <div><span class="legend-box" style="background:#9C27B0;"></span> Packaging</div>
+                    <div><span class="legend-box" style="background:#607D8B;"></span> Support/Other</div>
+                    <div><span class="legend-box" style="background:#cccccc;"></span> Unclassified</div>
+                </div>
+            </div>
+            <div id="popup">
+                <div id="defaultMessage">
+                    <h4 style="color:#666; margin-top:0;">Exploring the Global Urban Network of Pharmaceutical Functions</h4>
+                    <p>This platform visualizes the spatial organization of the global pharmaceutical industry by mapping cities based on their functional roles. Each bubble on the map encodes <strong>company presence</strong> (size) and <strong>dominant function type</strong> (color), allowing users to intuitively grasp industry footprints across scales.</p>
+                    <p>Click on any city bubble to access a detailed functional breakdown via a dynamic donut chart. The right-hand panel will display classification, company count, and distribution by function, while the bottom bar chart summarizes leading cities within the selected zoom level or filters.</p>
+                    <div id="mini-scatter-container" style="width:100%; max-width:320px; height:200px; background:rgba(255,255,255,0.95); margin:20px auto;">
+                        <canvas id="scatterCanvas" width="320" height="200" style="background:transparent;"></canvas>
+                    </div>
+                </div>
+                <div id="cityDetails" style="display:none;">
+                    <button id="backButton" class="back-button"><span class="icon">←</span> Back to Overview</button>
+                    <div id="cityHeader"></div>
+                    <div id="functionCategory"></div>
+                    <div id="cityStats">
+                        <p><strong>Function Category:</strong> <span id="functionCategory"></span></p>
+                    </div>
+                    <canvas id="donutChart"></canvas>
+                    </div>
+            </div>
         </section>
 
         <section class="Section6">
