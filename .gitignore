@@ -30,7 +30,6 @@ __pycache__/
 
 # ========== Data / Output / Cache ==========
 *.csv
-*.geojson
 *.tif
 *.zip
 *.gz
