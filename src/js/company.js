@@ -1,5 +1,3 @@
-// 全球制药公司控制网络可视化 - JavaScript (改进版)
-
 // 配置
 const MAPBOX_TOKEN = 'pk.eyJ1IjoicWl1eXVlcWl1MjAwMiIsImEiOiJjbWFjejV3OGMwOThiMmtzaGswMWRmam16In0.8one7mciYXQt13wcK5yxHQ';
 mapboxgl.accessToken = MAPBOX_TOKEN;
@@ -132,7 +130,7 @@ async function initMap() {
   return new Promise((resolve, reject) => {
     try {
       map = new mapboxgl.Map({
-        container: 'map',
+        container: 'mapCompany',
         style: 'mapbox://styles/mapbox/light-v11',
         center: [0, 30],
         zoom: 1.8
@@ -1653,11 +1651,11 @@ function initUserPreferences() {
 }
 
 // 其他辅助函数...
-function showLoading(show) {
-  if (dom.loadingIndicator) {
-    dom.loadingIndicator.style.display = show ? 'flex' : 'none';
-  }
-}
+// function showLoading(show) {
+//   if (dom.loadingIndicator) {
+//     dom.loadingIndicator.style.display = show ? 'flex' : 'none';
+//   }
+// }
 
 function formatNumber(num) {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

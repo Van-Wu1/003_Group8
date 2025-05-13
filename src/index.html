@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,14 +10,16 @@
     <link rel="stylesheet" href="./styles/team.css" />
     <link rel="stylesheet" href="./styles/home.css" />
     <link rel="stylesheet" href="./styles/navbar.css" />
-    <link rel="stylesheet" href="./styles/styleHu.css"/>
-    <link rel="stylesheet" href="./styles/page2.css"/>
-    <link rel="stylesheet" href="./styles/bubble.css"/>
-    <link rel="stylesheet" href="./styles/style 拆分版3.css"/>
+    <link rel="stylesheet" href="./styles/styleHu.css" />
+    <link rel="stylesheet" href="./styles/page2.css" />
+    <link rel="stylesheet" href="./styles/bubble.css" />
+    <link rel="stylesheet" href="./styles/company.css" />
 
     <!-- Mapbox CDN -->
     <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
     <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet" />
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="js/1map_imexport.js"></script>
@@ -50,11 +53,13 @@
                         <span id="typed-line2">Through Pharmaceutical.</span>
                     </h1>
                     <p>
-                        Revealing the global pharmaceutical network through dynamic visualizations of city connections, trade structures, and spatial complexity.
+                        Revealing the global pharmaceutical network through dynamic visualizations of city connections,
+                        trade structures, and spatial complexity.
                     </p>
                 </div>
                 <div class="hero-3d">
-                    <iframe src='https://my.spline.design/aheadpill-ZYVJSqnWfJ0Wzf8LNnxBUetX/' frameborder='0' width='100%' height='100%'></iframe>
+                    <iframe src='https://my.spline.design/aheadpill-ZYVJSqnWfJ0Wzf8LNnxBUetX/' frameborder='0'
+                        width='100%' height='100%'></iframe>
                     <div class="spline-cover"></div>
                 </div>
             </div>
@@ -65,14 +70,18 @@
             <div class="page2-container">
                 <h2 class="page2-title">Pharmaceutical Flows in the Global City Network</h2>
                 <p class="page2-text">
-                    As the pharmaceutical and biotechnology industries continue to globalize, corporate networks are increasingly shaping urban hierarchies.
-                    While traditional studies focused on finance and legal services, our project uncovers how headquarters, subsidiaries, and R&D hubs 
+                    As the pharmaceutical and biotechnology industries continue to globalize, corporate networks are
+                    increasingly shaping urban hierarchies.
+                    While traditional studies focused on finance and legal services, our project uncovers how
+                    headquarters, subsidiaries, and R&D hubs
                     form a multilayered city network of control, prestige, and function.
                 </p>
 
                 <p class="page2-text">
-                    Building on Krätke’s framework of relational power and prestige, we explore cities like London, Basel, and New York as dominant control centers,
-                    while highlighting overlooked but important nodes such as Copenhagen and Taipei. This project reveals the hidden architecture of 
+                    Building on Krätke’s framework of relational power and prestige, we explore cities like London,
+                    Basel, and New York as dominant control centers,
+                    while highlighting overlooked but important nodes such as Copenhagen and Taipei. This project
+                    reveals the hidden architecture of
                     pharmaceutical globalization and offers a spatial perspective on industrial resilience.
                 </p>
 
@@ -93,15 +102,15 @@
                 </div>
             </div>
         </section>
-        
+
         <!-- 第三张也是第一张贸易总览地图 -->
         <section class="Section3">
             <!-- 这个是顶上的文字部分 -->
             <div class="section-header">
                 <h2 class="section-header-animate">
-                    Here we show the trade data of the 
+                    Here we show the trade data of the
                     <span class="highlight">pharmaceutical industry</span> across countries,
-                    using an <span class="highlight">interactive map</span> and corresponding legend to interpret the 
+                    using an <span class="highlight">interactive map</span> and corresponding legend to interpret the
                     <span class="highlight">trade volume</span> distribution.
                 </h2>
             </div>
@@ -122,7 +131,7 @@
                     </div>
                     <span class="legend-bottom">Lowest</span>
                 </div>
-                
+
                 <!-- 中间：上部地图，下部切换 -->
                 <div class="middle">
                     <div id="map1"></div>
@@ -160,7 +169,7 @@
                 </div>
             </div>
         </section>
-        
+
 
         <section class="Section4">
             <h1><strong>Borui words</strong></h1>
@@ -207,11 +216,13 @@
                     <label><input type="checkbox" value="Retail/Medical" checked> Retail/Medical</label>
                     <label><input type="checkbox" value="API" checked> API</label>
                     <label><input type="checkbox" value="Support/Other" checked> Support/Other</label>
-                    <div style="margin-top:12px;"><label>Company counts ≥ <input type="number" id="minCompanyCount" value="1" min="0"></label></div>
+                    <div style="margin-top:12px;"><label>Company counts ≥ <input type="number" id="minCompanyCount"
+                                value="1" min="0"></label></div>
                     <button id="applyFilterBtn">Apply Filter</button>
                 </div>
                 <div id="top-cities">
-                    <input id="cityRangeSlider" type="range" min="10" max="50" step="1" value="10" style="width:100%; margin-bottom:10px;">
+                    <input id="cityRangeSlider" type="range" min="10" max="50" step="1" value="10"
+                        style="width:100%; margin-bottom:10px;">
                     <canvas id="stackedBarChart"></canvas>
                 </div>
                 <div id="function-legend">
@@ -226,10 +237,17 @@
             </div>
             <div id="popup">
                 <div id="defaultMessage">
-                    <h4 style="color:#666; margin-top:0;">Exploring the Global Urban Network of Pharmaceutical Functions</h4>
-                    <p>This platform visualizes the spatial organization of the global pharmaceutical industry by mapping cities based on their functional roles. Each bubble on the map encodes <strong>company presence</strong> (size) and <strong>dominant function type</strong> (color), allowing users to intuitively grasp industry footprints across scales.</p>
-                    <p>Click on any city bubble to access a detailed functional breakdown via a dynamic donut chart. The right-hand panel will display classification, company count, and distribution by function, while the bottom bar chart summarizes leading cities within the selected zoom level or filters.</p>
-                    <div id="mini-scatter-container" style="width:100%; max-width:320px; height:200px; background:rgba(255,255,255,0.95); margin:20px auto;">
+                    <h4 style="color:#666; margin-top:0;">Exploring the Global Urban Network of Pharmaceutical Functions
+                    </h4>
+                    <p>This platform visualizes the spatial organization of the global pharmaceutical industry by
+                        mapping cities based on their functional roles. Each bubble on the map encodes <strong>company
+                            presence</strong> (size) and <strong>dominant function type</strong> (color), allowing users
+                        to intuitively grasp industry footprints across scales.</p>
+                    <p>Click on any city bubble to access a detailed functional breakdown via a dynamic donut chart. The
+                        right-hand panel will display classification, company count, and distribution by function, while
+                        the bottom bar chart summarizes leading cities within the selected zoom level or filters.</p>
+                    <div id="mini-scatter-container"
+                        style="width:100%; max-width:320px; height:200px; background:rgba(255,255,255,0.95); margin:20px auto;">
                         <canvas id="scatterCanvas" width="320" height="200" style="background:transparent;"></canvas>
                     </div>
                 </div>
@@ -241,7 +259,7 @@
                         <p><strong>Function Category:</strong> <span id="functionCategory"></span></p>
                     </div>
                     <canvas id="donutChart"></canvas>
-                    </div>
+                </div>
             </div>
         </section>
 
@@ -250,9 +268,312 @@
             <a href="#section7" class="btn btn-primary">explore</a>
         </section>
 
-        <section class="Section7">
-            <h1>page7</h1>
-            <p>待定</p>
+        <section class="Section7" id="section7">
+            <div id="app-container">
+                <!-- 顶部导航栏 -->
+                <!-- <header id="top-nav">
+                    <div class="logo-container">
+                        <h1>Global Pharmaceutical Control Network</h1>
+                        <span class="subtitle">Spatial Distribution of Control Power</span>
+                    </div>
+                    <div class="user-controls">
+                        <button id="help-btn" title="Help"><i class="fas fa-question-circle"></i></button>
+                        <button id="settings-btn" title="Settings"><i class="fas fa-cog"></i></button>
+                    </div>
+                </header> -->
+
+                <!-- 主要内容区域 -->
+                <div id="main-content">
+                    <!-- 侧边控制面板 -->
+                    <div id="control-panel">
+                        <div class="panel-section">
+                            <h2>Control Network Filters</h2>
+                            <div class="control-group">
+                                <label for="company-selector"
+                                    style="font-weight: bold; color: #e74c3c; font-size: 1.1rem;">Select a
+                                    pharmaceutical company:</label>
+                                <select id="company-selector" class="full-width">
+                                    <option value="" selected disabled>Please select a company</option>
+                                    <option value="ALL">Top 20 Companies</option>
+                                    <!-- 其他公司选项将通过JavaScript动态添加 -->
+                                </select>
+                            </div>
+
+                            <div class="control-group">
+                                <label>Ownership Filter:</label>
+                                <div class="range-slider">
+                                    <input type="range" id="ownership-slider" min="0" max="100" value="50" step="10">
+                                    <div class="range-value"><span id="ownership-value">50</span>% and above</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-section">
+                            <h2>Network Overview</h2>
+                            <div class="stats-card">
+                                <div class="stat-row">
+                                    <div class="stat-label">Total Entities:</div>
+                                    <div class="stat-value" id="total-entities">0</div>
+                                </div>
+                                <div class="stat-row">
+                                    <div class="stat-label">HQ Cities:</div>
+                                    <div class="stat-value" id="hq-count">0</div>
+                                </div>
+                                <div class="stat-row">
+                                    <div class="stat-label">Subsidiary Cities:</div>
+                                    <div class="stat-value" id="sub-count">0</div>
+                                </div>
+                                <div class="stat-row">
+                                    <div class="stat-label">Average Ownership:</div>
+                                    <div class="stat-value" id="avg-ownership">0%</div>
+                                </div>
+                                <div class="stat-row">
+                                    <div class="stat-label">International Control Ratio:</div>
+                                    <div class="stat-value" id="intl-ratio">0%</div>
+                                </div>
+                                <div class="stat-row">
+                                    <div class="stat-label">Total Revenue:</div>
+                                    <div class="stat-value" id="total-assets">$0M</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-section">
+                            <h2>Control Hierarchy</h2>
+                            <div class="hierarchy-diagram" id="hierarchy-viz">
+                                <!-- 改进的层级结构图 -->
+                                <div class="hierarchy-node hq-node">1 HQ City</div>
+                                <div class="hierarchy-connections">
+                                    <div class="connection-line center"></div>
+                                </div>
+                                <div class="hierarchy-level">
+                                    <div class="hierarchy-node sub-node">0 Subsidiary Cities</div>
+                                </div>
+                                <div class="hierarchy-stats">
+                                    <div class="hierarchy-stat">
+                                        <div class="stat-label">Full Control</div>
+                                        <div class="stat-value">0</div>
+                                    </div>
+                                    <div class="hierarchy-stat">
+                                        <div class="stat-label">International Control</div>
+                                        <div class="stat-value">0</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-section">
+                            <h2>Power Hub Cities</h2>
+                            <div class="power-centers" id="power-centers-list">
+                                <!-- 主要控制中心将通过JavaScript动态填充 -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 主可视化区域 -->
+                    <div id="visualization-area">
+                        <!-- 地图容器 -->
+                        <div id="map-container">
+                            <div id="mapCompany"></div>
+
+                            <!-- 地图控件 -->
+                            <div class="map-controls">
+                                <button id="zoom-fit" title="Fit All Data"><i class="fas fa-expand"></i></button>
+                                <button id="zoom-hq" title="Focus on HQ"><i class="fas fa-building"></i></button>
+                                <button id="toggle-labels" title="Toggle Labels"><i class="fas fa-tag"></i></button>
+                            </div>
+
+                            <!-- 地图图例 -->
+                            <div id="map-legend">
+                                <h3>Legend</h3>
+                                <div class="legend-section">
+                                    <h4>Node Types</h4>
+                                    <div class="legend-item">
+                                        <span class="color-dot hq-color"></span>
+                                        <span>HQ City</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="color-dot sub-color"></span>
+                                        <span>Subsidiary City</span>
+                                    </div>
+                                </div>
+
+                                <div class="legend-section">
+                                    <h4>Ownership Strength</h4>
+                                    <div class="legend-item">
+                                        <span class="line-sample strong-line"></span>
+                                        <span>Full (100%)</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="line-sample medium-line"></span>
+                                        <span>Majority (51–99%)</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="line-sample weak-line"></span>
+                                        <span>Minority (≤50%)</span>
+                                    </div>
+                                </div>
+
+                                <div class="legend-section">
+                                    <h4>Continent Colors</h4>
+                                    <div class="legend-colors">
+                                        <div class="color-item">
+                                            <span class="color-block na-color"></span>
+                                            <span>North America</span>
+                                        </div>
+                                        <div class="color-item">
+                                            <span class="color-block eu-color"></span>
+                                            <span>Europe</span>
+                                        </div>
+                                        <div class="color-item">
+                                            <span class="color-block as-color"></span>
+                                            <span>Asia</span>
+                                        </div>
+                                        <div class="color-item">
+                                            <span class="color-block af-color"></span>
+                                            <span>Africa</span>
+                                        </div>
+                                        <div class="color-item">
+                                            <span class="color-block sa-color"></span>
+                                            <span>South America</span>
+                                        </div>
+                                        <div class="color-item">
+                                            <span class="color-block oc-color"></span>
+                                            <span>Oceania</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="legend-section">
+                                    <h4>Data Notes</h4>
+                                    <div class="legend-item">
+                                        <span>*</span>
+                                        <span>Estimated</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 详情面板 -->
+                        <div id="details-panel">
+                            <div id="panel-resizer"></div>
+                            <div class="panel-header">
+                                <h2>Control Relationship Details</h2>
+                                <div class="panel-actions">
+                                    <button id="toggle-analysis" class="toggle-btn" title="Toggle Analysis Charts">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="panel-content-wrapper">
+                                <!-- 左侧子公司表格区域 -->
+                                <div class="panel-content" id="subsidiaries-content">
+                                    <div class="filter-bar">
+                                        <div class="search-box">
+                                            <input type="text" id="subsidiary-search"
+                                                placeholder="Search subsidiaries...">
+                                            <i class="fas fa-search"></i>
+                                        </div>
+                                        <div class="filter-dropdown">
+                                            <select id="continent-filter">
+                                                <option value="all">All Continents</option>
+                                                <option value="NA">North America</option>
+                                                <option value="EU">Europe</option>
+                                                <option value="AS">Asia</option>
+                                                <option value="AF">Africa</option>
+                                                <option value="SA">South America</option>
+                                                <option value="OC">Oceania</option>
+                                            </select>
+                                        </div>
+                                        <div class="sort-controls">
+                                            <button class="sort-btn active" data-sort="ownership">Ownership</button>
+                                            <button class="sort-btn" data-sort="assets">Assets</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="table-container">
+                                        <table id="subsidiaries-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Subsidiary Name</th>
+                                                    <th>City</th>
+                                                    <th>Country</th>
+                                                    <th>Ownership</th>
+                                                    <th>NACE Code (Function)</th>
+                                                    <th>Assets</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- 动态填充 -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- 右侧分析图表区域 -->
+                                <div class="panel-content" id="analysis-content">
+                                    <div class="analysis-section">
+                                        <h3>Network Density Analysis</h3>
+                                        <div id="network-density-chart" class="chart-container">
+                                            <canvas id="density-chart"></canvas>
+                                        </div>
+                                    </div>
+
+                                    <div class="analysis-section">
+                                        <h3>Cross-Border Control Paths</h3>
+                                        <div id="control-distance-chart" class="chart-container">
+                                            <canvas id="distance-chart"></canvas>
+                                        </div>
+                                    </div>
+
+                                    <div class="analysis-section">
+                                        <h3>Power Hub Cities</h3>
+                                        <div id="power-hub-chart" class="chart-container">
+                                            <canvas id="hub-chart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 详情弹窗 -->
+            <div id="detail-modal" class="modal hidden">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="modal-title">City Details</h3>
+                        <button id="modal-close">×</button>
+                    </div>
+                    <div id="modal-body">
+                        <!-- 动态填充详情内容 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 帮助弹窗 -->
+            <div id="help-modal" class="modal hidden">
+                <div class="modal-content" style="max-width: 700px;">
+                    <div class="modal-header" style="background: #3498db;">
+                        <h3 id="help-modal-title">Help & Instructions</h3>
+                        <button id="help-modal-close">×</button>
+                    </div>
+                    <div id="help-modal-body" style="max-height: 70vh; overflow-y: auto;">
+                        <!-- 帮助内容将通过JavaScript动态填充 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 加载指示器 -->
+            <!-- <div id="loading-indicator">
+                <div class="loader"></div>
+                <div class="loading-text">Loading...</div>
+            </div> -->
+        </section>
+
+        <section class="Section_m" id="methodology">
+            <h1>methodology</h1>
         </section>
 
         <!-- huxinyue -->
@@ -270,7 +591,7 @@
                     <div><span style="background-color: rgb(203, 170, 203);"></span> Governance-oriented city</div>
                 </div>
             </div>
-            
+
             <div class="menu">
                 <div id="radar">
                     <canvas id="radarChart" width="300" height="300"></canvas>
@@ -289,29 +610,33 @@
 
         <section class="Section8-Comparison" style="display: none;">
             <div id="mapContainer">
-                 <div class="mapPanel">
-                     <div class="selectorBox">
-                     <label for="cityDropdownA">City A:</label>
-                     <select id="cityDropdownA"><option value="">Select</option></select>
-                     </div>
-                     <canvas id="radarChartA" class="radarChart"></canvas>
-                     <div id="map11" class="mapBox"></div>
-                 </div>
-                 <div class="mapPanel">
-                 <div class="selectorBox">
-                     <label for="cityDropdownB">City B:</label>
-                     <select id="cityDropdownB"><option value="">Select</option></select>
-                 </div>
-                 <canvas id="radarChartB" class="radarChart"></canvas>
-                 <div id="map22" class="mapBox"></div>
-                 </div>
-             </div>
-             <div id="legendcon">
-                 <div><span style="background-color: rgb(158, 193, 207);"></span> environmentally oriented city</div>
-                 <div><span style="background-color: rgb(168, 213, 186);"></span> socially oriented city</div>
-                 <div><span style="background-color: rgb(203, 170, 203);"></span> governance-oriented city</div>
-             </div>
-             <button id="backButtonHu">Return to Single Map</button>
+                <div class="mapPanel">
+                    <div class="selectorBox">
+                        <label for="cityDropdownA">City A:</label>
+                        <select id="cityDropdownA">
+                            <option value="">Select</option>
+                        </select>
+                    </div>
+                    <canvas id="radarChartA" class="radarChart"></canvas>
+                    <div id="map11" class="mapBox"></div>
+                </div>
+                <div class="mapPanel">
+                    <div class="selectorBox">
+                        <label for="cityDropdownB">City B:</label>
+                        <select id="cityDropdownB">
+                            <option value="">Select</option>
+                        </select>
+                    </div>
+                    <canvas id="radarChartB" class="radarChart"></canvas>
+                    <div id="map22" class="mapBox"></div>
+                </div>
+            </div>
+            <div id="legendcon">
+                <div><span style="background-color: rgb(158, 193, 207);"></span> environmentally oriented city</div>
+                <div><span style="background-color: rgb(168, 213, 186);"></span> socially oriented city</div>
+                <div><span style="background-color: rgb(203, 170, 203);"></span> governance-oriented city</div>
+            </div>
+            <button id="backButtonHu">Return to Single Map</button>
         </section>
 
 
@@ -361,7 +686,10 @@
     <script src="./js/home.js"></script>
     <script src="./js/resilience.js"></script>
     <script src="./js/comparison.js"></script>
+    <script src="./js/company.js"></script>
 
-   
+
+
 </body>
+
 </html>

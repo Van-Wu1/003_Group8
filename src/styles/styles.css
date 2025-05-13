@@ -5,7 +5,8 @@
   font-family: 'Helvetica Neue', sans-serif;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   overflow: hidden;
@@ -63,12 +64,12 @@ main {
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
 
-  scrollbar-width: none; 
+  scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
 main::-webkit-scrollbar {
-  display: none;  
+  display: none;
 }
 
 section {
@@ -88,7 +89,7 @@ section {
   background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
 }
 
-.Section3{
+.Section3 {
   background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
   color: rgb(0, 0, 0);
   height: 100vh;
@@ -102,7 +103,7 @@ section {
   min-height: 90vh;
 }
 
-.Section4{
+.Section4 {
   background: linear-gradient(to top, #ffffff 0%, #f0f4f8 100%);
   color: rgb(0, 0, 0);
   height: 100vh;
@@ -116,7 +117,7 @@ section {
   min-height: 90vh;
 }
 
-.Section6{
+.Section6 {
   background: linear-gradient(to top, #ffffff 0%, #f0f4f8 100%);
   color: rgb(0, 0, 0);
   height: 100vh;
@@ -130,7 +131,7 @@ section {
   min-height: 90vh;
 }
 
-.Section7{
+.Section_m {
   background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
   color: rgb(0, 0, 0);
   height: 100vh;
@@ -171,14 +172,14 @@ footer {
   padding: 20px 10px;
   font-size: 0.85rem;
 }
-  
+
 .footer-content a {
   color: #cccccc;
   text-decoration: none;
   margin: 0 5px;
   transition: color 0.3s;
 }
-  
+
 .footer-content a:hover {
   color: #ffffff;
 }
