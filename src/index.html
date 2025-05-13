@@ -21,6 +21,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 
+    <script src="https://unpkg.com/deck.gl@latest/dist.min.js"></script>
+
 </head>
 
 <body>
@@ -196,12 +198,23 @@
             </div>
             
             <div class="menu">
-                <div id="radar"></div>
+                <div id="radar">
+                    <canvas id="radarChart" width="300" height="300"></canvas>
+                </div>
                 <div id="rank">
                     <canvas id="rankingChart"></canvas>
                 </div>
             </div>
+
+            <button id="gotoComparison" style="
+                       position: absolute; top: 100px; right: 580px; z-index: 9999;
+                       background-color: white; border: 1px solid #ccc;
+                       padding: 5px 10px; cursor: pointer;">Enter the Comparison Model
+            </button>
         </section>
+
+
+
 
         <!-- TeamIntro -->
         <section class="Team" id="Team">
