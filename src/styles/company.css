@@ -372,9 +372,10 @@
 }
 
 #mapCompany {
+  position: relative;
   width: 100%;
   height: 100%;
-  /* background-color: #2980b9; */
+  background-color: #050f16;
 }
 
 /* Map Controls */

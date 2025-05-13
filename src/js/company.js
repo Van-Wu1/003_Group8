@@ -108,7 +108,7 @@ function checkRequiredElements() {
     'company-selector',
     'ownership-slider',
     'total-entities',
-    'map',
+    'mapCompany',
     'hierarchy-viz',
     'power-centers-list'
   ];
@@ -1651,11 +1651,11 @@ function initUserPreferences() {
 }
 
 // 其他辅助函数...
-// function showLoading(show) {
-//   if (dom.loadingIndicator) {
-//     dom.loadingIndicator.style.display = show ? 'flex' : 'none';
-//   }
-// }
+function showLoading(show) {
+  if (dom.loadingIndicator) {
+    dom.loadingIndicator.style.display = show ? 'flex' : 'none';
+  }
+}
 
 function formatNumber(num) {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
