@@ -378,7 +378,8 @@
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: transparent; /* or #f6f9fc to match your section background */
+  background-color: transparent;
+  /* or #f6f9fc to match your section background */
 }
 
 /* Map Controls */
@@ -409,6 +410,16 @@
 
 .map-controls button:hover {
   background: #f8f9fa;
+}
+
+/* You might want to add a specific style for the help button to make it stand out a bit */
+.map-controls button#help-btn {
+  background: #3498db;
+  color: white;
+}
+
+.map-controls button#help-btn:hover {
+  background: #2980b9;
 }
 
 /* Map Legend */
@@ -1240,48 +1251,82 @@
   }
 }
 
-/* 帮助模态框样式 */
+/* Add these CSS styles to your company.css file */
+
+/* Help modal specific styles */
+#help-modal .modal-content {
+  max-width: 800px;
+  width: 90%;
+  max-height: 85vh;
+  /* Increased from 80vh to 85vh */
+}
+
+#help-modal-body {
+  padding: 1.5rem 2rem;
+  overflow-y: auto;
+  max-height: calc(85vh - 60px);
+  /* Increased from 80vh to 85vh */
+  font-family: 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  line-height: 1.7;
+}
+
 .help-content {
-  padding: 0 1rem 1rem 1rem;
+  padding: 0;
   color: #333;
+  line-height: 1.7;
 }
 
 .help-section {
   margin-bottom: 2rem;
+  /* Increased from 2.5rem */
+  padding-bottom: 1rem;
+  /* Added padding */
+  clear: both;
+  /* Ensure sections don't overlap */
 }
 
 .help-section h3 {
   color: #2c3e50;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   border-bottom: 2px solid #3498db;
   padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  margin: 0 0 1.5rem; 
+  /* Increased margin */
+  font-weight: 600;
 }
 
 .help-subsection {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.8rem;
 }
 
 .help-subsection h4 {
   color: #34495e;
-  font-size: 1.1rem;
-  margin-bottom: 0.8rem;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
 }
 
 .help-content ul,
 .help-content ol {
-  padding-left: 1.5rem;
-  margin-bottom: 1rem;
+  padding-left: 1.8rem;
+  margin-bottom: 1.2rem;
 }
 
 .help-content li {
-  margin-bottom: 0.5rem;
-  line-height: 1.5;
+  margin-bottom: 0.8rem;
+  /* Increased from 0.7rem */
+  line-height: 1.7;
+  padding-right: 10px;
+  /* Added to prevent text running too close to the edge */
 }
 
 .help-content p {
-  margin-bottom: 0.8rem;
-  line-height: 1.6;
+  margin-bottom: 1.2rem;
+  /* Increased from 1rem */
+  line-height: 1.7;
+  padding-right: 10px;
+  /* Added to prevent text running too close to the edge */
 }
 
 .help-content strong {
@@ -1289,20 +1334,48 @@
   color: #2c3e50;
 }
 
-#help-modal-body {
-  scrollbar-width: thin;
-  scrollbar-color: #95a5a6 #ecf0f1;
-}
-
+/* Improve scrollbar styling */
 #help-modal-body::-webkit-scrollbar {
   width: 8px;
 }
 
 #help-modal-body::-webkit-scrollbar-track {
-  background: #ecf0f1;
+  background: #f1f1f1;
 }
 
 #help-modal-body::-webkit-scrollbar-thumb {
-  background-color: #95a5a6;
+  background-color: #bdc3c7;
   border-radius: 4px;
+}
+
+#help-modal-body::-webkit-scrollbar-thumb:hover {
+  background-color: #95a5a6;
+}
+
+/* Improved nested list styling */
+.help-content ul ul,
+.help-content ul ol,
+.help-content ol ul,
+.help-content ol ol {
+  margin-top: 0.5rem;
+  margin-bottom: 0.8rem;
+  padding-left: 1.5rem;
+}
+
+/* Additional space between sections */
+.help-subsection:last-child {
+  margin-bottom: 0;
+  padding-bottom: 1rem;
+}
+
+/* Add these specific fixes for better section separation */
+/* Add a divider between sections for better visual separation */
+.help-section {
+  position: relative;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 2rem;
+}
+
+.help-section:last-child {
+  border-bottom: none;
 }

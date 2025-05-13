@@ -1410,155 +1410,114 @@ function initEventListeners() {
 }
 
 // 显示帮助模态框
+// 修改后的 showHelpModal 函数
 function showHelpModal() {
   const helpModalBody = document.getElementById('help-modal-body');
   const helpModal = document.getElementById('help-modal');
 
   if (!helpModalBody || !helpModal) return;
 
-  // 帮助内容HTML
+  // 帮助内容HTML - 英文版
   const helpContent = `
     <div class="help-content">
       <section class="help-section">
-        <h3>全球制药公司控制网络可视化</h3>
-        <p>本可视化工具展示了全球主要制药公司的控制网络和空间分布格局，帮助用户了解制药行业的空间控制权关系和全球分布情况。</p>
+        <h3>Global Pharmaceutical Control Network Visualization</h3>
+        <p>This visualization tool demonstrates the spatial distribution patterns and control relationships of major pharmaceutical companies worldwide.</p>
       </section>
       
       <section class="help-section">
-        <h3>主要功能区域</h3>
+        <h3>Main Functional Areas</h3>
+        
         <div class="help-subsection">
-          <h4>1. 控制面板（左侧）</h4>
+          <h4>1. Control Panel (Left)</h4>
           <ul>
-            <li><strong>公司选择器</strong>：选择要查看的制药公司，或选择"全部前20大公司"查看整体情况</li>
-            <li><strong>所有权筛选</strong>：通过滑块调整所有权百分比阈值（默认为50%），只显示超过该阈值的控制关系</li>
-            <li><strong>网络统计概览</strong>：展示当前选择的公司/公司集合的核心统计数据，包括节点数量、总部和子公司城市数量、平均控股比例等</li>
-            <li><strong>控制层级结构</strong>：以简化形式展示控制关系层级</li>
-            <li><strong>权力枢纽城市</strong>：列出主要的控制中心城市</li>
+            <li><strong>Company Selector:</strong> Choose individual companies or "All Top 20 Companies"</li>
+            <li><strong>Ownership Filter:</strong> Adjust minimum ownership threshold (default: 50%)</li>
+            <li><strong>Network Statistics:</strong> Key metrics for selected companies</li>
+            <li><strong>Control Hierarchy:</strong> Visual representation of corporate structure</li>
+            <li><strong>Power Hubs:</strong> Major control centers</li>
           </ul>
         </div>
         
         <div class="help-subsection">
-          <h4>2. 地图视图（中央）</h4>
+          <h4>2. Map View (Center)</h4>
           <ul>
-            <li><strong>节点说明</strong>：
+            <li><strong>Nodes:</strong>
               <ul>
-                <li><span style="color: #e74c3c;">●</span> <strong>红色节点</strong>：总部城市</li>
-                <li><span style="color: #3498db;">●</span> <strong>蓝色节点</strong>：子公司城市</li>
+                <li><span style="color: #e74c3c;">●</span> HQ Cities</li>
+                <li><span style="color: #3498db;">●</span> Subsidiary Cities</li>
               </ul>
             </li>
-            <li><strong>连线说明</strong>：
+            <li><strong>Connections:</strong>
               <ul>
-                <li><strong>粗线</strong>：完全控股 (100%)</li>
-                <li><strong>中等线</strong>：多数控股 (51-99%)</li>
-                <li><strong>细线</strong>：少数控股 (≤50%)</li>
+                <li>Thick lines: Full control (100%)</li>
+                <li>Medium lines: Majority control (51-99%)</li>
+                <li>Thin lines: Minority control (≤50%)</li>
               </ul>
             </li>
-            <li><strong>地图控件</strong>：
+            <li><strong>Map Controls:</strong>
               <ul>
-                <li><i class="fas fa-expand"></i> 适应所有数据</li>
-                <li><i class="fas fa-building"></i> 聚焦总部</li>
-                <li><i class="fas fa-tag"></i> 切换标签显示</li>
+                <li><i class="fas fa-expand"></i> Fit to data</li>
+                <li><i class="fas fa-building"></i> Focus on HQ</li>
+                <li><i class="fas fa-tag"></i> Toggle labels</li>
+                <li><i class="fas fa-question-circle"></i> Show help</li>
               </ul>
             </li>
           </ul>
         </div>
         
         <div class="help-subsection">
-          <h4>3. 详情面板（底部）</h4>
+          <h4>3. Details Panel (Bottom)</h4>
           <ul>
-            <li><strong>子公司列表</strong>：展示所选公司的所有子公司详细信息</li>
-            <li><strong>筛选与排序</strong>：可通过搜索框搜索、按大洲筛选和按控股比例/资产规模排序</li>
-            <li><strong>分析图表</strong>：提供控制网络密度、跨国控制路径和权力枢纽城市的分析图表</li>
+            <li><strong>Subsidiary List:</strong> Detailed subsidiary information</li>
+            <li><strong>Filters & Sorting:</strong> Search, continent filter, ownership/assets sorting</li>
+            <li><strong>Analytics:</strong> Network density, control distance, power hubs</li>
           </ul>
         </div>
       </section>
       
       <section class="help-section">
-        <h3>基本操作说明</h3>
+        <h3>Basic Operations</h3>
+        
         <div class="help-subsection">
-          <h4>如何查看特定公司的控制网络</h4>
+          <h4>Viewing Company Networks</h4>
           <ol>
-            <li>在左侧控制面板的"选择制药公司"下拉菜单中选择一家公司</li>
-            <li>地图将自动聚焦到该公司的总部位置</li>
-            <li>底部详情面板将显示该公司的所有子公司列表</li>
+            <li>Select a company from dropdown</li>
+            <li>Map auto-centers on HQ</li>
+            <li>Subsidiary list updates automatically</li>
           </ol>
         </div>
         
         <div class="help-subsection">
-          <h4>如何筛选控制关系</h4>
+          <h4>Filtering Controls</h4>
           <ol>
-            <li>通过左侧控制面板的"所有权筛选"滑块调整所有权百分比阈值</li>
-            <li>只有控股比例超过所设阈值的控制关系会被显示</li>
+            <li>Adjust ownership slider</li>
+            <li>Only shows relationships above threshold</li>
           </ol>
         </div>
         
         <div class="help-subsection">
-          <h4>如何查看节点详情</h4>
+          <h4>Node Details</h4>
           <ol>
-            <li>点击地图上的任意节点（红色总部或蓝色子公司）</li>
-            <li>将弹出详情窗口，显示该城市的详细信息</li>
-            <li>对于子公司城市，还会显示该城市内所有子公司的列表</li>
-          </ol>
-        </div>
-        
-        <div class="help-subsection">
-          <h4>如何使用详情面板</h4>
-          <ol>
-            <li>可以使用搜索框搜索特定的子公司</li>
-            <li>可以使用"所有大洲"下拉菜单按大洲筛选子公司</li>
-            <li>可以点击"控股比例"或"资产规模"按钮对子公司进行排序</li>
-            <li>点击<i class="fas fa-chart-bar"></i>按钮可以切换显示/隐藏分析图表区域</li>
-          </ol>
-        </div>
-        
-        <div class="help-subsection">
-          <h4>如何调整面板大小</h4>
-          <ol>
-            <li>通过拖动详情面板顶部的灰色小条，可以调整详情面板的高度</li>
+            <li>Click any node</li>
+            <li>Popup shows city details</li>
+            <li>Subsidiary cities show local operations</li>
           </ol>
         </div>
       </section>
       
       <section class="help-section">
-        <h3>数据说明</h3>
-        <div class="help-subsection">
-          <p>本可视化基于全球前20大制药公司的控制关系数据，包含以下信息：</p>
-          <ul>
-            <li>公司总部位置与基本信息（资产、收入、员工数等）</li>
-            <li>子公司地理位置分布</li>
-            <li>控制关系类型与控股比例</li>
-            <li>子公司功能分类（基于NACE代码）</li>
-          </ul>
-          <p>数据中带有星号(*)的值表示为估计值。</p>
-        </div>
+        <h3>Data Notes</h3>
+        <p>Based on control relationships of top 20 pharma companies. Values marked with * are estimates.</p>
       </section>
       
       <section class="help-section">
-        <h3>分析图表解读</h3>
-        <div class="help-subsection">
-          <h4>1. 控制网络密度分析</h4>
-          <p>该图表展示了各大洲的控制网络节点数量，反映了制药公司全球空间分布的密度特征。</p>
-        </div>
-        
-        <div class="help-subsection">
-          <h4>2. 跨国控制路径统计</h4>
-          <p>该图表按照控制距离（总部到子公司的地理距离）分组，展示了不同距离级别的控制关系数量，并区分了跨国控制与国内控制。</p>
-        </div>
-        
-        <div class="help-subsection">
-          <h4>3. 权力枢纽城市分析</h4>
-          <p>该图表展示了被多家公司控制的主要城市，这些城市往往是全球制药产业的战略枢纽。</p>
-        </div>
-      </section>
-      
-      <section class="help-section">
-        <h3>提示与技巧</h3>
+        <h3>Tips & Tricks</h3>
         <ul>
-          <li>双击地图可以快速放大特定区域</li>
-          <li>鼠标滚轮可以缩放地图</li>
-          <li>点击并拖动可以平移地图</li>
-          <li>悬停在子公司名称上可以查看完整的名称（如果名称过长被截断）</li>
-          <li>图例位于地图的右下角，解释了各种颜色和线型的含义</li>
+          <li>Double-click to zoom</li>
+          <li>Mouse wheel for zooming</li>
+          <li>Click-drag to pan</li>
+          <li>Hover over truncated names for full text</li>
         </ul>
       </section>
     </div>
