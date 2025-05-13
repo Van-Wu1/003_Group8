@@ -167,7 +167,7 @@ function initComparison() {
 
         });
 
-    document.getElementById('backButton').addEventListener('click', () => {
+    document.getElementById('backButtonHu').addEventListener('click', () => {
         document.querySelector('.Section8-Comparison').style.display = 'none';
         document.querySelector('.Section8').style.display = 'block';
         document.querySelector('.Section8').style.display = 'flex'; 
