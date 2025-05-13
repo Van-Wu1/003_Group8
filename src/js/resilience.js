@@ -31,6 +31,9 @@ fetch('./data/clean/City_level_resilience_data_FINAL_FIXED.geojson')
             operatingRevenue: f.properties["Operating revenue"],
             functionalDiversity: f.properties.functionalDiversity
         }));
+        // 数据加载后先画一个空雷达图
+drawRadarChart();
+
 //top 5
         const top5 = points
             .sort((a, b) => b.resilienceIndex - a.resilienceIndex)
@@ -167,7 +170,18 @@ fetch('./data/clean/City_level_resilience_data_FINAL_FIXED.geojson')
 // ✅ 雷达图绘制函数
 let radarChart;
 function drawRadarChart(props) {
-    
+    props = props || {
+        city: 'none',
+        resilienceIndex: 0,
+        MSCIoverall: 0,
+        MSCIenvi: 0,
+        MSCIsocial: 0,
+        MSCIgovern: 0,
+        operatingRevenue: 0,
+        functionalDiversity: 0
+    };
+
+
     const ctx = document.getElementById('radarChart').getContext('2d');
     if (!ctx) return;
     if (radarChart) radarChart.destroy();
