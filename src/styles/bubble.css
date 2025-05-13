@@ -1,0 +1,221 @@
+/* 基础布局与地图区域 */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+#map {
+  flex: 1;
+  height: calc(100vh - 300px); /* 预留底部面板空间 */
+}
+
+/* 弹出卡片样式 */
+#popup.popup-panel {
+  position: relative;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: calc(100% - 0px); /* 如果你不想卡 bottom-panel，可以先保留 */
+  background-color: white;
+  overflow-y: auto;
+  padding: 16px;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+  border-left: 1px solid #ccc;
+  z-index: 10;  /* ✅ 改为更低层 */
+}
+
+/* 底部面板整体 */
+#bottom-panel {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 16px;
+  z-index: 10000; 
+  padding: 16px;
+  background: white; /* ✅ 确保是白底 */
+  min-height: 300px;
+  border-top: 1px solid #ddd;
+  box-shadow: 0 -2px 4px rgba(0,0,0,0.05); /* ⬆️ 可选顶部阴影 */
+}
+
+
+#bar-chart-wrapper {
+  display: flex;
+  align-items: flex-start; /* ✅ 顶部对齐 */
+  gap: 20px;               /* 两边间距 */
+}
+
+#function-legend {
+  min-width: 160px;
+  height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 13px;
+  background: #fff;
+  border-radius: 6px;
+  padding: 10px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+/* 左侧：功能筛选面板 */
+ #filter-panel {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 16px;
+    width: 260px;
+    height: 280px;
+    font-size: 13px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    flex-shrink: 0;
+  }
+
+#filter-panel h3 {
+  margin-top: 0;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#filter-panel label {
+  display: block;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+#filter-panel input[type="number"] {
+  width: 60px;
+  padding: 3px;
+  font-size: 13px;
+}
+
+#filter-panel button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 6px;
+  font-size: 13px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #f4f4f4;
+  cursor: pointer;
+}
+
+/* 右侧：城市图表面板 */
+#top-cities {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 16px 20px;
+  flex: 1;
+  max-width: 1000px;
+  height: 280px; /* ✅ 同样拉满高度 */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+
+.chart-box {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  overflow: hidden; /* ✅ 关键：限制图表不会溢出 */
+  height: auto;      /* 或你设置的具体高度 */
+}
+
+.chart-wrapper {
+  width: 100%;
+  height: 420px; /* ✅ 你想让图表多高就写多高 */
+  overflow: hidden;
+  position: relative;
+}
+
+#popup {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 100%;
+  z-index: 0;
+  background-color: white;
+  padding: 16px;
+  overflow-y: auto;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+  border-left: 1px solid #ccc;
+}
+
+
+#popup h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+#popup p {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #333;
+}
+
+#popup canvas {
+  margin-top: 12px;
+}
+
+
+#stackedBarChart {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+#backButton {
+  margin-bottom: 20px; /* ✅ 控制按钮和下方内容之间的垂直间距 */
+}
+
+.back-button {
+  background-color: transparent;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s ease;
+  box-shadow: none;
+}
+
+.back-button .icon {
+  margin-right: 6px;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.back-button:hover {
+  background-color: #f0f0f0;
+  border-color: #999;
+  color: #000;
+}
+
+#cityHeader {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+#donutChart {
+  max-height: 230px;
+  max-width: 230px;
+  margin: 0 auto;
+}
+
+
+  
+  
