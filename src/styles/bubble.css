@@ -1,31 +1,37 @@
-/* 基础布局与地图区域 */
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f0f0f0;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+#Section5 {
+    padding: 80px 40px 20px;
+    height: 100vh;
+    scroll-snap-align: start;
+    font-family: 'Helvetica Neue', sans-serif;
+    color: #2a2a2a;
+    background: linear-gradient(to bottom, #f6f9fc, #e9f0f7);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
 }
 
-#map {
+#mapbubble {
   flex: 1;
-  height: calc(100vh - 300px); /* 预留底部面板空间 */
+  height: calc(100vh - 300px);
+  width: 100%; 
+  height: 600px;
 }
 
 /* 弹出卡片样式 */
 #popup.popup-panel {
-  position: relative;
+  position: fixed;
   top: 0;
   right: 0;
   width: 320px;
-  height: calc(100% - 0px); /* 如果你不想卡 bottom-panel，可以先保留 */
-  background-color: white;
+  height: calc(100% - 0px);
+  background-color: rgb(255, 255, 255);
   overflow-y: auto;
   padding: 16px;
   box-shadow: -2px 0 8px rgba(0,0,0,0.1);
   border-left: 1px solid #ccc;
-  z-index: 10;  /* ✅ 改为更低层 */
+  z-index: 10;
 }
 
 /* 底部面板整体 */
@@ -36,17 +42,17 @@ body {
   gap: 16px;
   z-index: 10000; 
   padding: 16px;
-  background: white; /* ✅ 确保是白底 */
+  background: white;
   min-height: 300px;
   border-top: 1px solid #ddd;
-  box-shadow: 0 -2px 4px rgba(0,0,0,0.05); /* ⬆️ 可选顶部阴影 */
+  box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
 }
 
 
 #bar-chart-wrapper {
   display: flex;
-  align-items: flex-start; /* ✅ 顶部对齐 */
-  gap: 20px;               /* 两边间距 */
+  align-items: flex-start;
+  gap: 20px;
 }
 
 #function-legend {
@@ -136,7 +142,7 @@ body {
 }
 
 #popup {
-  position: fixed;
+  position: relative;
   top: 0;
   right: 0;
   width: 320px;

@@ -21,7 +21,7 @@ window.currentMinCompanyCount = 0;
 // 2. 初始化地图
 mapboxgl.accessToken = 'pk.eyJ1Ijoid3d3MDYwIiwiYSI6ImNsZWNyZXU0OTAwbWEzb3RlaDF5bzBrcXUifQ.XpmvYQZRVRCNwe1mtcgYVg'; // ← 替换为你的真实 token
 window.map = new mapboxgl.Map({
-  container: 'map',
+  container: 'mapbubble',
   style: 'mapbox://styles/www060/cmahcpioi00xw01sleyt2edjh',
   center: [0, 30],  // 默认中心点
   zoom: 2.5
