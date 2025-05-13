@@ -19,10 +19,10 @@
 }
 
 .section-header h2 {
-  font-size: 18px; 
-  font-weight: 500;
+  font-size: 20px; 
+  font-weight: 700;
   color: #333;
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
   line-height: 1.4;
   letter-spacing: 0.3px;
@@ -95,7 +95,6 @@
     margin-top: 10px;
 }
 
-
 .labels {
     display: flex;
     justify-content: space-between;
@@ -159,6 +158,11 @@ input[type="range"]::-moz-range-thumb:hover {
     transition: all 0.3s;
 }
 
+.labels span.active {
+  font-weight: bold;
+  color: #333;
+}
+
 /* !!!!!!!!! Right: chart !!!!!!!!!*/
 /* 右侧整体 */
 .chart {
@@ -182,7 +186,6 @@ input[type="range"]::-moz-range-thumb:hover {
 .rank{
     flex: 1.45;
     background-color: #ffffff;
-    margin-bottom: 5px;
 }
 
 .rank p{
@@ -193,8 +196,6 @@ input[type="range"]::-moz-range-thumb:hover {
 /* 饼图 */
 .pie {
   flex: 1;
-  background-color: #ffffff;
-  border-radius: 10px;
   padding: 10px 0 14px;
   display: flex;
   flex-direction: column;
@@ -206,16 +207,80 @@ input[type="range"]::-moz-range-thumb:hover {
 .piecontent {
   width: 100%;
   height: auto;
-  max-height: 140px;
+  max-height: 120px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 10px;
 }
 
-.pie-label {
+.pie-chart-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #000000;
+  text-align: center;
+  line-height: 1;
+}
+
+.pie-legend {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 0.5vh;
   font-size: 13px;
   color: #444;
-  margin-top: 6px;
-  text-align: center;
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.import-dot {
+  background-color: rgb(95, 191, 255);
+}
+
+.export-dot {
+  background-color: rgb(34, 0, 255);
+}
+
+
+/* 动画 */
+/* 淡入 + 上移 */
+.section-header-animate {
+  animation: fadeInUp 1s ease-out both;
+}
+
+/* 关键词渐变强调 */
+.highlight {
+  background: linear-gradient(90deg, #002fff, #88a6ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: pulseHighlight 2s ease-in-out infinite alternate;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseHighlight {
+  0% {
+    opacity: 0.6;
+    letter-spacing: 0.2px;
+  }
+  100% {
+    opacity: 1;
+    letter-spacing: 0.8px;
+  }
 }
