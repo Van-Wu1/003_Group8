@@ -5,8 +5,8 @@ let points;
 
 mapboxgl.accessToken = 'pk.eyJ1IjoieGlueXVlMjMiLCJhIjoiY203amU4bzlrMDR1ZzJvcXR2bW42Y2lmeCJ9.ctzNnLvN8LSMRuOQsa1ktg';
 
-const map = new mapboxgl.Map({
-    container: 'map',
+const map_re = new mapboxgl.Map({
+    container: 'map_re',
     style: 'mapbox://styles/mapbox/light-v11',
     center: [-1.5, 52.5],
     zoom: 3.5,
@@ -14,7 +14,7 @@ const map = new mapboxgl.Map({
     bearing: 0,
     projection: 'mercator'
 });
-map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+map_re.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
 fetch('./data/clean/City_level_resilience_data_FINAL_FIXED.geojson')
     .then(response => response.json())
@@ -128,8 +128,8 @@ fetch('./data/clean/City_level_resilience_data_FINAL_FIXED.geojson')
         overlay = new deck.MapboxOverlay({
             layers: [baseLayer, mainLayer]    // ✅ 先画基座，再画柱子
         });
-        map.on('load', () => {
-    map.addControl(overlay);
+        map_re.on('load', () => {
+    map_re.addControl(overlay);
 });
 
         // ✅ 城市下拉菜单
@@ -153,7 +153,7 @@ fetch('./data/clean/City_level_resilience_data_FINAL_FIXED.geojson')
                 drawRadarChart(cityData);
 
                 // ✅ 新增地图飞到该城市
-                map.flyTo({
+                map_re.flyTo({
                     center: cityData.position,
                     zoom: 6,
                     speed: 1.2,
