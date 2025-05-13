@@ -10,7 +10,7 @@ const map = new mapboxgl.Map({
     style: 'mapbox://styles/mapbox/light-v11',
     center: [-1.5, 52.5],
     zoom: 3.5,
-    pitch: 60,
+    pitch: 55,
     bearing: 0,
     projection: 'mercator'
 });
@@ -221,6 +221,7 @@ function drawRadarChart(props) {
 document.getElementById('gotoComparison').addEventListener('click', () => {
     document.querySelector('.Section8').style.display = 'none';
     document.querySelector('.Section8-Comparison').style.display = 'block';
+    initComparison(); 
 });
 
 
