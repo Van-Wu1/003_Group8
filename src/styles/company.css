@@ -1,6 +1,7 @@
 .Section7 {
-  padding: 90px 0 0;
-  height: 100vh;
+  padding: 0;
+  height: auto;
+  min-height: 100vh;
   scroll-snap-align: start;
   font-family: 'Helvetica Neue', sans-serif;
   color: #2a2a2a;
@@ -9,7 +10,8 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 10px;
+  gap: 0;
+  position: relative;
 }
 
 /* body {
@@ -26,7 +28,7 @@
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
-  background-color: #2ecc71;
+  background-color: transparent;
 }
 
 /* Top Navigation Bar */
@@ -375,7 +377,7 @@
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: #050f16;
+  background-color: transparent; /* or #f6f9fc to match your section background */
 }
 
 /* Map Controls */
