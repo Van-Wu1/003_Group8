@@ -1,0 +1,240 @@
+#section5{
+  padding-top: 90px;
+  background-color: #000;
+}
+
+
+/* body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica Neue', sans-serif;
+  color: #2a2a2a;
+  display: grid;
+  grid-template-areas:
+    "map map popup"
+    "bottom bottom bottom";
+  grid-template-rows: 1fr auto;
+  grid-template-columns: 1fr 1fr 320px;
+  height: 100vh;
+  overflow: hidden;
+} */
+
+/* 地图区域 */
+#top-panel {
+  grid-area: map;
+  position: relative;
+  background: linear-gradient(to bottom, #f6f9fc, #e9f0f7);
+}
+
+#mapbubble {
+  width: 100%;
+  height: 100%;
+}
+
+/* 图例样式 */
+#border-legend {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(255,255,255,0.95);
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  z-index: 999;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+  pointer-events: none;
+}
+
+.legend-title {
+  font-weight: bold; 
+  margin-bottom: 6px;
+}
+
+.legend-item {
+  display: flex; 
+  align-items: center; 
+  margin-bottom: 4px;
+}
+
+.legend-icon {
+  margin-right: 6px;
+}
+
+/* 右侧弹出面板 */
+#popup {
+  width: 300px;
+  grid-area: popup;
+  background-color: white;
+  border-left: 1px solid #ddd;
+  overflow-y: auto;
+  font-size: 12px;
+  padding: 10px;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.popup-title {
+  color: #666; 
+  margin-top: 0;
+}
+
+#defaultMessage p {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #333;
+}
+
+#mini-scatter-container {
+  width: 100%; 
+  max-width: 320px; 
+  height: 200px; 
+  background: rgba(255,255,255,0.95); 
+  margin: 20px auto;
+}
+
+#scatterCanvas {
+  background: transparent;
+}
+
+#cityDetails {
+  display: none;
+}
+
+/* 底部面板 */
+#bottom-panel {
+  grid-area: bottom;
+  display: flex;
+  padding: 16px;
+  background: white;
+  border-top: 1px solid #ddd;
+  box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
+  height: 300px;
+}
+
+/* 过滤面板 */
+#filter-panel {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 16px;
+  width: 260px;
+  font-size: 13px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  flex-shrink: 0;
+}
+
+#filter-panel h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+#filter-panel label {
+  display: block;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.filter-count {
+  margin-top: 12px;
+}
+
+#filter-panel input[type="number"] {
+  width: 60px;
+  padding: 3px;
+  font-size: 13px;
+}
+
+#applyFilterBtn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 6px;
+  font-size: 13px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #f4f4f4;
+  cursor: pointer;
+}
+
+/* 城市图表 */
+#top-cities {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 16px 20px;
+  flex: 1;
+  max-width: 1000px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+#cityRangeSlider {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+#stackedBarChart {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* 功能图例 */
+#function-legend {
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 13px;
+  background: #fff;
+  border-radius: 6px;
+  padding: 10px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+#function-legend strong {
+  display: block; 
+  margin-bottom: 10px;
+}
+
+.legend-box {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 6px;
+  border: 1px solid #ddd;
+}
+
+/* 按钮样式 */
+.back-button {
+  background-color: transparent;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s ease;
+  box-shadow: none;
+  margin-bottom: 20px;
+}
+
+.back-button .icon {
+  margin-right: 6px;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.back-button:hover {
+  background-color: #f0f0f0;
+  border-color: #999;
+  color: #000;
+}
+
+/* 图表样式 */
+#donutChart {
+  max-height: 230px;
+  max-width: 230px;
+  margin: 0 auto;
+}

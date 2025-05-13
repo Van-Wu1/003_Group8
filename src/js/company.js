@@ -67,6 +67,7 @@ function initDOMReferences() {
 // 初始化
 document.addEventListener('DOMContentLoaded', async () => {
   // 初始化DOM引用
+  console.log("Initializing pharmaceutical network visualization...");
   initDOMReferences();
 
   // 检查必要的DOM元素是否存在
@@ -81,6 +82,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 初始化地图
     await initMap();
 
+    // Add a forced resize after map initialization
+    if (map) {
+      map.resize();
+    }
+
     // 加载数据
     await loadData();
 
@@ -92,6 +98,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 初始化成功标记
     isInitialized = true;
+    console.log("Initialization completed successfully");
   } catch (error) {
     console.error('Initialisation failure:', error);
     alert('Application Load Failure: ' + error.message);
@@ -133,7 +140,9 @@ async function initMap() {
         container: 'mapCompany',
         style: 'mapbox://styles/mapbox/light-v11',
         center: [0, 30],
-        zoom: 1.8
+        zoom: 1.8,
+        width: '100%',  // Add this
+        height: '100%'  // Add this
       });
 
       map.addControl(new mapboxgl.NavigationControl());
@@ -257,6 +266,11 @@ async function initMap() {
       map.on('error', (e) => {
         console.error('Map error:', e);
         reject(e);
+        setTimeout(() => {
+          map.resize();
+        }, 100);
+
+        resolve();
       });
     } catch (error) {
       reject(error);
@@ -268,7 +282,7 @@ async function initMap() {
 async function loadData() {
   try {
     // 示例数据路径 - 在真实环境中需要替换
-    const response = await fetch('src/data/clean/world_com_top20_by_revenue_eng.json');
+    const response = await fetch('data/clean/world_com_top20_by_revenue_eng.json');
     if (!response.ok) {
       // 模拟数据用于演示
       console.warn('Demonstration using modelled data');
@@ -1385,6 +1399,14 @@ function initEventListeners() {
       }
     });
   }
+
+  window.addEventListener('resize', function () {
+    if (map) {
+      setTimeout(() => {
+        map.resize();
+      }, 100);
+    }
+  });
 }
 
 // 显示帮助模态框

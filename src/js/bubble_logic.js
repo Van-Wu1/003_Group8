@@ -1,5 +1,5 @@
 // 1. 数据加载
-fetch('data/city_function.json')
+fetch('data/clean/city_function.json')
   .then(res => res.json())
   .then(data => {
     window.cityData = data;
@@ -105,6 +105,7 @@ fetch('data/city_function.json')
     });
     const scatterData = buildScatterData();
     drawScatterPlot(scatterData);
+    applyFilter();
     });
 
     map.on('zoomend', () => {
