@@ -268,7 +268,7 @@ async function initMap() {
 async function loadData() {
   try {
     // 示例数据路径 - 在真实环境中需要替换
-    const response = await fetch('src/data/clean/world_com_top20_by_revenue_eng.json');
+    const response = await fetch('data/clean/world_com_top20_by_revenue_eng.json');
     if (!response.ok) {
       // 模拟数据用于演示
       console.warn('Demonstration using modelled data');
