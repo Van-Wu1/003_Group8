@@ -1466,14 +1466,6 @@ function showHelpModal() {
           </ul>
         </div>
         
-        <div class="help-subsection">
-          <h4>3. Details Panel (Bottom)</h4>
-          <ul>
-            <li><strong>Subsidiary List:</strong> Detailed subsidiary information</li>
-            <li><strong>Filters & Sorting:</strong> Search, continent filter, ownership/assets sorting</li>
-            <li><strong>Analytics:</strong> Network density, control distance, power hubs</li>
-          </ul>
-        </div>
       </section>
       
       <section class="help-section">
