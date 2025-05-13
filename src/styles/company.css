@@ -1254,55 +1254,46 @@
 /* Add these CSS styles to your company.css file */
 
 /* Help modal specific styles */
-#help-modal .modal-content {
-  max-width: 800px;
-  width: 90%;
-  max-height: 85vh;
-  /* Increased from 80vh to 85vh */
-}
-
-#help-modal-body {
-  padding: 1.5rem 2rem;
-  overflow-y: auto;
-  max-height: calc(85vh - 60px);
-  /* Increased from 80vh to 85vh */
-  font-family: 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-  line-height: 1.7;
-}
-
+/* 帮助模态框样式 */
 .help-content {
-  padding: 0;
+  padding: 0 1rem 1rem 1rem;
   color: #333;
   line-height: 1.7;
 }
 
 .help-section {
-  margin-bottom: 2rem;
-  /* Increased from 2.5rem */
-  padding-bottom: 1rem;
-  /* Added padding */
-  clear: both;
-  /* Ensure sections don't overlap */
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  position: relative;
+  border-bottom: 1px solid #f0f0f0;
+  clear: both; /* 确保部分不重叠 */
+}
+
+.help-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
 }
 
 .help-section h3 {
   color: #2c3e50;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   border-bottom: 2px solid #3498db;
   padding-bottom: 0.5rem;
-  margin-bottom: 1.5rem;
-  margin: 0 0 1.5rem; 
-  /* Increased margin */
+  margin-bottom: 1.2rem;
   font-weight: 600;
 }
 
 .help-subsection {
-  margin-bottom: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.help-subsection:last-child {
+  margin-bottom: 0;
 }
 
 .help-subsection h4 {
   color: #34495e;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin-bottom: 1rem;
   font-weight: 500;
 }
@@ -1313,46 +1304,7 @@
   margin-bottom: 1.2rem;
 }
 
-.help-content li {
-  margin-bottom: 0.8rem;
-  /* Increased from 0.7rem */
-  line-height: 1.7;
-  padding-right: 10px;
-  /* Added to prevent text running too close to the edge */
-}
-
-.help-content p {
-  margin-bottom: 1.2rem;
-  /* Increased from 1rem */
-  line-height: 1.7;
-  padding-right: 10px;
-  /* Added to prevent text running too close to the edge */
-}
-
-.help-content strong {
-  font-weight: 600;
-  color: #2c3e50;
-}
-
-/* Improve scrollbar styling */
-#help-modal-body::-webkit-scrollbar {
-  width: 8px;
-}
-
-#help-modal-body::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-#help-modal-body::-webkit-scrollbar-thumb {
-  background-color: #bdc3c7;
-  border-radius: 4px;
-}
-
-#help-modal-body::-webkit-scrollbar-thumb:hover {
-  background-color: #95a5a6;
-}
-
-/* Improved nested list styling */
+/* 改进嵌套列表样式 */
 .help-content ul ul,
 .help-content ul ol,
 .help-content ol ul,
@@ -1362,20 +1314,60 @@
   padding-left: 1.5rem;
 }
 
-/* Additional space between sections */
-.help-subsection:last-child {
-  margin-bottom: 0;
-  padding-bottom: 1rem;
+.help-content li {
+  margin-bottom: 0.7rem;
+  line-height: 1.6;
+  padding-right: 10px; /* 防止文本靠近边缘太近 */
 }
 
-/* Add these specific fixes for better section separation */
-/* Add a divider between sections for better visual separation */
-.help-section {
-  position: relative;
-  border-bottom: 1px solid #f0f0f0;
-  padding-bottom: 2rem;
+.help-content p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+  padding-right: 10px; /* 防止文本靠近边缘太近 */
 }
 
-.help-section:last-child {
-  border-bottom: none;
+.help-content strong {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* 调整帮助模态框尺寸 */
+#help-modal .modal-content {
+  max-width: 800px !important;
+  width: 90%;
+  max-height: 85vh; /* 增加高度以容纳更多内容 */
+}
+
+#help-modal-body {
+  padding: 1.5rem 2rem;
+  overflow-y: auto;
+  max-height: calc(85vh - 60px);
+  font-family: 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  scrollbar-width: thin;
+  scrollbar-color: #95a5a6 #ecf0f1;
+}
+
+#help-modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+#help-modal-body::-webkit-scrollbar-track {
+  background: #ecf0f1;
+}
+
+#help-modal-body::-webkit-scrollbar-thumb {
+  background-color: #95a5a6;
+  border-radius: 4px;
+}
+
+/* 增加模态框层级，确保显示在最上层 */
+#help-modal {
+  z-index: 2000;
+}
+
+/* 响应式调整 */
+@media (min-width: 768px) {
+  #help-modal .modal-content {
+    max-width: 850px !important;
+  }
 }
