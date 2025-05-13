@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="./styles/navbar.css" />
     <link rel="stylesheet" href="./styles/styleHu.css" />
     <link rel="stylesheet" href="./styles/page2.css" />
-    <link rel="stylesheet" href="./styles/bubbletest.css" />
+    <link rel="stylesheet" href="./styles/bubble01.css" />
     <link rel="stylesheet" href="./styles/company.css" />
 
     <!-- Mapbox CDN -->
@@ -20,6 +20,14 @@
     <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet" />
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="js/1map_imexport.js"></script>
@@ -177,60 +185,54 @@
         </section>
 
         <section class="Section5" id="section5">
+            <!-- 地图容器 -->
             <div id="top-panel">
-                <div id="mapbubble">
-                    <div id="border-legend">
-                        <div style="font-weight: bold; margin-bottom: 6px;">Legend</div>
-                        <div style="display: flex; align-items: center; margin-bottom: 4px;">
-                            <svg width="22" height="22" style="margin-right: 6px;">
-                                <circle cx="11" cy="11" r="9" fill="#f0f0f0" stroke="#2980b9" stroke-width="2" />
-                            </svg>
-                            <span>Single-function</span>
-                        </div>
-                        <div style="display: flex; align-items: center;">
-                            <svg width="22" height="22" style="margin-right: 6px;">
-                                <circle cx="11" cy="11" r="9" fill="#f0f0f0" stroke="#ffffff" stroke-width="2" />
-                            </svg>
-                            <span>Multi-functional</span>
-                        </div>
+                <div id="mapbubble"></div>
+                <div id="border-legend">
+                    <div class="legend-title">Legend</div>
+                    <div class="legend-item">
+                        <svg width="22" height="22" class="legend-icon">
+                            <circle cx="11" cy="11" r="9" fill="#f0f0f0" stroke="#2980b9" stroke-width="2" />
+                        </svg>
+                        <span>Single-function</span>
                     </div>
-                </div>
-                <div id="popup">
-                    <div id="defaultMessage">
-                        <h4 style="color:#666; margin-top:0;">Exploring the Global Urban Network of Pharmaceutical
-                            Functions
-                        </h4>
-                        <p>This platform visualizes the spatial organization of the global pharmaceutical industry by
-                            mapping cities based on their functional roles. Each bubble on the map encodes
-                            <strong>company
-                                presence</strong> (size) and <strong>dominant function type</strong> (color), allowing
-                            users
-                            to intuitively grasp industry footprints across scales.</p>
-                        <p>Click on any city bubble to access a detailed functional breakdown via a dynamic donut chart.
-                            The
-                            right-hand panel will display classification, company count, and distribution by function,
-                            while
-                            the bottom bar chart summarizes leading cities within the selected zoom level or filters.
-                        </p>
-                        <div id="mini-scatter-container"
-                            style="width:100%; max-width:320px; height:200px; background:rgba(255,255,255,0.95); margin:20px auto;">
-                            <canvas id="scatterCanvas" width="320" height="200"
-                                style="background:transparent;"></canvas>
-                        </div>
-                    </div>
-                    <div id="cityDetails" style="display:none;">
-                        <button id="backButton" class="back-button"><span class="icon">←</span> Back to
-                            Overview</button>
-                        <div id="cityHeader"></div>
-                        <div id="functionCategory"></div>
-                        <div id="cityStats">
-                            <p><strong>Function Category:</strong> <span id="functionCategory"></span></p>
-                        </div>
-                        <canvas id="donutChart"></canvas>
+                    <div class="legend-item">
+                        <svg width="22" height="22" class="legend-icon">
+                            <circle cx="11" cy="11" r="9" fill="#f0f0f0" stroke="#ffffff" stroke-width="2" />
+                        </svg>
+                        <span>Multi-functional</span>
                     </div>
                 </div>
             </div>
 
+            <!-- 右侧弹出面板 -->
+            <div id="popup">
+                <div id="defaultMessage">
+                    <h4 class="popup-title">Exploring the Global Urban Network of Pharmaceutical Functions</h4>
+                    <p>This platform visualizes the spatial organization of the global pharmaceutical industry by
+                        mapping cities based on their functional roles. Each bubble on the map encodes <strong>company
+                            presence</strong> (size) and <strong>dominant function type</strong> (color), allowing users
+                        to intuitively grasp industry footprints across scales.</p>
+                    <p>Click on any city bubble to access a detailed functional breakdown via a dynamic donut chart. The
+                        right-hand panel will display classification, company count, and distribution by function, while
+                        the bottom bar chart summarizes leading cities within the selected zoom level or filters.</p>
+                    <div id="mini-scatter-container">
+                        <canvas id="scatterCanvas" width="320" height="200"></canvas>
+                    </div>
+                </div>
+
+                <div id="cityDetails">
+                    <button id="backButton" class="back-button"><span class="icon">←</span> Back to Overview</button>
+                    <div id="cityHeader"></div>
+                    <div id="functionCategory"></div>
+                    <div id="cityStats">
+                        <p><strong>Function Category:</strong> <span id="functionCategory"></span></p>
+                    </div>
+                    <canvas id="donutChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 底部面板 -->
             <div id="bottom-panel">
                 <div id="filter-panel">
                     <h3>Function Type Filter</h3>
@@ -241,17 +243,18 @@
                     <label><input type="checkbox" value="Retail/Medical" checked> Retail/Medical</label>
                     <label><input type="checkbox" value="API" checked> API</label>
                     <label><input type="checkbox" value="Support/Other" checked> Support/Other</label>
-                    <div style="margin-top:12px;"><label>Company counts ≥ <input type="number" id="minCompanyCount"
+                    <div class="filter-count"><label>Company counts ≥ <input type="number" id="minCompanyCount"
                                 value="1" min="0"></label></div>
                     <button id="applyFilterBtn">Apply Filter</button>
                 </div>
+
                 <div id="top-cities">
-                    <input id="cityRangeSlider" type="range" min="10" max="50" step="1" value="10"
-                        style="width:100%; margin-bottom:10px;">
+                    <input id="cityRangeSlider" type="range" min="10" max="50" step="1" value="10">
                     <canvas id="stackedBarChart"></canvas>
                 </div>
+
                 <div id="function-legend">
-                    <strong style="display:block; margin-bottom:10px;">Function Type Legend</strong>
+                    <strong>Function Type Legend</strong>
                     <div><span class="legend-box" style="background:#4CAF50;"></span> R&D</div>
                     <div><span class="legend-box" style="background:#2196F3;"></span> Manufacturing</div>
                     <div><span class="legend-box" style="background:#FF9800;"></span> Sales</div>
@@ -260,6 +263,7 @@
                     <div><span class="legend-box" style="background:#cccccc;"></span> Unclassified</div>
                 </div>
             </div>
+
         </section>
 
         <section class="Section6">
@@ -686,6 +690,8 @@
     <script src="./js/resilience.js"></script>
     <script src="./js/comparison.js"></script>
     <script src="./js/company.js"></script>
+    <script src="./js/bubble_init.js"></script>
+    <script src="./js/bubble_logic.js"></script>
 
 
 
