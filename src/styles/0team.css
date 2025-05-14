@@ -7,7 +7,7 @@ h1 {
     width: 90%;
     height: 60vh;
     display: flex;
-    justify-content:space-around;
+    justify-content: space-around;
     align-items: center;
     gap: 20px;
     padding-left: 20px;
@@ -26,24 +26,38 @@ h1 {
     align-items: center;
 }
 
-.member1pic, .member2pic, .member3pic, .member4pic {
-    background-image: url("../img/team.jpg");
+.member1pic,
+.member2pic,
+.member3pic,
+.member4pic{
+    background-size:cover;
     /* background-color: blue; */
-    width: 25vh;
-    height: 30vh;
+    width: 24vh;
+    height: 32vh;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.member1pic:hover, .member2pic:hover, .member3pic:hover, .member4pic:hover {
+.member3pic {
+    background-image: url("../img/XinyueHu.jpg");
+}
+
+.member4pic {
+    background-image: url("../img/YifanWu.jpg");
+}
+
+.member1pic:hover,
+.member2pic:hover,
+.member3pic:hover,
+.member4pic:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
 .member p {
     margin-top: 10px;
     font-size: 1.5rem;
     font-weight: bold;
-    color: white;
+    color: rgb(0, 0, 0);
 }
