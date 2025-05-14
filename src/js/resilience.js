@@ -14,6 +14,7 @@ const map_re = new mapboxgl.Map({
     bearing: 0,
     projection: 'mercator'
 });
+
 map_re.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
 fetch('./data/clean/City_level_resilience_data_FINAL_FIXED.geojson')
