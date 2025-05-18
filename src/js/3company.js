@@ -62,6 +62,8 @@ function initDOMReferences() {
   dom.analysisContent = document.getElementById('analysis-content');
   dom.toggleAnalysisBtn = document.getElementById('toggle-analysis');
   dom.panelContentWrapper = document.querySelector('.panel-content-wrapper');
+  // 新增
+  dom.infoArea = document.getElementById('information_area');
 }
 
 // 初始化
@@ -1233,7 +1235,6 @@ function createPowerHubChart(canvas, data) {
   });
 }
 
-
 // 计算地理距离（使用Haversine公式）
 function calculateDistance(lat1, lon1, lat2, lon2) {
   const R = 6371; // 地球半径（公里）
@@ -1248,17 +1249,13 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 
 // 初始化事件监听器
 function initEventListeners() {
+  
   // 公司选择
   if (dom.companySelector) {
     dom.companySelector.addEventListener('change', (e) => {
       if (e.target.value) { // 确保选择了有效的值
         currentCompany = e.target.value;
         updateVisualization();
-
-        // 如果侧边分析面板可见，也更新分析图表和表格
-        if (sideAnalysisPanelVisible) {
-          initAnalysisCharts();
-        }
       }
     });
   }
@@ -1407,11 +1404,45 @@ function initEventListeners() {
       }, 100);
     }
   });
+
+
+  if (dom.toggleAnalysisBtn) {
+    dom.toggleAnalysisBtn.addEventListener('click', () => {
+      // 判断当前是否图表处于显示状态
+      const isChartVisible = dom.analysisContent.classList.contains('active');
+
+      // 切换 class
+      if (isChartVisible) {
+        dom.analysisContent.classList.remove('active');
+        dom.subsidiariesContent.classList.add('active');
+      } else {
+        dom.analysisContent.classList.add('active');
+        dom.subsidiariesContent.classList.remove('active');
+
+
+      }
+    });
+  }
+
+  // 右侧框打开收缩
+  if (dom.infoArea) {
+    dom.infoArea.addEventListener('mouseenter', () => {
+      // console.log('mouseenter triggered!');
+      dom.infoArea.classList.add('expanded');
+    });
+
+    dom.infoArea.addEventListener('mouseleave', () => {
+      // console.log('mouseleave triggered!');
+      dom.infoArea.classList.remove('expanded');
+    });
+  }
+
 }
 
 // 显示帮助模态框
 // 修改后的 showHelpModal 函数
 function showHelpModal() {
+  console.log("help");
   const helpModalBody = document.getElementById('help-modal-body');
   const helpModal = document.getElementById('help-modal');
 
@@ -1538,27 +1569,10 @@ function switchPanelTab(clickedTab) {
   } else if (tabType === 'analysis') {
     dom.subsidiariesContent.classList.add('hidden');
     dom.analysisContent.classList.remove('hidden');
-    initAnalysisCharts();
-  }
-}
-
-// 显示/隐藏侧边分析面板
-function showSideAnalysisPanel(show) {
-  if (!dom.sideAnalysisPanel) return;
-
-  if (show) {
-    dom.sideAnalysisPanel.classList.add('visible');
-    sideAnalysisPanelVisible = true;
-    // 初始化分析图表
-    initAnalysisCharts();
-  } else {
-    dom.sideAnalysisPanel.classList.remove('visible');
-    sideAnalysisPanelVisible = false;
   }
 }
 
 // 切换分析面板显示/隐藏
-// 彻底重写 toggleAnalysisPanel 函数
 function toggleAnalysisPanel() {
   if (!dom.analysisContent) return;
 
@@ -1569,32 +1583,11 @@ function toggleAnalysisPanel() {
   if (dom.toggleAnalysisBtn) {
     if (dom.analysisContent.classList.contains('collapsed')) {
       dom.toggleAnalysisBtn.classList.remove('active');
-      dom.toggleAnalysisBtn.innerHTML = '<i class="fas fa-chart-bar"></i>'; // 图表图标
+      dom.toggleAnalysisBtn.innerHTML = '<i class="fas fa-table"></i>'; // 图表图标
     } else {
       dom.toggleAnalysisBtn.classList.add('active');
       dom.toggleAnalysisBtn.innerHTML = '<i class="fas fa-table"></i>'; // 表格图标
-
-      // 当展开时重新初始化图表
-      setTimeout(() => {
-        initAnalysisCharts();
-      }, 300);
     }
-  }
-
-  // 调整容器和子公司内容区域
-  if (dom.subsidiariesContent) {
-    if (dom.analysisContent.classList.contains('collapsed')) {
-      // 图表折叠时，子公司列表占满全宽
-      dom.subsidiariesContent.style.width = "100%";
-    } else {
-      // 图表展开时，恢复正常宽度
-      dom.subsidiariesContent.style.width = "60%";
-    }
-  }
-
-  // 调整地图大小以适应新布局
-  if (map) {
-    setTimeout(() => map.resize(), 300);
   }
 
   // 保存用户偏好
@@ -1618,9 +1611,8 @@ function initUserPreferences() {
     if (dom.toggleAnalysisBtn) {
       dom.toggleAnalysisBtn.classList.add('active');
     }
-    // 初始化分析图表
-    initAnalysisCharts();
   }
+  initAnalysisCharts();
 }
 
 // 其他辅助函数...
@@ -1994,3 +1986,26 @@ function generateMockData() {
 
   return mockData;
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  const toggleButtons = document.querySelectorAll(".panel-toggle-btn");
+
+  toggleButtons.forEach((btn) => {
+    const panel = btn.nextElementSibling;
+
+    if (!panel || !panel.classList.contains("panel-section2")) {
+      console.warn("No matching .panel-section2 after button:", btn.textContent);
+      return;
+    }
+
+    panel.style.overflow = "hidden";
+    panel.style.transition = "max-height 0.3s ease";
+    panel.style.maxHeight = "0";
+
+    btn.addEventListener("click", () => {
+      btn.classList.toggle("active");
+      const expanded = panel.style.maxHeight && panel.style.maxHeight !== "0px";
+      panel.style.maxHeight = expanded ? "0" : panel.scrollHeight + "px";
+    });
+  });
+});

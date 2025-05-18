@@ -8,103 +8,33 @@
   background: linear-gradient(to bottom, #f6f9fc, #e9f0f7);
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  flex-direction: row;
   gap: 0;
   position: relative;
 }
 
-/* body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #2c3e50;
-  background-color: #f5f8fa;
-  line-height: 1.6;
-  overflow: hidden;
-} */
-
-/* Container Layout */
-#app-container {
-  padding-top: 90px;
+#left-position-control {
+  width: 320px;
+  height: 100%;
+  margin-top: 90px;
+  align-self: flex-start;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
-  background-color: transparent;
-}
-
-/* Top Navigation Bar */
-/* #top-nav {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0.8rem 1.5rem;
-  background: linear-gradient(to right, #2c3e50, #4ca1af);
-  color: white;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  flex-shrink: 0;
-  height: 60px;
-  z-index: 10;
-}
-
-.logo-container h1 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 0;
-}
-
-.subtitle {
-  font-size: 0.8rem;
-  opacity: 0.8;
-  margin-left: 0.5rem;
-}
-
-.user-controls {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.user-controls button {
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: white;
-  width: 36px;
-  height: 36px;
-  border-radius: 4px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  font-size: 1rem;
-}
-
-.user-controls button:hover {
-  background: rgba(255, 255, 255, 0.3);
-} */
-
-/* Main Content Area */
-#main-content {
+  font-size: 12px;
   position: relative;
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-  height: calc(100vh - 60px);
-}
-
-/* Control Panel */
-#control-panel {
-  width: 320px;
   background: white;
-  padding: 1.2rem;
   overflow-y: auto;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
   z-index: 5;
   border-right: 1px solid #e6e9ec;
   flex-shrink: 0;
-  height: 100%;
+}
+
+#select20top {
+  height: auto;
+  width: 100%;
+  padding: 0 10px 0 10px;
 }
 
 .panel-section {
@@ -185,7 +115,46 @@
   text-align: right;
 }
 
-/* Statistics Card */
+#FoldedInformationBar {
+  height: auto;
+  width: 100%;
+}
+
+.panel-toggle-btn {
+  width: 100%;
+  background-color: #3498db;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 12px 12px;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+.panel-toggle-btn:hover {
+  background-color: #34495e;
+}
+
+.panel-toggle-btn::after {
+  content: " ▼";
+  float: right;
+}
+
+.panel-toggle-btn.active::after {
+  content: " ▲";
+}
+
+.panel-section2 {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease;
+}
+
 .stats-card {
   background: #f8f9fa;
   border-radius: 6px;
@@ -216,7 +185,6 @@
   margin-top: 0.2rem;
 }
 
-/* Hierarchy Diagram */
 .hierarchy-diagram {
   background: #f8f9fa;
   border-radius: 6px;
@@ -300,7 +268,6 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-/* Power Centers List */
 .power-centers {
   display: flex;
   flex-direction: column;
@@ -357,32 +324,34 @@
   font-size: 0.85rem;
 }
 
-/* Main Visualization Area */
-#visualization-area {
-  flex: 1;
+#right-position-control {
+  margin-top: 90px;
+  width: 80%;
+  height: calc(100vh - 90px);
   display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  height: 100%;
-}
-
-/* Map Container */
-#map-container {
-  flex: 1;
-  min-height: 0;
+  flex-direction: row;
+  align-items: center;
+  font-size: 12px;
   position: relative;
-  overflow: hidden;
 }
 
+
+/* 右侧所有 */
+#map-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+/* 地图所有 */
 #mapCompany {
   position: relative;
-  width: 100%;
   height: 100%;
-  background-color: transparent;
-  /* or #f6f9fc to match your section background */
+  width: 100%;
 }
 
-/* Map Controls */
+
+/* 这里是地图左侧的按钮 */
 .map-controls {
   position: absolute;
   top: 10px;
@@ -412,7 +381,6 @@
   background: #f8f9fa;
 }
 
-/* You might want to add a specific style for the help button to make it stand out a bit */
 .map-controls button#help-btn {
   background: #3498db;
   color: white;
@@ -422,14 +390,14 @@
   background: #2980b9;
 }
 
-/* Map Legend */
+/* 这里是地图的图例 */
 #map-legend {
   position: absolute;
   bottom: 20px;
-  right: 20px;
+  left: 20px;
   background: white;
   padding: 1rem;
-  border-radius: 6px;
+  /* border-radius: 6px; */
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   font-size: 0.85rem;
   max-width: 240px;
@@ -542,93 +510,117 @@
   background-color: #f1c40f;
 }
 
-/* Details Panel */
-#details-panel {
-  height: 330px;
-  min-height: 200px;
-  background: white;
-  border-top: 1px solid #e0e0e0;
+/* 右侧展开的栏目 */
+#information_area {
+  background-color: #fffbfb;
+  margin-top: 180px;
+  width: 30%;
+  height: 100%;
   overflow: hidden;
-  display: flex;
+  transition: width 0.6s ease;
   flex-direction: column;
-  flex-shrink: 0;
-  position: relative;
+  z-index: 99;
 }
 
-/* Resizer handle */
-#panel-resizer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  background: transparent;
-  cursor: ns-resize;
-  z-index: 10;
+#information_area.expanded {
+  height: 100%;
+  width: 12000px;
 }
 
-#panel-resizer:hover {
-  background: rgba(52, 152, 219, 0.2);
-}
-
+/* 上面的header */
 .panel-header {
-  padding: 0.8rem 1.5rem;
+  padding: 0 10px 0 15px;
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   background: #f8f9fa;
   border-bottom: 1px solid #e0e0e0;
   flex-shrink: 0;
 }
 
-.panel-header h2 {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-  border-left: none;
-  padding-left: 0;
-}
-
-.panel-header h2::before {
-  display: none;
-}
-
-.panel-tabs {
+.panel-actions {
   display: flex;
   gap: 0.5rem;
 }
 
-.panel-tab {
-  padding: 0.4rem 0.8rem;
+.toggle-btn {
   background: none;
   border: none;
-  border-bottom: 2px solid transparent;
-  font-size: 0.9rem;
-  color: #7f8c8d;
+  color: #3498db;
+  font-size: 1rem;
   cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 4px;
   transition: all 0.2s;
 }
 
-.panel-tab.active {
-  color: #3498db;
-  border-bottom: 2px solid #3498db;
-  font-weight: 500;
+.toggle-btn:hover {
+  background: rgba(52, 152, 219, 0.1);
 }
 
-.panel-tab:hover:not(.active) {
-  color: #34495e;
+.toggle-btn.active {
+  background: #3498db;
+  color: white;
 }
 
-.panel-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 1rem 1.5rem;
-  min-height: 0;
+.panel-content-wrapper {
   display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* 下面的切换 */
+.panel-content {
+  display: none !important;
+  width: 100%;
+  overflow-y: auto;
   flex-direction: column;
 }
 
-.panel-content.hidden {
-  display: none;
+.panel-content.active {
+  display: flex !important;
 }
 
-/* Filter Bar */
+
+#analysis-content {
+  display: flex;
+  flex-direction: column;
+  margin: 0 10px 0 15px;
+  width: 100%;
+  border-left: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+  overflow-y: auto;
+  padding-bottom: 0;
+}
+
+.chart-container {
+  height: 200px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.analysis-section {
+  margin-bottom: 1rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.analysis-section h3 {
+  font-size: 0.9rem;
+}
+
+#subsidiaries-content {
+  background-color: #00000000;
+  flex-direction: column;
+}
+
 .filter-bar {
   display: flex;
   margin-bottom: 1rem;
@@ -692,7 +684,6 @@
   border-color: #3498db;
 }
 
-/* Table Styles */
 .table-container {
   overflow: auto;
   flex: 1;
@@ -726,221 +717,8 @@
   background: #f1f9ff;
 }
 
-/* Analysis Content */
-.analysis-section {
-  margin-bottom: 1.5rem;
-}
 
-.analysis-section h3 {
-  font-size: 1rem;
-  margin-bottom: 0.8rem;
-  color: #2c3e50;
-}
-
-.chart-container {
-  height: 200px;
-  background: #f8f9fa;
-  border-radius: 6px;
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.analysis-description {
-  font-size: 0.9rem;
-  color: #555;
-  margin-top: 0.5rem;
-}
-
-/* No data message */
-.no-data {
-  color: #95a5a6;
-  text-align: center;
-  padding: 1rem;
-  font-style: italic;
-}
-
-/* Modal Styles */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background: white;
-  width: 90%;
-  max-width: 500px;
-  max-height: 80vh;
-  border-radius: 8px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.modal-header {
-  background: #3498db;
-  color: white;
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.modal-header h3 {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-
-#modal-close {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.5rem;
-  cursor: pointer;
-  line-height: 1;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-}
-
-#modal-close:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-#modal-body {
-  padding: 1.5rem;
-  overflow-y: auto;
-  flex: 1;
-}
-
-/* Entity Details Styles */
-.entity-details {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-}
-
-.entity-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #eee;
-}
-
-.entity-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 1.5rem;
-  flex-shrink: 0;
-}
-
-.hq-icon {
-  background: #e74c3c;
-}
-
-.sub-icon {
-  background: #3498db;
-}
-
-.entity-title {
-  flex: 1;
-}
-
-.entity-title h3 {
-  font-size: 1.1rem;
-  margin-bottom: 0.2rem;
-}
-
-.entity-subtitle {
-  font-size: 0.85rem;
-  color: #7f8c8d;
-}
-
-.detail-section h4 {
-  font-size: 0.95rem;
-  margin-bottom: 0.8rem;
-  color: #2c3e50;
-}
-
-.detail-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-
-.detail-item {
-  display: flex;
-  flex-direction: column;
-}
-
-.detail-label {
-  font-size: 0.8rem;
-  color: #7f8c8d;
-}
-
-.detail-value {
-  font-size: 0.95rem;
-  font-weight: 500;
-  margin-top: 0.2rem;
-  color: #2c3e50;
-}
-
-/* City subsidiaries list */
-.city-subsidiaries-list {
-  margin-top: 1rem;
-  border-top: 1px solid #eee;
-  padding-top: 1rem;
-}
-
-.city-subsidiaries-list h4 {
-  margin-bottom: 0.8rem;
-}
-
-.subsidiary-item {
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
-  border-radius: 4px;
-  background: #f8f9fa;
-}
-
-.subsidiary-item:hover {
-  background: #e8f4fd;
-}
-
-.subsidiary-name {
-  font-weight: 500;
-  margin-bottom: 0.2rem;
-}
-
-.subsidiary-details {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.8rem;
-  color: #7f8c8d;
-}
-
-/* Loading Indicator */
+/* loading */
 #loading-indicator {
   position: relative;
   top: 0;
@@ -953,7 +731,7 @@
   align-items: center;
   justify-content: center;
   z-index: 1100;
-  background-color: #2ecc71;
+  background-color: #ffffff85;
 }
 
 .loader {
@@ -971,294 +749,12 @@
   color: #2c3e50;
 }
 
-/* 新增的抽屉式侧边分析面板样式 */
-#side-analysis-panel-trigger {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 32px;
-  height: 80px;
-  background: #3498db;
-  border-radius: 5px 0 0 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: white;
-  z-index: 100;
-  transition: all 0.3s ease;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-}
-
-#side-analysis-panel-trigger:hover {
-  width: 36px;
-  background: #2980b9;
-}
-
-#side-analysis-panel {
-  position: absolute;
-  right: -450px;
-  top: 0;
-  width: 450px;
-  height: 100%;
-  background: white;
-  box-shadow: -3px 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 99;
-  transition: right 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-#side-analysis-panel.visible {
-  right: 0;
-}
-
-.side-panel-header {
-  padding: 1rem 1.5rem;
-  background: #3498db;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.side-panel-header h2 {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 500;
-  padding-left: 0;
-}
-
-.side-panel-header h2::before {
-  display: none;
-}
-
-.side-panel-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 1.5rem;
-}
-
-/* 响应式调整 */
-@media (max-width: 1200px) {
-  #side-analysis-panel {
-    width: 350px;
-  }
-}
-
-@media (max-width: 768px) {
-  #side-analysis-panel {
-    width: 300px;
-  }
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.hidden {
-  display: none !important;
-}
-
-
-/* 控制关系详情面板新样式 */
-.panel-content-wrapper {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-/* 子公司表格区域 */
-/* 当分析面板折叠时，让子公司内容面板占据全宽 */
-#subsidiaries-content {
-  flex: 1;
-  transition: all 0.3s ease;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  width: auto;
-  /* 自动调整宽度 */
-}
-
-/* 添加这个样式，让panel-content-wrapper更加灵活 */
-.panel-content-wrapper {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-/* 分析图表区域 */
-#analysis-content {
-  width: 40%;
-  min-width: 400px;
-  border-left: 1px solid #e0e0e0;
-  transition: all 0.3s ease;
-  overflow-y: auto;
-  padding-bottom: 0;
-}
-
-/* 折叠状态的分析图表 */
-#analysis-content.collapsed {
-  width: 0 !important;
-  min-width: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  border-left: none !important;
-  overflow: hidden !important;
-  display: none !important;
-  /* 确保完全不可见 */
-  opacity: 0 !important;
-  /* 完全透明 */
-}
-
-/* 面板头部样式修改 */
-.panel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* 面板操作按钮区域 */
-.panel-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-/* 切换按钮样式 */
-.toggle-btn {
-  background: none;
-  border: none;
-  color: #3498db;
-  font-size: 1rem;
-  cursor: pointer;
-  padding: 0.4rem;
-  border-radius: 4px;
-  transition: all 0.2s;
-}
-
-.toggle-btn:hover {
-  background: rgba(52, 152, 219, 0.1);
-}
-
-.toggle-btn.active {
-  background: #3498db;
-  color: white;
-}
-
-/* 图表容器样式调整 */
-.chart-container {
-  height: 180px;
-  /* 减小图表高度 */
-  margin-bottom: 0.8rem;
-}
-
-/* 分析区域子项调整 */
-.analysis-section {
-  margin-bottom: 1rem;
-  padding: 0.5rem;
-  background: #f8f9fa;
-  border-radius: 4px;
-}
-
-.analysis-section h3 {
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-}
-
-/* 处理子公司名称过长的样式 */
-#subsidiaries-table td:first-child {
-  max-width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-#subsidiaries-table td:first-child:hover {
-  white-space: normal;
-  overflow: visible;
-  position: relative;
-  z-index: 10;
-  background: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Responsive Layout */
-@media (max-width: 1200px) {
-  #main-content {
-    flex-direction: column;
-  }
-
-  #control-panel {
-    width: 100%;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 1rem;
-    height: auto;
-    max-height: 300px;
-    overflow-x: auto;
-  }
-
-  .panel-section {
-    width: 48%;
-    border-bottom: none;
-    padding-bottom: 1rem;
-    padding-right: 1rem;
-  }
-
-  #mapCompany-container {
-    height: 50vh;
-  }
-
-  #details-panel {
-    height: calc(100vh - 50vh - 300px - 60px);
-  }
-}
-
-@media (max-width: 768px) {
-  #top-nav {
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.8rem;
-  }
-
-  .panel-section {
-    width: 100%;
-  }
-
-  .filter-bar {
-    flex-direction: column;
-  }
-
-  #mapCompany-legend {
-    max-width: 200px;
-    font-size: 0.8rem;
-    padding: 0.8rem;
-  }
-
-  .detail-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Add these CSS styles to your company.css file */
-
-/* Help modal specific styles */
-/* 帮助模态框样式 */
+/* help */
 .help-content {
   padding: 0 1rem 1rem 1rem;
   color: #333;
   line-height: 1.7;
+  z-index: 9999;
 }
 
 .help-section {
@@ -1266,7 +762,7 @@
   padding-bottom: 1.5rem;
   position: relative;
   border-bottom: 1px solid #f0f0f0;
-  clear: both; /* 确保部分不重叠 */
+  clear: both;
 }
 
 .help-section:last-child {
@@ -1304,7 +800,6 @@
   margin-bottom: 1.2rem;
 }
 
-/* 改进嵌套列表样式 */
 .help-content ul ul,
 .help-content ul ol,
 .help-content ol ul,
@@ -1317,13 +812,13 @@
 .help-content li {
   margin-bottom: 0.7rem;
   line-height: 1.6;
-  padding-right: 10px; /* 防止文本靠近边缘太近 */
+  padding-right: 10px;
 }
 
 .help-content p {
   margin-bottom: 1rem;
   line-height: 1.7;
-  padding-right: 10px; /* 防止文本靠近边缘太近 */
+  padding-right: 10px
 }
 
 .help-content strong {
@@ -1331,11 +826,10 @@
   color: #2c3e50;
 }
 
-/* 调整帮助模态框尺寸 */
 #help-modal .modal-content {
   max-width: 800px !important;
   width: 90%;
-  max-height: 85vh; /* 增加高度以容纳更多内容 */
+  max-height: 85vh;
 }
 
 #help-modal-body {
@@ -1360,12 +854,10 @@
   border-radius: 4px;
 }
 
-/* 增加模态框层级，确保显示在最上层 */
 #help-modal {
   z-index: 2000;
 }
 
-/* 响应式调整 */
 @media (min-width: 768px) {
   #help-modal .modal-content {
     max-width: 850px !important;

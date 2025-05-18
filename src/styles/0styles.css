@@ -138,7 +138,7 @@ section {
 
   background-position: center;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   text-align: center;
