@@ -1,16 +1,19 @@
 .Section7 {
-  padding: 0;
-  height: auto;
-  min-height: 100vh;
+  margin-top: 180px;
   scroll-snap-align: start;
   font-family: 'Helvetica Neue', sans-serif;
-  color: #2a2a2a;
-  background: linear-gradient(to bottom, #f6f9fc, #e9f0f7);
   box-sizing: border-box;
+  position: relative;
+  background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
+  color: rgb(0, 0, 0);
+  height: 100vh;
+  background-position: center;
   display: flex;
   flex-direction: row;
-  gap: 0;
-  position: relative;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 90vh;
 }
 
 #left-position-control {
@@ -512,10 +515,28 @@
 
 
 /* -------------右侧展开的栏目-------------------- */
+#slide-tab {
+  position: relative;
+  margin-top: 180px;
+  width: 32px;
+  height: 100%;
+  writing-mode: vertical-rl;
+  text-align: center;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #e0e0e0;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, left 0.3s ease;
+  z-index: 999;
+}
+
 #information_area {
   background-color: #fffbfb;
   margin-top: 180px;
-  width: 5%;
+  width: 0;
   height: 100%;
   bottom: 0;
   right: 0;
@@ -528,7 +549,12 @@
 
 #information_area.expanded {
   height: 100%;
-  width: 12000px;
+  width: 7000px;
+}
+
+#slide-tab.expanded {
+  height: 100%;
+  width: 0px;
 }
 
 /* 上面的header */

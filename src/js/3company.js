@@ -64,6 +64,7 @@ function initDOMReferences() {
   dom.panelContentWrapper = document.querySelector('.panel-content-wrapper');
   // 新增
   dom.infoArea = document.getElementById('information_area');
+  dom.slidetab = document.getElementById('slide-tab');
 }
 
 // 初始化
@@ -1249,7 +1250,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 
 // 初始化事件监听器
 function initEventListeners() {
-  
+
   // 公司选择
   if (dom.companySelector) {
     dom.companySelector.addEventListener('change', (e) => {
@@ -1424,18 +1425,28 @@ function initEventListeners() {
     });
   }
 
-  // 右侧框打开收缩
-  if (dom.infoArea) {
-    dom.infoArea.addEventListener('mouseenter', () => {
-      // console.log('mouseenter triggered!');
-      dom.infoArea.classList.add('expanded');
-    });
+  // 右侧悬浮功能修改
+  let hoverTimeout;
 
-    dom.infoArea.addEventListener('mouseleave', () => {
-      // console.log('mouseleave triggered!');
-      dom.infoArea.classList.remove('expanded');
-    });
+  if (dom.infoArea && dom.slidetab) {
+    const expandPanel = () => {
+      clearTimeout(hoverTimeout);
+      dom.infoArea.classList.add('expanded');
+    };
+
+    const collapsePanel = () => {
+      hoverTimeout = setTimeout(() => {
+        dom.infoArea.classList.remove('expanded');
+      }, 150);
+    };
+
+    dom.slidetab.addEventListener('mouseenter', expandPanel);
+    dom.infoArea.addEventListener('mouseenter', expandPanel);
+
+    dom.slidetab.addEventListener('mouseleave', collapsePanel);
+    dom.infoArea.addEventListener('mouseleave', collapsePanel);
   }
+
 
 }
 
