@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./styles/0home.css" />
     <link rel="stylesheet" href="./styles/0page2.css" />
     <link rel="stylesheet" href="./styles/1map1.css" />
-    <link rel="stylesheet" href="./styles/2bubble.css" />
+    <link rel="stylesheet" href="./styles/bubble_new.css" />
     <link rel="stylesheet" href="./styles/3company.css" />
     <link rel="stylesheet" href="./styles/4styleHu.css" />
     <link rel="stylesheet" href="./styles/0team.css" />
@@ -188,85 +188,117 @@
             <a href="#section5" class="btn btn-primary">explore city function</a>
         </section>
 
-        <section class="Section5" id="section5">
-            <!-- 地图容器 -->
-            <div id="top-panel">
-                <div id="mapbubble"></div>
+        <section class="section5" id="section5">
+            <div class="main-content">
+                <div class="dashboard-scroll-wrapper" id="dashboardWrapper">
+                    <div class="dashboard">
+                        <div class="map-container" id="mapbubble"></div>
 
-                <!-- 图例 -->
-                <div id="border-legend">
-                    <div style="font-weight: bold; margin-bottom: 6px;">Legend</div>
-                    <div style="display: flex; align-items: center; margin-bottom: 4px;">
-                        <svg width="22" height="22" style="margin-right: 6px;">
-                            <circle cx="11" cy="11" r="9" fill="#f0f0f0" stroke="#2980b9" stroke-width="2" />
-                        </svg>
-                        <span>Single-function</span>
+                        <div id="border-legend">
+                            <div style="font-weight: bold; margin-bottom: 6px;">Legend</div>
+                            <div style="display: flex; align-items: center; margin-bottom: 4px;">
+                                <svg width="22" height="22" style="margin-right: 6px;">
+                                    <circle cx="11" cy="11" r="9" fill="#f0f0f0" stroke="#2980b9" stroke-width="2" />
+                                </svg>
+                                <span>Single-function</span>
+                            </div>
+                            <div style="display: flex; align-items: center;">
+                                <svg width="22" height="22" style="margin-right: 6px;">
+                                    <circle cx="11" cy="11" r="9" fill="#f0f0f0" stroke="#ffffff" stroke-width="2" />
+                                </svg>
+                                <span>Multi-functional</span>
+                            </div>
+                        </div>
+
+                        <div class="right-panel" id="rightPanel">
+                            <div class="info-panel" id="infoPanel">
+                                <div class="intro-text" id="defaultMessage">
+                                    <h4>Function Filters & Legend</h4>
+                                    <p>
+                                        This platform visualizes the <strong>spatial organization</strong> of the global
+                                        pharmaceutical
+                                        industry by mapping cities based on their <strong>functional roles</strong>.
+                                    </p>
+                                    <ul>
+                                        <li><strong>Bubble Size</strong>: Number of pharmaceutical companies</li>
+                                        <li><strong>Bubble Color</strong>: Dominant function type (e.g., R&D,
+                                            Manufacturing)</li>
+                                    </ul>
+                                    <p><strong>Zoom-level sensitivity:</strong></p>
+                                    <ul>
+                                        <li><strong>Zoomed out (global view):</strong> Only the top city per country is
+                                            shown.(Click to fly to the city)</li>
+                                        <li><strong>Zoomed in (local view):</strong> More cities are revealed.</li>
+                                    </ul>
+                                </div>
+
+                                <div id="cityDetails" style="display:none">
+                                    <div id="cityHeader" style="font-weight: bold;"></div>
+                                    <div class="city-info-grid" id="cityInfoGrid"></div>
+                                    <canvas id="donutChart" width="130" height="130"
+                                        style="margin:auto; display:block;"></canvas>
+                                    <button id="backButton">← Back to Overview</button>
+                                </div>
+                            </div>
+
+                            <div class="filters" id="filter-panel">
+                                <h4>Function Filters & Legend</h4>
+                                <div id="functionFilters" class="checkbox-grid">
+                                    <label><input type="checkbox" value="R&D" checked><span class="legend-box"
+                                            style="background-color:#1E0F75;"></span> R&D</label>
+                                    <label><input type="checkbox" value="Manufacturing" checked><span class="legend-box"
+                                            style="background-color:#1c1dab;"></span> Manufacturing</label>
+                                    <label><input type="checkbox" value="Packaging" checked><span class="legend-box"
+                                            style="background-color:#BF8CE1;"></span> Packaging</label>
+                                    <label><input type="checkbox" value="Wholesale" checked><span class="legend-box"
+                                            style="background-color:#E893C5;"></span> Wholesale</label>
+                                    <label><input type="checkbox" value="Retail/Medical" checked><span
+                                            class="legend-box" style="background-color:#F57F7F;"></span>
+                                        Retail/Medical</label>
+                                    <label><input type="checkbox" value="API" checked><span class="legend-box"
+                                            style="background-color:#ADC6E5;"></span> API</label>
+                                    <label><input type="checkbox" value="Support/Other" checked><span class="legend-box"
+                                            style="background-color:#CBD8E8;"></span> Support/Other</label>
+                                    <label><input type="checkbox" value="Unclassified" checked><span class="legend-box"
+                                            style="background-color:#C4C4C4;"></span> Unclassified</label>
+                                </div>
+                                <div style="margin-top:12px;">
+                                    <label>Min Company Count: <input type="number" id="minCompanyCount" value="1"
+                                            min="0"></label>
+                                </div>
+                                <p>Type in the number and enter to search</p>
+                            </div>
+                        </div>
                     </div>
-                    <div style="display: flex; align-items: center;">
-                        <svg width="22" height="22" style="margin-right: 6px;">
-                            <circle cx="11" cy="11" r="9" fill="#f0f0f0" stroke="#ffffff" stroke-width="2" />
-                        </svg>
-                        <span>Multi-functional</span>
+                </div>
+
+                <div class="charts-wrapper">
+                    <button class="toggle-btn" id="toggleChartsBtn">▲ Show Charts</button>
+                    <div class="charts-background collapsed" id="chartsBackground">
+                        <section class="charts collapsed" id="chartsSection">
+                            <div class="chart-box" id="barChart">
+                                <h4>Top Pharma Function Cities</h4>
+                                <div class="slider-container">
+                                    <label for="topCityLimit"></label>
+                                    <div class="slider-wrapper">
+                                        <input type="range" id="topCityLimit" min="5" max="20" value="10">
+                                        <span id="topCityValue">10</span>
+                                    </div>
+                                </div>
+                                <canvas id="stackedBarChart"></canvas>
+                            </div>
+                            <div class="chart-box" id="scatterPlot">
+                                <h4>Function Count vs. Entropy</h4>
+                                <p>
+                                    Click on the points to see city specifics
+                                </p>
+                                <canvas id="scatterCanvas" width="320" height="200"></canvas>
+                            </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- 右侧弹出面板 -->
-            <div id="popup">
-                <div id="defaultMessage">
-                    <p>Click on any city bubble to access a detailed functional breakdown via a dynamic donut chart. The
-                        right-hand panel will display classification, company count, and distribution by function, while
-                        the bottom bar chart summarizes leading cities within the selected zoom level or filters.</p>
-                    <div id="mini-scatter-container"
-                        style="width:100%; max-width:320px; height:200px; background:rgba(255,255,255,0.95); margin:20px auto;">
-                        <canvas id="scatterCanvas" width="320" height="200" style="background:transparent;"></canvas>
-                    </div>
                 </div>
-
-                <div id="cityDetails" style="display:none;">
-                    <button id="backButton" class="back-button"><span class="icon">←</span> Back to Overview</button>
-                    <div id="cityHeader"></div>
-                    <div id="functionCategory"></div>
-                    <div id="cityStats">
-                        <p><strong>Function Category:</strong> <span id="functionCategory"></span></p>
-                    </div>
-                    <canvas id="donutChart"></canvas>
-                </div>
-            </div>
-
-            <!-- 底部面板 -->
-            <div id="bottom-panel">
-                <div id="filter-panel">
-                    <h3>Function Type Filter</h3>
-                    <label><input type="checkbox" value="R&D" checked> R&D</label>
-                    <label><input type="checkbox" value="Manufacturing" checked> Manufacturing</label>
-                    <label><input type="checkbox" value="Packaging" checked> Packaging</label>
-                    <label><input type="checkbox" value="Wholesale" checked> Wholesale</label>
-                    <label><input type="checkbox" value="Retail/Medical" checked> Retail/Medical</label>
-                    <label><input type="checkbox" value="API" checked> API</label>
-                    <label><input type="checkbox" value="Support/Other" checked> Support/Other</label>
-                    <div style="margin-top:12px;"><label>Company counts ≥ <input type="number" id="minCompanyCount"
-                                value="1" min="0"></label></div>
-                    <button id="applyFilterBtn">Apply Filter</button>
-                </div>
-
-                <div id="top-cities">
-                    <input id="cityRangeSlider" type="range" min="10" max="50" step="1" value="10">
-                    <canvas id="stackedBarChart"></canvas>
-                </div>
-
-                <div id="function-legend">
-                    <strong style="display:block; margin-bottom:10px;">Function Type Legend</strong>
-                    <div><span class="legend-box" style="background:#4CAF50;"></span> R&D</div>
-                    <div><span class="legend-box" style="background:#2196F3;"></span> Manufacturing</div>
-                    <div><span class="legend-box" style="background:#FF9800;"></span> Sales</div>
-                    <div><span class="legend-box" style="background:#9C27B0;"></span> Packaging</div>
-                    <div><span class="legend-box" style="background:#607D8B;"></span> Support/Other</div>
-                    <div><span class="legend-box" style="background:#cccccc;"></span> Unclassified</div>
-                </div>
-            </div>
-
         </section>
+
 
         <section class="Section6" id="section6">
             <div class="intro-container">
@@ -664,7 +696,7 @@
     <script src="./js/0navbar.js" defer></script>
     <script src="./js/0home.js"></script>
     <script type="module" src="js/1map_imexport.js"></script>
-    <script src="./js/2bubble.js"></script>
+    <script src="./js/bubble_01 copy.js"></script>
     <script src="./js/3company.js"></script>
     <script src="./js/4resilience.js"></script>
     <script src="./js/4comparison.js"></script>
