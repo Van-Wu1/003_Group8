@@ -220,3 +220,93 @@
         font-size: 1.6rem;
     }
 }
+
+
+
+/* 过渡页 */
+/* Page Transition Style */
+#pharma-transition {
+  /* background: radial-gradient(ellipse at center, #1E0F75 0%, #000000 100%); */
+  color: #000000;
+  text-align: center;
+  padding: 0 10vw;
+}
+
+.transition-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 720px;
+  margin: 0 auto;
+  gap: 24px;
+  animation: fadeInUp 1s ease forwards;
+}
+
+.transition-title {
+  font-size: 2.2rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  line-height: 1.3;
+  opacity: 0.9;
+}
+
+.transition-title.emphasis {
+  color: #E893C5;
+  font-weight: 700;
+  font-size: 2.4rem;
+}
+
+/* what lies ahead */
+.transition-caption {
+  font-size: 1.2rem;
+  color: #000000cc;
+  line-height: 1.7;
+  max-width: 600px;
+  margin-top: 10px;
+}
+
+.transition-icon img {
+  margin-top: 40px;
+  width: 160px;
+  height: auto;
+  opacity: 0.85;
+  animation: float 6s ease-in-out infinite;
+}
+
+/* 动画效果 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (max-width: 768px) {
+  .transition-title {
+    font-size: 1.7rem;
+  }
+  .transition-title.emphasis {
+    font-size: 1.9rem;
+  }
+  .transition-caption {
+    font-size: 1rem;
+  }
+  .transition-icon img {
+    width: 120px;
+    margin-top: 30px;
+  }
+}
