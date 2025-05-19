@@ -1,10 +1,26 @@
+mapboxgl.accessToken = 'pk.eyJ1Ijoid3d3MDYwIiwiYSI6ImNsZWNyZXU0OTAwbWEzb3RlaDF5bzBrcXUifQ.XpmvYQZRVRCNwe1mtcgYVg';
+
+const mapboxMap = new mapboxgl.Map({
+  container: 'mapbubble',
+  style: 'mapbox://styles/www060/cmahcpioi00xw01sleyt2edjh',
+  center: [0, 30],
+  zoom: 2.5
+});
+
 // 1. 全局变量
-window.map = null;
-window.cityData = {};
-window.cityMarkers = [];
-window.countryTopCity = {};
-window.donutChart = null;
-window.colorMap = {
+// ✅ 全局变量（已修正命名冲突与作用域问题）
+let cityData = {};
+const cityMarkers = [];
+
+let countryTopCity = {};           // ✅ 需要被重置和赋值
+let donutChart = null;            // ✅ Chart 实例，不能用 const
+let currentSelectedFunctions = []; // ✅ 多处更新与读取，需 let
+let currentMinCompanyCount = 0;    // ✅ 用于多处赋值
+let stackedBarChart = null;
+let scatterChart = null;
+
+
+const colorMap = {
   "R&D": "rgba(131, 211, 250, 0.6)",
   "Manufacturing": "rgba(247, 113, 124, 0.6)",
   "Packaging": "rgba(253, 203, 77, 0.6)",
@@ -12,34 +28,23 @@ window.colorMap = {
   "Retail/Medical": "rgba(255, 159, 64, 0.6)",
   "API": "rgba(134, 145, 189, 0.6)",
   "Support/Other": "rgba(193, 152, 202, 0.6)",
-  "Unclassified": "#cccccc" 
+  "Unclassified": "#cccccc"
 };
-window.currentSelectedFunctions = [];
-window.currentMinCompanyCount = 0;
 
-
-// 2. 初始化地图
-mapboxgl.accessToken = 'pk.eyJ1Ijoid3d3MDYwIiwiYSI6ImNsZWNyZXU0OTAwbWEzb3RlaDF5bzBrcXUifQ.XpmvYQZRVRCNwe1mtcgYVg'; // ← 替换为你的真实 token
-window.map = new mapboxgl.Map({
-  container: 'mapbubble',
-  style: 'mapbox://styles/www060/cmahcpioi00xw01sleyt2edjh',
-  center: [0, 30],  // 默认中心点
-  zoom: 2.5
-});
 
 //城市说明版
 // 3. DOM 元素
-window.popup = document.getElementById('popup');
-window.defaultMessage = document.getElementById('defaultMessage');
-window.cityDetails = document.getElementById('cityDetails');
-window.backButton = document.getElementById('backButton');
+const popup = document.getElementById('popup');
+const defaultMessage = document.getElementById('defaultMessage');
+const cityDetails = document.getElementById('cityDetails');
+const backButton = document.getElementById('backButton');
 
-window.showDefaultMessage = function() {
+function showDefaultMessage() {
   defaultMessage.style.display = 'block';
   cityDetails.style.display = 'none';
 }
 
-window.showCityPanel = function(cityName, functionCategory) {
+function showCityPanel(cityName, functionCategory) {
   const info = cityData[cityName];
   const donutData = prepareDonutData(info);
 
@@ -54,7 +59,7 @@ window.showCityPanel = function(cityName, functionCategory) {
 }
 
 //根据zoom反馈圆圈的半径大小
-window.getRadiusByZoomAndValue = function(zoom, value) {
+function getRadiusByZoomAndValue(zoom, value) {
     if (zoom <= 3) {
       if (value <= 0) return 4;
       if (value >= 40) return 10;
@@ -73,24 +78,24 @@ window.getRadiusByZoomAndValue = function(zoom, value) {
   }  
 
 function applyFilter() {
-  window.currentSelectedFunctions = getSelectedFunctions();
-  window.currentMinCompanyCount = parseInt(document.getElementById('minCompanyCount').value, 10) || 0;
-  window.currentCityLimit = parseInt(document.getElementById('cityRangeSlider').value, 10) || 10;
+  currentSelectedFunctions = getSelectedFunctions();
+  currentMinCompanyCount = parseInt(document.getElementById('minCompanyCount').value, 10) || 0;
+  const currentCityLimit = parseInt(document.getElementById('cityRangeSlider').value, 10) || 10;
 
   updateTopCitiesByFunctionMulti(currentSelectedFunctions, currentCityLimit, currentMinCompanyCount);
   updateMapWithFilters(currentSelectedFunctions, currentMinCompanyCount);
 };
 
-window.updateMapWithFilters = function(selectedFunctions, minCount) {
-  const zoom = map.getZoom();
+function updateMapWithFilters(selectedFunctions, minCount) {
+  const zoom = mapboxMap.getZoom();
   const updatedGeojson = convertCityDataToGeoJSON(cityData, zoom, selectedFunctions, minCount);
-  const source = map.getSource('cities');
+  const source = mapboxMap.getSource('cities');
   if (source) {
     source.setData(updatedGeojson);
   }
 };
 
-window.convertCityDataToGeoJSON = function(cityData, zoom, selectedFunctions = [], minCount = 1) {
+function convertCityDataToGeoJSON (cityData, zoom, selectedFunctions = [], minCount = 1) {
   if (!Array.isArray(selectedFunctions)) selectedFunctions = [];
 
   const features = Object.entries(cityData).map(([cityKey, info]) => {
@@ -150,7 +155,7 @@ window.convertCityDataToGeoJSON = function(cityData, zoom, selectedFunctions = [
 };
 
 // ✅ 统一写一个函数专门绘制条形图：可重复调用，无需 destroy
-window.drawStackedBarChart= function({ labels, datasets }) {
+function drawStackedBarChart({ labels, datasets }) {
   const canvas = document.getElementById('stackedBarChart');
   if (!canvas) {
     console.error('❌ Canvas element not found');
@@ -159,11 +164,11 @@ window.drawStackedBarChart= function({ labels, datasets }) {
 
   const ctx = canvas.getContext('2d');
 
-  if (window.stackedBarChart instanceof Chart) {
-    window.stackedBarChart.destroy();
+  if (stackedBarChart instanceof Chart) {
+    stackedBarChart.destroy();
   }
 
-  window.stackedBarChart = new Chart(ctx, {
+  stackedBarChart = new Chart(ctx, {
   type: 'bar',
   data: { labels, datasets },
   options: {
@@ -222,7 +227,7 @@ window.drawStackedBarChart= function({ labels, datasets }) {
 }
 
 //定义城市功能
- window.getFunctionStats = function(info) {
+ function getFunctionStats (info) {
   const rolesRaw = info.sub_function_stats || {};
   const roles = Object.fromEntries(
     Object.entries(rolesRaw).filter(([k, _]) => k !== "Unclassified")
@@ -260,7 +265,7 @@ window.drawStackedBarChart= function({ labels, datasets }) {
 }
 
 //给每个城市功能划分
-window.getFunctionCategory =function (info) {
+function getFunctionCategory(info) {
   const stats = getFunctionStats(info);
   if (!stats) return "Unclassified";
 
@@ -272,7 +277,7 @@ window.getFunctionCategory =function (info) {
 }
 
 // donut picture
-window.prepareDonutData = function(info) {
+function prepareDonutData (info) {
   const stats = info.sub_function_stats || {};
   const labels = Object.keys(stats);
   const values = Object.values(stats);
@@ -281,7 +286,7 @@ window.prepareDonutData = function(info) {
 }
 
 
-window.renderFunctionLegend = function(containerId) {
+function renderFunctionLegend (containerId) {
   const container = document.getElementById(containerId);
   container.innerHTML = "<strong>Function Type Legend</strong>";
   for (const [label, color] of Object.entries(colorMap)) {
@@ -294,12 +299,12 @@ window.renderFunctionLegend = function(containerId) {
 }
 
 
-window.isTopCityInCountry = function(cityKey) {
+function isTopCityInCountry (cityKey) {
   const country = cityKey.split(",")[1]?.trim();
   return countryTopCity[country]?.city === cityKey;
 }
 
-window.buildCountryTopCity =function(selectedFunctions) {
+function buildCountryTopCity (selectedFunctions) {
   countryTopCity = {};
   Object.entries(cityData).forEach(([cityKey, info]) => {
     const country = cityKey.split(",")[1]?.trim();
@@ -312,7 +317,7 @@ window.buildCountryTopCity =function(selectedFunctions) {
   });
 }
 
-window.showCityCard = function(cityKey, data, infoFromMapbox) {
+function showCityCard (cityKey, data, infoFromMapbox) {
   const info = cityData[cityKey] || infoFromMapbox;
   document.getElementById("popup").style.display = "block";
 
@@ -354,43 +359,47 @@ window.showCityCard = function(cityKey, data, infoFromMapbox) {
     <p><strong>Total Companies:</strong> ${allCompanies} (HQs: ${hqCount} / Subsidiaries: ${subCount})</p>
      ${functionProfileHTML}
   `;
-//<p><strong>Average Employees per HQ:</strong> ${avgEmployees}</p>
-  //  <p><strong>Average ESG Score per HQ:</strong> ${avgESG}</p>
 
   // 3. 绘制甜甜圈
-  const ctx = document.getElementById("donutChart")?.getContext("2d");
-if (!ctx) {
-  console.error("Canvas #donutChart not found");
-  return;
-}
-
-if (window.donutChart instanceof Chart) window.donutChart.destroy();
-
-window.donutChart = new Chart(ctx, {
-  type: "doughnut",
-  data: {
-    labels: data.labels,
-    datasets: [{
-      data: data.values,
-      backgroundColor: data.colors,
-      borderWidth: 0
-    }]
-  },
-  options: {
-    plugins: {
-      title: {
-        display: true,
-        text: `Function Distribution: ${cityName.trim()}`
-      },
-      legend: {
-        display: false 
-      }
+  // 用于保存 Chart 实例
+    function drawDonutChart(data, cityName) {
+    const ctx = document.getElementById("donutChart")?.getContext("2d");
+    if (!ctx) {
+        console.error("Canvas #donutChart not found");
+        return;
     }
-  }
-});
+
+    if (donutChart instanceof Chart) {
+        donutChart.destroy();
+    }
+
+    donutChart = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+        labels: data.labels,
+        datasets: [{
+            data: data.values,
+            backgroundColor: data.colors,
+            borderWidth: 0
+        }]
+        },
+        options: {
+        plugins: {
+            title: {
+            display: true,
+            text: `Function Distribution: ${cityName.trim()}`
+            },
+            legend: {
+            display: false
+            }
+        }
+        }
+    });
+    }
+    drawDonutChart(data, cityKey);
 }
 
-window.buildScatterData = function() {
+function buildScatterData () {
   const scatterData = [];
   Object.entries(cityData).forEach(([cityKey, info]) => {
     const stats = getFunctionStats(info);
@@ -408,7 +417,7 @@ window.buildScatterData = function() {
 }
 
 
-window.drawScatterPlot = function(scatterData) {
+function drawScatterPlot (scatterData) {
   const canvas = document.getElementById('scatterCanvas');
   if (!canvas) {
     console.error("❌ scatterCanvas not found in DOM.");
@@ -416,11 +425,11 @@ window.drawScatterPlot = function(scatterData) {
   }
   const ctx = canvas.getContext('2d');
 
-  if (window.scatterChart instanceof Chart) {
-    window.scatterChart.destroy();
+  if (scatterChart instanceof Chart) {
+    scatterChart.destroy();
   }
 
-  window.scatterChart = new Chart(ctx, {
+  scatterChart = new Chart(ctx, {
     type: 'scatter',
     data: {
       datasets: [{
@@ -482,7 +491,7 @@ window.drawScatterPlot = function(scatterData) {
 
           const coords = getCityCoordinates(info);
           if (coords) {
-            map.flyTo({ center: coords, zoom: 7 });
+            mapboxMap.flyTo({ center: coords, zoom: 7 });
           }
         }
       }
@@ -490,7 +499,7 @@ window.drawScatterPlot = function(scatterData) {
   });
 }
 
-window.getCityCoordinates = function(info) {
+function getCityCoordinates (info) {
   const allCompanies = [...(info.hq_companies || []), ...(info.subsidiaries || [])];
   const company = allCompanies.find(c => (c.lat || c.latitude) && (c.lng || c.longitude));
   if (!company) return null;
@@ -501,3 +510,203 @@ window.getCityCoordinates = function(info) {
 backButton.addEventListener('click', showDefaultMessage);
 showDefaultMessage();//这里结束
 
+fetch('data/clean/city_function.json')
+  .then(res => res.json())
+  .then(data => {
+    cityData = data;
+
+    // 图例初始化
+    renderFunctionLegend("function-legend");
+
+    // 构建 zoom ≤ 3 用的国家代表城市
+    buildCountryTopCity(Object.keys(colorMap).filter(f => f !== "Unclassified"));
+
+    mapboxMap.on('load', () => {
+      const zoom = mapboxMap.getZoom();
+      const selectedFunctions = getSelectedFunctions();
+      const minCount = parseInt(document.getElementById('minCompanyCount').value, 10) || 0;
+      const geojson = convertCityDataToGeoJSON(cityData, zoom, selectedFunctions, minCount);
+
+      mapboxMap.addSource('cities', { type: 'geojson', data: geojson });
+
+      mapboxMap.addLayer({
+        id: 'city-circles',
+        type: 'circle',
+        source: 'cities',
+        paint: {
+          'circle-radius': [
+            'interpolate', ['linear'], ['zoom'],
+            2, ['interpolate', ['linear'], ['get', 'total'], 0, 4, 40, 10],
+            4, ['interpolate', ['linear'], ['get', 'total'], 0, 5, 40, 20],
+            6, ['interpolate', ['linear'], ['get', 'total'], 0, 10, 40, 30],
+            8, ['+', 15, ['*', ['sqrt', ['get', 'total']], 4]]
+          ],
+          'circle-color': ['get', 'fillColor'],
+          'circle-stroke-color': ['get', 'borderColor'],
+          'circle-stroke-width': ['get', 'borderWidth'],
+          'circle-opacity': 0.9
+        }
+      });
+
+      // 鼠标交互 tooltip
+      const tooltip = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false,
+        offset: 12,
+        className: 'city-tooltip'
+      });
+
+      mapboxMap.on('mouseenter', 'city-circles', (e) => {
+        mapboxMap.getCanvas().style.cursor = 'pointer';
+        const props = e.features[0].properties;
+        const typeLabel =
+          props.borderColor === "#2980b9" ? " (Single-function)" :
+          props.borderColor === "#ffffff" ? " (Multi-functional)" : "";
+
+        const html = `
+          <strong>${props.city}</strong><br>
+          ${props.mainFunc}${typeLabel}<br>
+          ${props.total} companies
+        `;
+
+        tooltip.setLngLat(e.lngLat).setHTML(html).addTo(mapboxMap);
+      });
+
+      mapboxMap.on('mouseleave', 'city-circles', () => {
+        mapboxMap.getCanvas().style.cursor = '';
+        tooltip.remove();
+      });
+
+    mapboxMap.on('click', 'city-circles', (e) => {
+        const props = e.features[0].properties;
+        const cityName = props.city;
+        const info = cityData[cityName];
+        if (!info) return;
+
+       if (mapboxMap.getZoom() <= 3) {
+        mapboxMap.flyTo({
+          center: e.lngLat,
+          zoom: 6.0,
+          speed: 1.2,
+          curve: 1.42,
+          easing: t => t
+        });
+      }
+        if (scatterChart) {
+        const pointIndex = scatterChart.data.datasets[0].data.findIndex(p => p.city === cityName);
+        if (pointIndex !== -1) {
+          scatterChart.setActiveElements([{
+            datasetIndex: 0,
+            index: pointIndex
+          }]);
+          scatterChart.tooltip.setActiveElements([{
+            datasetIndex: 0,
+            index: pointIndex
+          }], { x: 0, y: 0 });
+          scatterChart.update();
+        }
+      }
+
+
+      const donutData = prepareDonutData(info);
+      showCityCard(cityName, donutData, info);
+
+      const functionCategory = getFunctionCategory(info);
+      showCityPanel(cityName, functionCategory);
+    });
+    const scatterData = buildScatterData();
+    drawScatterPlot(scatterData);
+    applyFilter();
+    });
+
+    mapboxMap.on('zoomend', () => {
+      updateMapWithFilters( currentSelectedFunctions, currentMinCompanyCount);
+    });
+
+    const rangeSlider = document.getElementById("cityRangeSlider");
+
+    rangeSlider.addEventListener("input", () => {
+      const selected = getSelectedFunctions();
+      const limit = parseInt(rangeSlider.value);
+      const minCount = parseInt(document.getElementById('minCompanyCount').value, 10) || 0;
+
+      updateTopCitiesByFunctionMulti(selected, limit, minCount); // ✅ 加入 minCount
+
+      const geojson = convertCityDataToGeoJSON(cityData, mapboxMap.getZoom(), selected, minCount); // ✅ 同步地图
+      const source = mapboxMap.getSource('cities');
+      if (source) source.setData(geojson);
+    });
+
+// ✅ 加在这两个之后
+    document.getElementById('minCompanyCount').addEventListener('change', () => {
+      const selected = getSelectedFunctions();
+      const limit = parseInt(rangeSlider.value);
+      const minCount = parseInt(document.getElementById('minCompanyCount').value, 10) || 0;
+
+      updateTopCitiesByFunctionMulti(selected, limit, minCount);
+      const geojson = convertCityDataToGeoJSON(cityData, mapboxMap.getZoom(), selected, minCount);
+      const source = mapboxMap.getSource('cities');
+      if (source) source.setData(geojson);
+    });
+
+
+    // 图表首次绘制
+    const selectedFunctions = Object.keys(colorMap).filter(f => f !== "Unclassified");
+    const limit = parseInt(rangeSlider.value) || 10;
+    const minCount = parseInt(document.getElementById('minCompanyCount').value, 10) || 0;
+    updateTopCitiesByFunctionMulti(selectedFunctions, limit, minCount);
+
+    // 绑定筛选器与滑动条
+    document.querySelectorAll('#filter-panel input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener("change", () => {
+        const selected = getSelectedFunctions();
+        const limit = parseInt(rangeSlider.value) || 10;
+        const minCount = parseInt(document.getElementById('minCompanyCount').value, 10) || 0;
+
+        updateTopCitiesByFunctionMulti(selected, limit, minCount); // ✅ 加入 minCount
+
+        const geojson = convertCityDataToGeoJSON(cityData, mapboxMap.getZoom(), selected, minCount); // ✅ 加入 minCount
+        const source = mapboxMap.getSource('cities');
+        if (source) source.setData(geojson);
+      });
+    });
+  });
+
+
+// 工具函数：筛选器状态
+function getSelectedFunctions() {
+  return Array.from(
+    document.querySelectorAll('#filter-panel input[type="checkbox"]:checked')
+  ).map(cb => cb.value);
+}
+
+// 条形图更新逻辑
+function updateTopCitiesByFunctionMulti(selectedFunctions, limit = 10, minCount = 0) {
+  const cityStats = [];
+
+  Object.entries(cityData).forEach(([cityKey, info]) => {
+    const functionStats = info.sub_function_stats || {};
+    const functionCounts = selectedFunctions.map(func => functionStats[func] || 0);
+    const totalCount = functionCounts.reduce((sum, val) => sum + val, 0);
+
+    if (totalCount >= minCount) {  // ✅ 现在 minCount 有定义了
+      cityStats.push({
+        city: cityKey,
+        total: totalCount,
+        functionCounts
+      });
+    }
+  });
+
+  const topCities = cityStats.sort((a, b) => b.total - a.total).slice(0, limit);
+
+  const labels = topCities.map(d => d.city);
+  const datasets = selectedFunctions.map((func, i) => ({
+    label: func,
+    data: topCities.map(c => c.functionCounts[i]),
+    backgroundColor: colorMap[func] || "#ccc",
+    stack: 'stack1'
+  }));
+
+  drawStackedBarChart({ labels, datasets });
+}

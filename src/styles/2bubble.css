@@ -1,11 +1,17 @@
-#section5{
-  padding-top: 90px;
-  background-color: #000;
-}
-
-
-/* body {
+#section5 {
   margin: 0;
+  padding-top: 90px;
+  font-family: 'Helvetica Neue', sans-serif;
+  color: #2a2a2a;
+  display: grid;
+  grid-template-areas:
+    "map map popup"
+    "bottom bottom bottom";
+  grid-template-rows: 1fr auto;
+  grid-template-columns: 1fr 1fr 320px;
+  height: 100vh;
+  overflow: hidden;
+    margin: 0;
   padding: 0;
   font-family: 'Helvetica Neue', sans-serif;
   color: #2a2a2a;
@@ -17,7 +23,20 @@
   grid-template-columns: 1fr 1fr 320px;
   height: 100vh;
   overflow: hidden;
-} */
+} 
+
+@media (max-width: 768px) {
+  #section5 {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "map"
+      "popup"
+      "bottom";
+    grid-template-rows: auto auto auto;
+    padding-top: 60px;
+  }
+}
+
 
 /* 地图区域 */
 #top-panel {
@@ -62,15 +81,16 @@
 
 /* 右侧弹出面板 */
 #popup {
-  width: 300px;
   grid-area: popup;
   background-color: white;
+  padding-left: 10px;
   border-left: 1px solid #ddd;
   overflow-y: auto;
+  padding-top: 90px;
+  width: 100%;
   font-size: 12px;
-  padding: 10px;
   box-shadow: -2px 0 8px rgba(0,0,0,0.1);
-  z-index: 1000;
+  z-index: 500;
 }
 
 .popup-title {
