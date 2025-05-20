@@ -3,7 +3,7 @@
     height: 100vh;
     scroll-snap-align: start;
     padding: 80px 40px 20px;
-    background: linear-gradient(to bottom, #f6f9fc, #e9f0f7);
+    background-color: #F7F9FB;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;

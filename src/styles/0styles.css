@@ -22,7 +22,8 @@ body {
 
 .navbar {
   width: 100%;
-  padding: 20px 50px;
+  height: 70px;
+  padding: 0px 50px;
   background: #ffffffcc;
   backdrop-filter: blur(10px);
   display: flex;
@@ -37,7 +38,7 @@ body {
 .logo {
   font-size: 1.8rem;
   font-weight: 600;
-  color: #2978b5;
+  color: #4A6CFF;
 }
 
 .navbar ul {
@@ -75,32 +76,6 @@ main::-webkit-scrollbar {
 section {
   height: 100vh;
   scroll-snap-align: start;
-}
-
-
-.hero {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 100vh;
-  background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
-}
-
-.Section3 {
-  background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
-  color: rgb(0, 0, 0);
-  height: 100vh;
-
-  background-position: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  min-height: 90vh;
 }
 
 .Section4 {

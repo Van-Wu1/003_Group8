@@ -1,7 +1,20 @@
+.hero {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100vh;
+  padding-top: 50px;
+  background-color: #F7F9FB;
+}
+
 .hero-wrapper {
   width: 100vw;
   height: 100vh;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
   padding: 0 0 0 5%;
@@ -10,12 +23,12 @@
 }
 
 .hero-text {
-  flex: 1 1 50%;
+  flex: 1.1;
   min-width: 300px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 600px;
+  max-width: 800px;
 }
 
 .hero-text h1 {
@@ -29,15 +42,18 @@
 
 .hero-text p {
   font-size: 1.2rem;
-  color: #4d4f52;
+  color: #A1A1A1;
   opacity: 0;
+  line-height: 1.6;
   transform: translateY(20px);
   animation: fadeUp 1.4s ease-out 1.5s forwards;
 }
 
 .hero-3d {
   position: relative;
-  flex: 1 1 50%;
+  flex: 1;
+  top: -40px;
+  right: -30px;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -53,7 +69,8 @@
   transform-origin: right center;
   border: none;
   pointer-events: auto;
-  clip-path: inset(0px 0px 60px 0px round 0px);/* 妈的曲线救国了 */
+  clip-path: inset(0px 0px 60px 0px round 0px);
+  /* 妈的曲线救国了 */
 }
 
 .spline-cover {
@@ -63,7 +80,8 @@
   width: 100%;
   height: 100%;
   background-color: transparent;
-  pointer-events: all; /* 吃掉所有事件，阻断 iframe */
+  pointer-events: all;
+  /* 吃掉所有事件，阻断 iframe */
   z-index: 2;
 }
 
@@ -75,13 +93,15 @@
   transform: translateY(30px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
+
 .fade-in.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
 /* 鼠标悬停卡片缩放等通用动效 */
-.card:hover, .section:hover {
+.card:hover,
+.section:hover {
   transition: transform 0.4s ease;
   transform: scale(1.01);
 }
