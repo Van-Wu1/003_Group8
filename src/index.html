@@ -409,9 +409,9 @@
             <div id="left-position-control">
                 <!-- 上半部分国家选择 -->
                 <div id="select20top">
-                    <div class="panel-section">
-                        <h2>Control Network Filters</h2>
-                        <div class="control-group">
+                    <div class="filter-card">
+                        <div class="filter-card-title">Control Network Filters</div>
+                        <div class="highlight-text">
                             <label for="company-selector"
                                 style="font-weight: bold; color: #e74c3c; font-size: 1.1rem;">Select a
                                 pharmaceutical company:</label>
@@ -421,12 +421,11 @@
                             </select>
                         </div>
 
-                        <div class="control-group">
-                            <label>Ownership Filter:</label>
-                            <div class="range-slider">
-                                <input type="range" id="ownership-slider" min="0" max="100" value="50" step="10">
-                                <div class="range-value"><span id="ownership-value">50</span>% and above</div>
-                            </div>
+                        <div class="filter-control">
+                            <label class="filter-label">Ownership Filter:</label>
+                            <input type="range" id="ownership-slider" min="0" max="100" value="50" step="10"
+                                class="full-width">
+                            <div class="range-value"><span id="ownership-value">50</span>% and above</div>
                         </div>
                     </div>
                 </div>
