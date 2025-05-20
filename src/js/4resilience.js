@@ -1,3 +1,5 @@
+console.log("✅ 4resilience.js 加载成功");
+
 let selectedCity = null;
 let overlay;
 let points;
