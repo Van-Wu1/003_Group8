@@ -1,18 +1,28 @@
 let selectedCity = null;
 let overlay;
 let points;
+function haversineDistance(lat1, lon1, lat2, lon2) {
+  const toRad = deg => deg * Math.PI / 180;
+  const R = 6371; // 地球半径，单位：km
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a = Math.sin(dLat / 2) ** 2 +
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+            Math.sin(dLon / 2) ** 2;
+  return R * 2 * Math.asin(Math.sqrt(a));
+}
 
 
 mapboxgl.accessToken = 'pk.eyJ1IjoieGlueXVlMjMiLCJhIjoiY203amU4bzlrMDR1ZzJvcXR2bW42Y2lmeCJ9.ctzNnLvN8LSMRuOQsa1ktg';
 
 const map_re = new mapboxgl.Map({
-    container: 'map_re',
-    style: 'mapbox://styles/mapbox/light-v11',
-    center: [-1.5, 52.5],
-    zoom: 3.5,
-    pitch: 55,
-    bearing: 0,
-    projection: 'mercator'
+  container: 'map_re',
+  style: 'mapbox://styles/mapbox/light-v11',
+  center: [-0.1276, 51.5072],  // 英国伦敦
+  zoom: 5,
+  pitch: 60,                   // 斜视角度
+  bearing: 0,
+  projection: 'mercator'
 });
 
 map_re.addControl(new mapboxgl.NavigationControl(), 'top-right');
@@ -31,9 +41,73 @@ fetch('./data/clean/City_level_resilience_data_FINAL_FIXED.geojson')
             MSCIgovern: f.properties.MSCIgovern,
             operatingRevenue: f.properties["Operating revenue"],
             functionalDiversity: f.properties.functionalDiversity
+            
         }));
+         
+       
+
         // 数据加载后先画一个空雷达图
-drawRadarChart();
+         drawRadarChart();
+
+
+
+const GROUP_DISTANCE_KM = 50;  // 可调：组内最大距离
+const OFFSET_KM = 25;          // 可调：展开半径
+const DEG_PER_KM = 1 / 111;    // 粗略换算：1km ≈ 0.009°
+
+const groups = [];
+const used = new Set();
+
+for (let i = 0; i < points.length; i++) {
+  if (used.has(i)) continue;
+
+  const group = [points[i]];
+  used.add(i);
+
+  for (let j = i + 1; j < points.length; j++) {
+    if (used.has(j)) continue;
+
+    const p1 = points[i].position;
+    const p2 = points[j].position;
+    const dist = haversineDistance(p1[1], p1[0], p2[1], p2[0]);
+
+    if (dist <= GROUP_DISTANCE_KM) {
+      group.push(points[j]);
+      used.add(j);
+    }
+  }
+
+  groups.push(group);
+}
+
+const adjustedPoints = [];
+
+for (const group of groups) {
+  const [lonBase, latBase] = group[0].position;
+
+  group.forEach((d, i) => {
+    if (group.length === 1) {
+      d.adjustedPosition = d.position;
+    } else {
+      const angle = (i / group.length) * 2 * Math.PI;
+      const dx = Math.cos(angle) * OFFSET_KM * DEG_PER_KM;
+      const dy = Math.sin(angle) * OFFSET_KM * DEG_PER_KM;
+      d.adjustedPosition = [lonBase + dx, latBase + dy];
+    }
+
+    adjustedPoints.push(d);
+  });
+}
+
+
+
+
+ 
+
+
+    
+
+
 
 //top 5
         const top5 = points
@@ -101,38 +175,48 @@ drawRadarChart();
             }
         });
 
-        // ✅ 添加灰色基座 Layer
+        //✅ 添加灰色基座 Layer
         const baseLayer = new deck.ColumnLayer({
-            data: points,
-            getPosition: d => d.position,
-            getElevation: 5000,                          // ✅ 矮小基座
-            getFillColor: [220, 220, 220, 180],         // ✅ 浅灰色
-            radius: 22000,
-            extruded: true,
-            elevationScale: 1
-        });
+  data: adjustedPoints,  // ✅ 改成 adjustedPoints
+  getPosition: d => d.adjustedPosition,  // ✅ 使用偏移后坐标
+  getElevation: 5000,
+  getFillColor: [220, 220, 220, 180],
+  radius: 22000,
+  extruded: true,
+  elevationScale: 1
+});
 
-        // ✅ 添加原始柱子 Layer
-        const mainLayer = new deck.ColumnLayer({
-            data: points,
-            getPosition: d => d.position,
-            getElevation: d => d.resilienceIndex * 5000,
-            getFillColor: d => {
-                if (d.cluster === 2) return [158, 193, 207,180];
-                if (d.cluster === 1) return [168, 213, 186,180];
-                if (d.cluster === 0) return [203, 170, 203,180];
-                return [200, 200, 200];
-            },
-            radius: 21000,
-            extruded: true,
-            elevationScale: 10
-        });
 
-        // ✅ 初始化地图
-        overlay = new deck.MapboxOverlay({
-            layers: [baseLayer, mainLayer]    // ✅ 先画基座，再画柱子
-        });
-        map_re.on('load', () => {
+       // ✅ 添加原始柱子 Layer
+
+
+
+
+const mainLayer = new deck.ColumnLayer({
+  data: adjustedPoints,
+  getPosition: d => d.adjustedPosition,  // ✅ 用偏移后位置
+  getElevation: d => d.resilienceIndex * 5000,
+  getFillColor: d => {
+    if (d.cluster === 2) return [158, 193, 207,180];
+    if (d.cluster === 1) return [168, 213, 186,180];
+    if (d.cluster === 0) return [203, 170, 203,180];
+    return [200, 200, 200];
+  },
+  radius: 21000,
+  extruded: true,
+  elevationScale: 10
+});
+
+
+
+
+
+// ✅ 初始化地图
+overlay = new deck.MapboxOverlay({
+    layers: [baseLayer, mainLayer]
+});
+
+map_re.on('load', () => {
     map_re.addControl(overlay);
 });
 
