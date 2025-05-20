@@ -116,3 +116,99 @@ html, body { height: 100%; margin: 0; padding: 0; }
             background-color: white; border: 1px solid #ccc;
             padding: 5px 10px; cursor: pointer;
         }
+
+
+
+/* methodology */
+
+
+    #intro-screen {
+      transition: transform 1s ease;
+    }
+
+    #intro-screen.slide-up {
+      transform: translateY(-100%);
+    }
+
+    #methodology-content.hidden {
+      display: none;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    #methodology-content.reveal {
+      display: block;
+      opacity: 1;
+    }
+
+    h1, h2, h3 {
+      color: #333;
+    }
+
+    button#exploreBtn {
+      padding: 0.75rem 1.5rem;
+      font-size: 1.1rem;
+      background-color: #0078d4;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 1.5rem;
+    }
+
+    .definition-row {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .card {
+      flex: 1 1 45%;
+      background: #f7f7f7;
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .cluster-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .cluster-card {
+      flex: 1 1 30%;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      color: white;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .cluster-card.green {
+      background-color: #80cfa9;
+    }
+
+    .cluster-card.blue {
+      background-color: #8abce2;
+    }
+
+    .cluster-card.purple {
+      background-color: #b09fda;
+    }
+    .hidden {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.reveal {
+  display: block;
+  opacity: 1;
+}
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}

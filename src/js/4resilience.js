@@ -274,7 +274,7 @@ function drawRadarChart(props) {
     radarChart = new Chart(ctx, {
         type: 'radar',
         data: {
-            labels: ['ESG-overall',  'ESG-environmental','ESG-Social','ESG-governance','Operating Revenue', 'Functional Diversity'],
+            labels: ['ESG-O',  'ESG-E','ESG-S','ESG-G','OR', 'FD'],
             datasets: [{
                 label: props.city,
                 data: [
