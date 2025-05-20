@@ -952,11 +952,12 @@ function updateVisualization() {
 
 // 初始化分析图表
 function initAnalysisCharts() {
+  console.log("这个函数至少被调用到了");
   // 如果分析面板已折叠，则不初始化图表
   if (dom.analysisContent && dom.analysisContent.classList.contains('collapsed')) {
     return;
   }
-
+  console.log("你看到这个信息就是没被拦截");
   // 获取图表容器
   const densityChart = document.getElementById('density-chart');
   const distanceChart = document.getElementById('distance-chart');
@@ -1607,22 +1608,6 @@ function toggleAnalysisPanel() {
 
 // 在初始化完成后调用此函数
 function initUserPreferences() {
-  // 恢复分析面板状态
-  const analysisPanelState = localStorage.getItem('analysisPanel');
-  if (analysisPanelState === 'collapsed') {
-    // 如果用户之前折叠了分析面板，则保持折叠状态
-    if (dom.analysisContent) {
-      dom.analysisContent.classList.add('collapsed');
-    }
-    if (dom.toggleAnalysisBtn) {
-      dom.toggleAnalysisBtn.classList.remove('active');
-    }
-  } else {
-    // 默认展开状态
-    if (dom.toggleAnalysisBtn) {
-      dom.toggleAnalysisBtn.classList.add('active');
-    }
-  }
   initAnalysisCharts();
 }
 
@@ -2016,7 +2001,17 @@ document.addEventListener("DOMContentLoaded", function () {
     btn.addEventListener("click", () => {
       btn.classList.toggle("active");
       const expanded = panel.style.maxHeight && panel.style.maxHeight !== "0px";
-      panel.style.maxHeight = expanded ? "0" : panel.scrollHeight + "px";
+      
+      if (expanded) {
+        panel.style.maxHeight = "0";
+        panel.style.overflow = "hidden";
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+        // Add a small delay to switch to auto overflow once animation completes
+        setTimeout(() => {
+          panel.style.overflow = "auto";
+        }, 300);
+      }
     });
   });
 });
