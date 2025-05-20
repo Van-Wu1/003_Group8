@@ -18,7 +18,7 @@
 
 #left-position-control {
   width: 320px;
-  height: 100%;
+  height: calc(100vh - 90px);
   margin-top: 90px;
   align-self: flex-start;
   display: flex;
@@ -153,7 +153,7 @@
 }
 
 .panel-section2 {
-  overflow: hidden;
+  overflow: auto;
   max-height: 0;
   transition: max-height 0.3s ease;
 }
@@ -537,7 +537,8 @@
   background-color: #fffbfb;
   margin-top: 180px;
   width: 0;
-  height: 100%;
+  height: calc(100vh - 90px);
+  /* Change from 100% to viewport height minus header */
   bottom: 0;
   right: 0;
   overflow: hidden;
@@ -550,6 +551,12 @@
 #information_area.expanded {
   height: 100%;
   width: 7000px;
+  overflow-y: auto;
+}
+
+#details-panel {
+  max-height: calc(100vh - 150px); /* Allow space for header */
+  overflow-y: auto;
 }
 
 #slide-tab.expanded {

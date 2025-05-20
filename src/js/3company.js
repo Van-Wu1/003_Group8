@@ -2001,7 +2001,17 @@ document.addEventListener("DOMContentLoaded", function () {
     btn.addEventListener("click", () => {
       btn.classList.toggle("active");
       const expanded = panel.style.maxHeight && panel.style.maxHeight !== "0px";
-      panel.style.maxHeight = expanded ? "0" : panel.scrollHeight + "px";
+      
+      if (expanded) {
+        panel.style.maxHeight = "0";
+        panel.style.overflow = "hidden";
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+        // Add a small delay to switch to auto overflow once animation completes
+        setTimeout(() => {
+          panel.style.overflow = "auto";
+        }, 300);
+      }
     });
   });
 });
