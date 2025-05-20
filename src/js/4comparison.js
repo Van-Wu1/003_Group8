@@ -1,6 +1,18 @@
 // js/comparison.js
 
 let comparisonInitialized = false;
+function haversineDistance(lat1, lon1, lat2, lon2) {
+  const toRad = deg => deg * Math.PI / 180;
+  const R = 6371;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a = Math.sin(dLat / 2) ** 2 +
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+            Math.sin(dLon / 2) ** 2;
+  return R * 2 * Math.asin(Math.sqrt(a));
+}
+
+
 
 function initComparison() {
     if (comparisonInitialized) return;
@@ -48,6 +60,55 @@ function initComparison() {
                 functionalDiversity: f.properties.functionalDiversity
             }));
 
+            const GROUP_DISTANCE_KM = 50;
+const OFFSET_KM = 25;
+const DEG_PER_KM = 1 / 111;
+
+const groups = [];
+const used = new Set();
+
+for (let i = 0; i < points.length; i++) {
+  if (used.has(i)) continue;
+
+  const group = [points[i]];
+  used.add(i);
+
+  for (let j = i + 1; j < points.length; j++) {
+    if (used.has(j)) continue;
+
+    const p1 = points[i].position;
+    const p2 = points[j].position;
+    const dist = haversineDistance(p1[1], p1[0], p2[1], p2[0]);
+
+    if (dist <= GROUP_DISTANCE_KM) {
+      group.push(points[j]);
+      used.add(j);
+    }
+  }
+
+  groups.push(group);
+}
+
+const adjustedPoints = [];
+
+for (const group of groups) {
+  const [lonBase, latBase] = group[0].position;
+
+  group.forEach((d, i) => {
+    if (group.length === 1) {
+      d.adjustedPosition = d.position;
+    } else {
+      const angle = (i / group.length) * 2 * Math.PI;
+      const dx = Math.cos(angle) * OFFSET_KM * DEG_PER_KM;
+      const dy = Math.sin(angle) * OFFSET_KM * DEG_PER_KM;
+      d.adjustedPosition = [lonBase + dx, latBase + dy];
+    }
+
+    adjustedPoints.push(d);
+  });
+}
+
+
             const cities = [...new Set(points.map(p => p.city))].sort();
             const dropdownA = document.getElementById('cityDropdownA');
             const dropdownB = document.getElementById('cityDropdownB');
@@ -64,9 +125,11 @@ function initComparison() {
                 dropdownB.appendChild(optB);
             });
 
+            
+
             const baseA = new deck.ColumnLayer({
                 data: points,
-                getPosition: d => d.position,
+                getPosition: d => d.adjustedPosition,
                 getElevation: 5000,
                 getFillColor: [220,220,220,180],
                 radius: 22000,
@@ -76,7 +139,7 @@ function initComparison() {
 
             const mainA = new deck.ColumnLayer({
                 data: points,
-                getPosition: d => d.position,
+                getPosition: d => d.adjustedPosition,
                 getElevation: d => d.resilienceIndex*5000,
                 getFillColor: d => d.cluster===2?[158,193,207,180]:d.cluster===1?[168,213,186,180]:d.cluster===0?[203,170,203,180]:[200,200,200],
                 radius: 21000,
@@ -107,63 +170,118 @@ function initComparison() {
             mapA.addControl(new deck.MapboxOverlay({ layers: [baseA, mainA] }));
             mapB.addControl(new deck.MapboxOverlay({ layers: [baseB, mainB] }));
 
-            function drawRadarChart(canvasId, chartRef, props) {
-                const canvas = document.getElementById(canvasId);
-                canvas.style.display = 'block';
-                const ctx = canvas.getContext('2d');
-                if (chartRef) chartRef.destroy();
-                return new Chart(ctx, {
-                    type: 'radar',
-                    data: {
-                        labels: ['MSCI Overall','MSCI E','MSCI S','MSCI G','Operating Revenue','Functional Diversity'],
-                        datasets: [{
-                            label: '',
-                            data: [props.MSCIoverall,props.MSCIenvi,props.MSCIsocial,props.MSCIgovern,props.operatingRevenue/1000000,props.functionalDiversity],
-                            backgroundColor:'rgba(54,162,235,0.2)',
-                            borderColor:'rgba(54,162,235,1)',
-                            borderWidth:2
-                        }]
+let radarChart = null;
+
+function drawComparisonRadarChart(cityA, cityB) {
+    const canvas = document.getElementById('comparisonRadarChart');
+    const ctx = canvas.getContext('2d');
+    if (radarChart) radarChart.destroy();
+
+    const labels = ['ESG-O', 'ESG-E', 'ESG-S', 'ESG-G', 'OR', 'FD'];
+
+    const datasets = [];
+
+    if (cityA) {
+        datasets.push({
+            label: `City A: ${cityA.city}`,
+            data: [
+                cityA.MSCIoverall,
+                cityA.MSCIenvi,
+                cityA.MSCIsocial,
+                cityA.MSCIgovern,
+                cityA.operatingRevenue / 1000000,
+                cityA.functionalDiversity
+            ],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 2
+        });
+    }
+
+    if (cityB) {
+        datasets.push({
+            label: `City B: ${cityB.city}`,
+            data: [
+                cityB.MSCIoverall,
+                cityB.MSCIenvi,
+                cityB.MSCIsocial,
+                cityB.MSCIgovern,
+                cityB.operatingRevenue / 1000000,
+                cityB.functionalDiversity
+            ],
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 2
+        });
+    }
+
+    // 如果两个都为空，也要提供一个空白图形
+    if (datasets.length === 0) {
+        datasets.push({
+            label: 'No City Selected',
+            data: [0, 0, 0, 0, 0, 0],
+            backgroundColor: 'rgba(200, 200, 200, 0.05)',
+            borderColor: 'rgba(200, 200, 200, 0.3)',
+            borderWidth: 1,
+            borderDash: [4, 2],
+            pointRadius: 0
+        });
+    }
+
+    radarChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' },
+                title: {
+                    display: true,
+                    text: 'Comparison of City A and B',
+                    font: { family: 'Times New Roman', size: 16 }
+                }
+            },
+            scales: {
+                r: {
+                    angleLines: { display: true },
+                    suggestedMin: 0,
+                    suggestedMax: 7,
+                    pointLabels: {
+                        font: { family: 'Times New Roman', size: 13 },
+                        padding: 5
                     },
-                    options: {
-                        layout: { padding: 20 },
-                        maintainAspectRatio: false,
-                        responsive: false,
-                        plugins: {
-                            legend: { display: false },
-                            title: {
-                                display:true,
-                                text:[`City: ${props.city}`,`Resilience Index: ${props.resilienceIndex.toFixed(2)}`],
-                                font: { family:'Times New Roman', size:14 }
-                            }
-                        },
-                        scales: {
-                            r: {
-                                angleLines:{ display:true },
-                                suggestedMin:0,
-                                suggestedMax:5,
-                                pointLabels:{ font:{ family:'Times New Roman', size:12 }, padding:5 },
-                                ticks:{ font:{ family:'Times New Roman', size:10 } }
-                            }
-                        }
+                    ticks: {
+                        font: { family: 'Times New Roman' }
                     }
-                });
+                }
             }
+        }
+    });
+}
 
-            dropdownA.addEventListener('change', e => {
-                const city = points.find(p => p.city === e.target.value);
-                if (city) {
-                    mapA.flyTo({ center: city.position, zoom: 6, speed: 1.2, curve: 1.5, easing: t => t });
-                    radarChartA = drawRadarChart('radarChartA', radarChartA, city);
-                }
-            });
 
-            dropdownB.addEventListener('change', e => {
-                const city = points.find(p => p.city === e.target.value);
-                if (city) {
-                    mapB.flyTo({ center: city.position, zoom: 6, speed: 1.2, curve: 1.5, easing: t => t });
-                    radarChartB = drawRadarChart('radarChartB', radarChartB, city);
-                }
-            });
+
+let selectedCityA = null;
+let selectedCityB = null;
+
+dropdownA.addEventListener('change', e => {
+    selectedCityA = points.find(p => p.city === e.target.value);
+    if (selectedCityA) mapA.flyTo({ center: selectedCityA.position, zoom: 6 });
+    drawComparisonRadarChart(selectedCityA, selectedCityB);
+});
+
+dropdownB.addEventListener('change', e => {
+    selectedCityB = points.find(p => p.city === e.target.value);
+    if (selectedCityB) mapB.flyTo({ center: selectedCityB.position, zoom: 6 });
+    drawComparisonRadarChart(selectedCityA, selectedCityB);
+});
+
+drawComparisonRadarChart(null, null);
+
 
         });
 
