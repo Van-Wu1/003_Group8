@@ -56,16 +56,16 @@ document.querySelectorAll(".section").forEach((section) => {
 });
 
 // 平滑测试
-new fullpage('#fullpage', {
-  autoScrolling: true,
-  scrollHorizontally: false,
-  navigation: true,
-  onLeave: function(origin, destination, direction){
-    // 动画钩子：离开 origin，进入 destination
-    const current = destination.item;
-    current.querySelectorAll('.fade-slide')?.forEach(el => {
-      el.classList.remove('active');
-      setTimeout(() => el.classList.add('active'), 10);
-    });
-  }
-});
+// new fullpage('#fullpage', {
+//   autoScrolling: true,
+//   scrollHorizontally: false,
+//   navigation: true,
+//   onLeave: function(origin, destination, direction){
+//     // 动画钩子：离开 origin，进入 destination
+//     const current = destination.item;
+//     current.querySelectorAll('.fade-slide')?.forEach(el => {
+//       el.classList.remove('active');
+//       setTimeout(() => el.classList.add('active'), 10);
+//     });
+//   }
+// });
