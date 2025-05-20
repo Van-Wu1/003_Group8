@@ -158,6 +158,46 @@
   transition: max-height 0.3s ease;
 }
 
+/* 卡片容器样式 - 为过滤器创建视觉分隔 */
+.filter-card {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin: 10px 0 20px 0;
+  border: 1px solid #e6e9ec;
+}
+
+/* 标题样式 */
+.filter-card-title {
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+/* 红色强调文字样式 */
+.highlight-text {
+  color: #e74c3c;
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* 滑块容器样式 */
+.filter-control {
+  margin-top: 15px;
+}
+
+/* 滑块标签样式 */
+.filter-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #34495e;
+  font-weight: 500;
+}
+
 .stats-card {
   background: #f8f9fa;
   border-radius: 6px;
