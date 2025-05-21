@@ -153,6 +153,21 @@
   padding: 0 10px 0 10px;
 }
 
+.gradient-label {
+  font-weight: bold;
+  font-size: 1.1rem;
+
+  /* 渐变背景色 */
+  background: linear-gradient(90deg, #E893C5 0%, #BF8CE1 100%);
+  /* 标准属性，部分现代浏览器支持 */
+  background-clip: text;
+  /* WebKit 系浏览器需要前缀 */
+  -webkit-background-clip: text;
+  /* 让文字本身透明以显示背景 */
+  color: transparent;
+  /* WebKit 系浏览器需要这个把文字填充色设为透明 */
+  -webkit-text-fill-color: transparent;
+}
 
 .panel-section {
   border-bottom: 1px solid #eee;
@@ -334,6 +349,7 @@
   margin-bottom: 8px;
   color: #3785D8;
   font-weight: 500;
+  font-size:1rem;
 }
 
 /* 下拉框和输入框焦点颜色 */
