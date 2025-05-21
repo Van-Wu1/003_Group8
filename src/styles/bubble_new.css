@@ -6,7 +6,7 @@
     overflow: hidden;
     color: #333;
     font-family: 'Segoe UI', sans-serif;
-    --bg-color: #CBD8E8;
+    --bg-color: #F7F9FB;
     --panel-bg: #ffffff;
     --main-blue: #1C1DAB;
     --highlight-purple: #BF8CE1;
@@ -56,54 +56,55 @@
 /* 图例 Legend */
 /* 图例位置仍然相对定位 */
 #border-legend {
-  position: absolute;
-  bottom: 300px;
-  left: 60px;
-  z-index: 10;
+    position: absolute;
+    bottom: 300px;
+    left: 60px;
+    z-index: 10;
 
-  background: #fff;
-  padding: 8px 12px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
-  font-size: 13px;
-  font-weight: 500;
-  color: #222;
+    font-size: 13px;
+    font-weight: 500;
+    color: #222;
 
-  width: max-content;
-  max-width: 200px;
+    width: max-content;
+    max-width: 200px;
 
-  pointer-events: none;
+    pointer-events: none;
 }
 
 #border-legend .legend-title {
-  font-weight: bold;
-  font-size: 13px;
-  margin-bottom: 6px;
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 6px;
 }
 
 #border-legend .legend-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 4px;
-  white-space: nowrap; /* ✅ 强制不换行 */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    /* ✅ 强制不换行 */
 }
 
 #border-legend .legend-item:last-child {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 #border-legend .legend-icon {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
 }
 
 #border-legend .legend-label {
-  font-size: 13px;
-  line-height: 1;
-  white-space: nowrap;
+    font-size: 13px;
+    line-height: 1;
+    white-space: nowrap;
 }
 
 /* 信息卡片与说明文字 */
