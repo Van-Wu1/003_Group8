@@ -182,14 +182,7 @@ async function initMap() {
           },
           paint: {
             'line-color': ['get', 'color'],
-            'line-width': [
-              'interpolate',
-              ['linear'],
-              ['get', 'ownership'],
-              0, 1,
-              50, 2,
-              100, 4
-            ],
+            'line-width': 2, // 固定线宽，不再根据所有权变化
             'line-opacity': 0.7
           }
         });
@@ -1526,13 +1519,7 @@ function showHelpModal() {
         <ul>
           <li><strong>Red Nodes</strong>: Headquarters cities (decision centers)</li>
           <li><strong>Blue Nodes</strong>: Subsidiary cities (controlled entities)</li>
-          <li><strong>Line Thickness</strong>:
-            <ul>
-              <li>Thick – Full Control (100% ownership)</li>
-              <li>Medium – Majority Control (51–99% ownership)</li>
-              <li>Thin – Minority Control (≤50% ownership)</li>
-            </ul>
-          </li>
+          <li><strong>Connection Lines</strong>: Show control relationships between headquarters and subsidiaries</li>
         </ul>
         
         <h4>Map Controls</h4>
