@@ -768,9 +768,10 @@
                             <option value="">Select</option>
                         </select>
                     </div>
-                    <canvas id="radarChartA" class="radarChart"></canvas>
+                    
                     <div id="map11" class="mapBox"></div>
                 </div>
+                
                 <div class="mapPanel">
                     <div class="selectorBox">
                         <label for="cityDropdownB">City B:</label>
@@ -778,9 +779,13 @@
                             <option value="">Select</option>
                         </select>
                     </div>
-                    <canvas id="radarChartB" class="radarChart"></canvas>
+                    
                     <div id="map22" class="mapBox"></div>
                 </div>
+                
+            </div>
+            <div id="radarContainer" style="display: flex; justify-content: center; align-items: center;">
+                      <canvas id="comparisonRadarChart" width="400" height="400"></canvas>
             </div>
             <div id="legendcon">
                 <div><span style="background-color: rgb(158, 193, 207);"></span> environmentally oriented city</div>
