@@ -1,4 +1,5 @@
 /* 限定样式只作用于 .Section5 内部 */
+/* 限定样式只作用于 .Section5 内部 */
 .section5 {
     padding-top: 90px;
     background-color: var(--bg-color);
@@ -13,104 +14,115 @@
     --rounded: 1rem;
 }
 
+
+/* dashboard 主容器垂直填满剩余空间 */
 /* dashboard 区域基本设置 */
 .section5 .dashboard {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 2fr 460px;
     gap: 2rem;
-    padding: 2rem 2rem;
-    overflow: visible;
+    align-items: start;
 }
 
 .section5 .dashboard-scroll-wrapper {
-    max-height: none;
-    overflow-y: visible;
+    position: relative;
+    padding: 2rem;
+    overflow: visible;
 }
 
-/* 展开图表时允许滚动 dashboard */
+/* 展开图表时才启用滚动 */
 .section5 .dashboard-scroll-wrapper.scrollable {
     max-height: calc(100vh - 400px);
-    /* 留出 charts 高度，自己微调 */
     overflow-y: auto;
 }
 
+/* 地图区域 */
 .section5 .map-container {
-    flex: 2;
-    min-width: 0;
+    min-height: 800px;
+    position: relative;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    width: 100%;
 }
 
 .section5 .right-panel {
-    flex: 1;
-    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 460px;
 }
 
 
-@media (min-width: 900px) {
-    .section5 .dashboard {
-        flex-direction: row;
-        align-items: stretch;
-    }
+/* 图例 Legend */
+/* 图例位置仍然相对定位 */
+#border-legend {
+  position: absolute;
+  bottom: 300px;
+  left: 60px;
+  z-index: 10;
 
-    .section5 .mapbubble {
-        flex: 2;
-        height: auto;
-        min-height: 0;
-        overflow: hidden;
-    }
+  background: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
-    .section5 .right-panel {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-        max-width: 400px;
-    }
+  font-size: 13px;
+  font-weight: 500;
+  color: #222;
+
+  width: max-content;
+  max-width: 200px;
+
+  pointer-events: none;
 }
 
-.section5 #border-legend {
-    position: absolute;
-    bottom: 100px;
-    left: 60px;
-    padding: 8px 12px;
-    font-size: 13px;
-    z-index: 10;
-    pointer-events: none;
-    background-color: rgba(255, 255, 255, 0.95);
-    border-radius: 6px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+#border-legend .legend-title {
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom: 6px;
 }
 
+#border-legend .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  white-space: nowrap; /* ✅ 强制不换行 */
+}
+
+#border-legend .legend-item:last-child {
+  margin-bottom: 0;
+}
+
+#border-legend .legend-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+#border-legend .legend-label {
+  font-size: 13px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* 信息卡片与说明文字 */
+/* 信息卡片 */
 .section5 .info-panel {
-    background: var(--panel-bg);
+    background: var(--panel-bg, #fff);
     padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-size: 13px;
-    border-radius: var(--rounded);
-    box-shadow: var(--soft-shadow);
-    margin-bottom: 0;
-}
-
-.section5 .info-panel h3 {
-    margin-top: 0;
-    color: var(--main-blue);
-}
-
-.section5 #defaultMessage h4 {
-    font-size: 18px;
-    /* 约 20px，可根据需要调大 */
-    font-weight: 700;
-    /* 加粗 */
-    color: #1C1DAB;
-    /* 主蓝色，可选 */
-    margin-bottom: 0.5rem;
-}
-
-
-.section5 #cityDetails {
-    font-size: 13px;
-    line-height: 1.5;
     color: #333;
 }
 
+.section5 .info-panel h4 {
+    margin-top: 0;
+    color: var(--main-blue, #1C1DAB);
+}
+
+/* 城市详情 */
 .section5 .city-info-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -128,8 +140,7 @@
 
 .section5 .info-item strong {
     font-weight: 600;
-    color: var(--main-blue);
-    margin-bottom: 4px;
+    color: var(--main-blue, #1C1DAB);
 }
 
 .section5 .intro-text {
@@ -143,40 +154,34 @@
     margin-bottom: 0rem;
 }
 
-
 .section5 .intro-text ul {
     margin: 0 0 1.5rem 1rem;
     padding-left: 1rem;
 }
 
 .section5 .intro-text h4 {
+    font-size: 15px;
     margin-top: 0;
     color: var(--main-blue);
 }
 
+/* 返回按钮 */
 .section5 #backButton {
     padding: 6px 12px;
-    /* 减少内边距 */
     font-size: 12px;
-    /* 缩小字体 */
     font-weight: 500;
-    /* 字重适中 */
     color: white;
     background: linear-gradient(135deg, #1C1DAB, #6B64D6);
     border: none;
     border-radius: 6px;
-    /* 圆角略缩 */
     cursor: pointer;
     box-shadow: 0 2px 6px rgba(28, 29, 171, 0.2);
     width: fit-content;
     margin: 0.5rem auto 0;
-    /* 上下间距更紧凑 */
     display: flex;
     align-items: center;
     gap: 6px;
-    /* 图标间距缩小 */
 }
-
 
 .section5 #backButton:hover {
     background: linear-gradient(135deg, #1C1DAB, #8C80F5);
@@ -184,30 +189,13 @@
     box-shadow: 0 6px 14px rgba(28, 29, 171, 0.3);
 }
 
+/* 筛选器 */
 .section5 .filters {
-    background: var(--panel-bg);
-    padding: 0.5rem;
-    margin-top: 0;
-    border-radius: var(--rounded);
-    box-shadow: var(--soft-shadow);
-}
-
-.section5 .filters h4 {
-    margin-top: 0;
-    font-weight: bold;
-    color: var(--main-blue);
-}
-
-.section5 #filter-panel {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-size: 13px;
-}
-
-.section5 .functionFilters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    font-size: 13px;
-    margin-bottom: 1rem;
 }
 
 .section5 .checkbox-grid {
@@ -220,7 +208,7 @@
 .section5 .checkbox-grid label {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
     font-size: 13px;
     background-color: #f7f7f7;
     padding: 2px 4px;
@@ -234,6 +222,7 @@
     height: 14px;
     border-radius: 3px;
 }
+
 
 .section5 {
     position: relative;
@@ -284,11 +273,7 @@
     pointer-events: auto;
 }
 
-.section5 #chartsSection.collapsed {
-    max-height: 0;
-    opacity: 0;
-    pointer-events: none;
-}
+
 
 .section5 #chartsSection.expanded {
     max-height: 1000px;
