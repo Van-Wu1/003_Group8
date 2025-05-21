@@ -387,7 +387,7 @@ function populateCompanySelector() {
   // 添加所有公司选项
   const allOption = document.createElement('option');
   allOption.value = 'ALL';
-  allOption.textContent = 'All top 20 companies';
+  allOption.textContent = 'ALL TOP 20 COMPANIES';
   dom.companySelector.appendChild(allOption);
 
   // 添加公司选项（按收入排序）
@@ -462,12 +462,12 @@ function prepareNetworkData() {
 
   // 颜色映射
   const continentColors = {
-    'NA': '#e73cb9', // 北美 - 红色
-    'SA': '#f39c12', // 南美 - 橙色
-    'EU': '#3498db', // 欧洲 - 蓝色
-    'AS': '#2ecc71', // 亚洲 - 绿色
-    'AF': '#9b59b6', // 非洲 - 紫色
-    'OC': '#f1c40f', // 大洋洲 - 黄色
+    NA: '#E893C5', // 北美 - 粉色
+    EU: '#3785D8', // 欧洲 - 蓝色
+    AS: '#ADC6E5', // 亚洲 - 浅蓝色
+    AF: '#BF8CE1', // 非洲 - 紫色
+    SA: '#EBB2C3', // 南美 - 浅粉色
+    OC: '#CBD8E8',  // 大洋洲 - 最浅蓝色
     'default': '#95a5a6'
   };
 
@@ -1030,20 +1030,21 @@ function createNetworkDensityChart(canvas, data) {
         label: 'Number of nodes',
         data: densityData,
         backgroundColor: [
-          'rgba(231, 76, 60, 0.8)',  // NA - 北美洲
-          'rgba(243, 156, 18, 0.8)', // SA - 南美洲
-          'rgba(52, 152, 219, 0.8)', // EU - 欧洲
-          'rgba(46, 204, 113, 0.8)', // AS - 亚洲
-          'rgba(155, 89, 182, 0.8)', // AF - 非洲
-          'rgba(241, 196, 15, 0.8)'  // OC - 大洋洲
+          // 使用夜空色卡颜色:
+          'rgba(232, 147, 197, 0.8)', // 粉色 - NA
+          'rgba(235, 178, 195, 0.8)', // 浅粉色 - SA
+          'rgba(55, 133, 216, 0.8)',  // 蓝色 - EU
+          'rgba(173, 198, 229, 0.8)', // 浅蓝色 - AS
+          'rgba(191, 140, 225, 0.8)', // 紫色 - AF
+          'rgba(203, 216, 232, 0.8)'  // 最浅蓝色 - OC
         ],
         borderColor: [
-          'rgba(231, 76, 60, 1)',
-          'rgba(243, 156, 18, 1)',
-          'rgba(52, 152, 219, 1)',
-          'rgba(46, 204, 113, 1)',
-          'rgba(155, 89, 182, 1)',
-          'rgba(241, 196, 15, 1)'
+          'rgba(232, 147, 197, 1)', // 粉色
+          'rgba(235, 178, 195, 1)', // 浅粉色
+          'rgba(55, 133, 216, 1)',  // 蓝色
+          'rgba(173, 198, 229, 1)', // 浅蓝色
+          'rgba(191, 140, 225, 1)', // 紫色
+          'rgba(203, 216, 232, 1)'  // 最浅蓝色
         ],
         borderWidth: 1
       }]
@@ -1123,14 +1124,14 @@ function createControlDistanceChart(canvas, data) {
       datasets: [{
         label: 'Total Controls',
         data: distanceGroups.map(g => g.count),
-        backgroundColor: 'rgba(52, 152, 219, 0.8)',
-        borderColor: 'rgba(52, 152, 219, 1)',
+        backgroundColor: 'rgba(55, 133, 216, 0.8)', // 蓝色
+        borderColor: 'rgba(55, 133, 216, 1)', // 蓝色
         borderWidth: 1
       }, {
         label: 'International Controls',
         data: distanceGroups.map(g => g.international),
-        backgroundColor: 'rgba(231, 76, 60, 0.8)',
-        borderColor: 'rgba(231, 76, 60, 1)',
+        backgroundColor: 'rgba(232, 147, 197, 0.8)', // 粉色
+        borderColor: 'rgba(232, 147, 197, 1)', // 粉色
         borderWidth: 1
       }]
     },
@@ -1206,8 +1207,8 @@ function createPowerHubChart(canvas, data) {
       datasets: [{
         label: 'Number of Controlling Companies',
         data: topCities.map(c => c.companies.size),
-        backgroundColor: 'rgba(46, 204, 113, 0.8)',
-        borderColor: 'rgba(46, 204, 113, 1)',
+        backgroundColor: 'rgba(173, 198, 229, 0.8)', // 浅蓝色
+        borderColor: 'rgba(173, 198, 229, 1)', // 浅蓝色
         borderWidth: 1
       }]
     },
@@ -1448,112 +1449,182 @@ function initEventListeners() {
     dom.infoArea.addEventListener('mouseleave', collapsePanel);
   }
 
+ensureHelpButtonWorks();
 
 }
 
 // 显示帮助模态框
 // 修改后的 showHelpModal 函数
+// 显示帮助模态框函数
 function showHelpModal() {
-  console.log("help");
+  console.log("帮助按钮被点击，正在打开模态框");
   const helpModalBody = document.getElementById('help-modal-body');
   const helpModal = document.getElementById('help-modal');
 
   if (!helpModalBody || !helpModal) return;
 
-  // 帮助内容HTML - 英文版
+  // 帮助内容HTML - 新设计，更清晰的分类和视觉层次
   const helpContent = `
     <div class="help-content">
+      <!-- 标题部分 -->
+      <div class="help-header">
+        <h2>PharmaNexus 全球制药控制网络</h2>
+        <p class="help-subtitle">交互式可视化工具使用指南</p>
+      </div>
+      
+      <!-- 主要功能区块说明 -->
       <section class="help-section">
-        <h3>Global Pharmaceutical Control Network Visualization</h3>
-        <p>This visualization tool demonstrates the spatial distribution patterns and control relationships of major pharmaceutical companies worldwide.</p>
+        <h3><i class="fas fa-sitemap"></i> 控制网络概述</h3>
+        <p>本可视化工具展示了全球主要制药公司的空间分布模式和控制关系，帮助您了解企业总部与子公司之间的所有权结构。</p>
       </section>
       
+      <!-- 左侧面板功能说明 -->
       <section class="help-section">
-        <h3>Main Functional Areas</h3>
+        <h3><i class="fas fa-sliders-h"></i> 控制面板（左侧）</h3>
         
-        <div class="help-subsection">
-          <h4>1. Control Panel (Left)</h4>
-          <ul>
-            <li><strong>Company Selector:</strong> Choose individual companies or "All Top 20 Companies"</li>
-            <li><strong>Ownership Filter:</strong> Adjust minimum ownership threshold (default: 50%)</li>
-            <li><strong>Network Statistics:</strong> Key metrics for selected companies</li>
-            <li><strong>Control Hierarchy:</strong> Visual representation of corporate structure</li>
-            <li><strong>Power Hubs:</strong> Major control centers</li>
-          </ul>
-        </div>
-        
-        <div class="help-subsection">
-          <h4>2. Map View (Center)</h4>
-          <ul>
-            <li><strong>Nodes:</strong>
-              <ul>
-                <li><span style="color: #e74c3c;">●</span> HQ Cities</li>
-                <li><span style="color: #3498db;">●</span> Subsidiary Cities</li>
-              </ul>
-            </li>
-            <li><strong>Connections:</strong>
-              <ul>
-                <li>Thick lines: Full control (100%)</li>
-                <li>Medium lines: Majority control (51-99%)</li>
-                <li>Thin lines: Minority control (≤50%)</li>
-              </ul>
-            </li>
-            <li><strong>Map Controls:</strong>
-              <ul>
-                <li><i class="fas fa-expand"></i> Fit to data</li>
-                <li><i class="fas fa-building"></i> Focus on HQ</li>
-                <li><i class="fas fa-tag"></i> Toggle labels</li>
-                <li><i class="fas fa-question-circle"></i> Show help</li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-        
-      </section>
-      
-      <section class="help-section">
-        <h3>Basic Operations</h3>
-        
-        <div class="help-subsection">
-          <h4>Viewing Company Networks</h4>
-          <ol>
-            <li>Select a company from dropdown</li>
-            <li>Map auto-centers on HQ</li>
-            <li>Subsidiary list updates automatically</li>
-          </ol>
-        </div>
-        
-        <div class="help-subsection">
-          <h4>Filtering Controls</h4>
-          <ol>
-            <li>Adjust ownership slider</li>
-            <li>Only shows relationships above threshold</li>
-          </ol>
-        </div>
-        
-        <div class="help-subsection">
-          <h4>Node Details</h4>
-          <ol>
-            <li>Click any node</li>
-            <li>Popup shows city details</li>
-            <li>Subsidiary cities show local operations</li>
-          </ol>
+        <div class="help-grid">
+          <div class="help-card">
+            <div class="help-card-icon"><i class="fas fa-building"></i></div>
+            <div class="help-card-content">
+              <h4>公司选择器</h4>
+              <p>选择单个公司或"所有前20家公司"进行查看</p>
+            </div>
+          </div>
+          
+          <div class="help-card">
+            <div class="help-card-icon"><i class="fas fa-percentage"></i></div>
+            <div class="help-card-content">
+              <h4>所有权过滤器</h4>
+              <p>调整最低所有权阈值（默认：50%）</p>
+            </div>
+          </div>
+          
+          <div class="help-card">
+            <div class="help-card-icon"><i class="fas fa-chart-bar"></i></div>
+            <div class="help-card-content">
+              <h4>网络统计</h4>
+              <p>所选公司的关键指标和概况</p>
+            </div>
+          </div>
+          
+          <div class="help-card">
+            <div class="help-card-icon"><i class="fas fa-project-diagram"></i></div>
+            <div class="help-card-content">
+              <h4>控制层次结构</h4>
+              <p>公司控制关系的可视化表示</p>
+            </div>
+          </div>
+          
+          <div class="help-card">
+            <div class="help-card-icon"><i class="fas fa-city"></i></div>
+            <div class="help-card-content">
+              <h4>权力枢纽城市</h4>
+              <p>主要控制中心城市及其影响力</p>
+            </div>
+          </div>
         </div>
       </section>
       
+      <!-- 地图视图说明 -->
       <section class="help-section">
-        <h3>Data Notes</h3>
-        <p>Based on control relationships of top 20 pharma companies. Values marked with * are estimates.</p>
+        <h3><i class="fas fa-map-marked-alt"></i> 地图视图（中央）</h3>
+        
+        <div class="help-columns">
+          <div class="help-column">
+            <h4>节点类型</h4>
+            <ul class="help-list">
+              <li><span class="dot hq-dot"></span> <strong>总部城市</strong> - 公司决策中心</li>
+              <li><span class="dot sub-dot"></span> <strong>子公司城市</strong> - 被控制实体所在地</li>
+            </ul>
+          </div>
+          
+          <div class="help-column">
+            <h4>连接线强度</h4>
+            <ul class="help-list">
+              <li><span class="line strong-line"></span> <strong>完全控制</strong> (100%)</li>
+              <li><span class="line medium-line"></span> <strong>多数控制</strong> (51-99%)</li>
+              <li><span class="line weak-line"></span> <strong>少数控制</strong> (≤50%)</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="help-subsection">
+          <h4>地图控制按钮</h4>
+          <div class="map-controls-demo">
+            <div class="control-button"><i class="fas fa-expand"></i> <span>适应数据</span></div>
+            <div class="control-button"><i class="fas fa-building"></i> <span>聚焦总部</span></div>
+            <div class="control-button"><i class="fas fa-tag"></i> <span>切换标签</span></div>
+            <div class="control-button"><i class="fas fa-question-circle"></i> <span>显示帮助</span></div>
+          </div>
+        </div>
       </section>
       
+      <!-- 基本操作指南 -->
       <section class="help-section">
-        <h3>Tips & Tricks</h3>
-        <ul>
-          <li>Double-click to zoom</li>
-          <li>Mouse wheel for zooming</li>
-          <li>Click-drag to pan</li>
-          <li>Hover over truncated names for full text</li>
-        </ul>
+        <h3><i class="fas fa-hands"></i> 交互操作指南</h3>
+        
+        <div class="help-tabs">
+          <div class="help-tab">
+            <div class="help-tab-header">
+              <i class="fas fa-mouse-pointer"></i>
+              <span>查看公司网络</span>
+            </div>
+            <div class="help-tab-content">
+              <ol>
+                <li>从下拉菜单中选择一家公司</li>
+                <li>地图将自动中心对准公司总部</li>
+                <li>子公司列表会自动更新</li>
+              </ol>
+            </div>
+          </div>
+          
+          <div class="help-tab">
+            <div class="help-tab-header">
+              <i class="fas fa-filter"></i>
+              <span>过滤控制关系</span>
+            </div>
+            <div class="help-tab-content">
+              <ol>
+                <li>调整所有权滑块</li>
+                <li>只显示高于阈值的控制关系</li>
+                <li>数据和地图会实时更新</li>
+              </ol>
+            </div>
+          </div>
+          
+          <div class="help-tab">
+            <div class="help-tab-header">
+              <i class="fas fa-info-circle"></i>
+              <span>查看节点详情</span>
+            </div>
+            <div class="help-tab-content">
+              <ol>
+                <li>点击任意节点</li>
+                <li>弹出框显示城市详情</li>
+                <li>子公司城市会显示当地业务</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- 数据说明 -->
+      <section class="help-section">
+        <h3><i class="fas fa-database"></i> 数据说明</h3>
+        <p>基于前20大制药公司的控制关系数据。标有*的值为估计值。数据来源包括公司年报、财务披露和商业数据库。</p>
+        
+        <div class="help-note">
+          <i class="fas fa-lightbulb"></i>
+          <div>
+            <h4>小贴士</h4>
+            <ul>
+              <li>双击可放大地图</li>
+              <li>鼠标滚轮调整缩放</li>
+              <li>点击拖动可平移地图</li>
+              <li>悬停在截断名称上可查看完整文本</li>
+            </ul>
+          </div>
+        </div>
       </section>
     </div>
   `;
@@ -1563,6 +1634,34 @@ function showHelpModal() {
 
   // 显示模态框
   helpModal.classList.remove('hidden');
+}
+
+// 确保帮助按钮工作正常
+function ensureHelpButtonWorks() {
+  const helpBtn = document.getElementById('help-btn');
+  if (helpBtn) {
+    // 通过克隆节点移除任何现有的事件监听器
+    const newHelpBtn = helpBtn.cloneNode(true);
+    helpBtn.parentNode.replaceChild(newHelpBtn, helpBtn);
+    
+    // 添加事件监听器
+    newHelpBtn.addEventListener('click', showHelpModal);
+    console.log("帮助按钮事件监听器已附加");
+  }
+}
+
+// Make sure the event listener for the help button is set up correctly
+function ensureHelpButtonWorks() {
+  const helpBtn = document.getElementById('help-btn');
+  if (helpBtn) {
+    // Remove any existing event listeners by cloning the node
+    const newHelpBtn = helpBtn.cloneNode(true);
+    helpBtn.parentNode.replaceChild(newHelpBtn, helpBtn);
+    
+    // Add the event listener
+    newHelpBtn.addEventListener('click', showHelpModal);
+    console.log("Help button event listener attached");
+  }
 }
 
 // 切换面板标签
@@ -1994,19 +2093,35 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    // Initialize panels - Control Hierarchy panel should be open by default
     panel.style.overflow = "hidden";
     panel.style.transition = "max-height 0.3s ease";
-    panel.style.maxHeight = "0";
+
+    // Special handling for Control Hierarchy panel - make it open by default
+    if (btn.textContent.trim() === "Control Hierarchy") {
+      btn.classList.add("active");
+      panel.style.maxHeight = panel.scrollHeight + "px";
+      panel.style.overflow = "auto";
+    } else {
+      panel.style.maxHeight = "0";
+    }
 
     btn.addEventListener("click", () => {
+      // Toggle active class on button
       btn.classList.toggle("active");
-      const expanded = panel.style.maxHeight && panel.style.maxHeight !== "0px";
-      
+
+      // Check if currently expanded
+      const expanded = panel.style.maxHeight !== "0px" && panel.style.maxHeight !== "";
+
       if (expanded) {
+        // Collapse panel
         panel.style.maxHeight = "0";
         panel.style.overflow = "hidden";
       } else {
+        // Expand panel
+        // Use scrollHeight to determine the actual height needed
         panel.style.maxHeight = panel.scrollHeight + "px";
+
         // Add a small delay to switch to auto overflow once animation completes
         setTimeout(() => {
           panel.style.overflow = "auto";
