@@ -1,6 +1,7 @@
 /* 限定样式只作用于 .Section5 内部 */
 .section5 {
-    padding-top: 90px;
+    padding-top: 70px;
+    height: 100%;
     background-color: var(--bg-color);
     overflow: hidden;
     color: #333;

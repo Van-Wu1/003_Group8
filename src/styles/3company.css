@@ -111,34 +111,32 @@
 }
 
 .Section7 {
+  position: relative;
   margin-top: 180px;
   scroll-snap-align: start;
   font-family: 'Helvetica Neue', sans-serif;
   box-sizing: border-box;
-  position: relative;
-  background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
+  background-color: #F7F9FB;
   color: rgb(0, 0, 0);
-  height: 100vh;
-  background-position: center;
+  height: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   text-align: center;
-  min-height: 90vh;
 }
 
 #left-position-control {
   width: 320px;
-  height: calc(100vh - 90px);
-  margin-top: 90px;
+  height: calc(100vh - 70px);
+  margin-top: 80px;
   align-self: flex-start;
   display: flex;
   flex-direction: column;
   align-items: center;
   font-size: 12px;
   position: relative;
-  padding:0 4px;
+  padding: 0 4px;
   background: #f8f9fa;
   overflow-y: auto;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
@@ -253,7 +251,7 @@
 }
 
 .panel-toggle-btn {
-  width:calc(100% - 10px);
+  width: calc(100% - 10px);
   background: linear-gradient(to right, #1E0F75, #3785D8);
   color: white;
   font-size: 1rem;
@@ -287,14 +285,14 @@
   transition: max-height 0.3s ease;
 }
 
-#ownership-slider{
+#ownership-slider {
   width: 100%;
 }
 
 /* 滑块颜色修改 */
 .Section7 input[type="range"]::-webkit-slider-thumb {
   background: #1C1DAB;
-  
+
 }
 
 .Section7 input[type="range"]::-moz-range-thumb {
@@ -349,7 +347,7 @@
   margin-bottom: 8px;
   color: #3785D8;
   font-weight: 500;
-  font-size:1rem;
+  font-size: 1rem;
 }
 
 /* 下拉框和输入框焦点颜色 */
@@ -533,7 +531,7 @@ input:focus {
 }
 
 #right-position-control {
-  margin-top: 90px;
+  margin-top: 80px;
   width: 80%;
   height: calc(100vh - 90px);
   display: flex;
@@ -770,9 +768,10 @@ input:focus {
 /* -------------右侧展开的栏目-------------------- */
 #slide-tab {
   position: relative;
-  margin-top: 180px;
+  margin-top: 80px;
+  height: calc(100vh - 80px);
+  bottom: 0;
   width: 32px;
-  height: 100%;
   writing-mode: vertical-rl;
   text-align: center;
   border-top-left-radius: 6px;
@@ -795,12 +794,9 @@ input:focus {
 #information_area {
   background-color: #f8f9fa;
   /* 浅色背景 */
-  border-left: 1px solid #ADC6E5;
-  /* 浅蓝色边框 */
-  margin-top: 180px;
+  margin-top: 160px;
   width: 0;
-  height: calc(100vh - 90px);
-  /* Change from 100% to viewport height minus header */
+  height: 100vh;
   bottom: 0;
   right: 0;
   overflow: hidden;
@@ -811,7 +807,6 @@ input:focus {
 }
 
 #information_area.expanded {
-  height: 100%;
   width: 7000px;
   overflow-y: auto;
 }
@@ -980,12 +975,6 @@ input:focus {
   cursor: pointer;
   transition: all 0.2s;
 }
-
-/*.sort-btn.active {
-  background: #3498db;
-  color: white;
-  border-color: #3498db;
-}*/
 
 /* Ownership 按钮使用粉色配色 */
 .sort-btn.active[data-sort="ownership"] {

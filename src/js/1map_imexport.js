@@ -19,19 +19,27 @@ mapboxgl.accessToken = 'pk.eyJ1IjoidmFuMTEyMDEwMTZ3dSIsImEiOiJjbTd1b2JodnMwMmV1M
 const map1 = new mapboxgl.Map({
     container: 'map1',
     style: 'mapbox://styles/van11201016wu/cmabq2dt000lb01sd50i8cp8x',
-    center: [0, 0],
-    zoom: 0.78
+    center: [-5, 0],
+    zoom: 0.98
 });
 
-map1.setMinZoom(0.78);
+map1.setMinZoom(0.98);
 map1.setMaxZoom(3);
 
 // 7-class RdYlGn 色带
-const colorStops = ['#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#08519c', '#08306b'];
-
+//const colorStops = ['#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#08519c', '#08306b'];
+const colorStops = [
+    '#CBD8E8',
+    '#ADC6E5',
+    '#7EAEE6',
+    '#4A88D8',
+    '#2D50C7',
+    '#1C1DAB',
+    '#1E0F75'
+];
 
 function getColorForValue(value, min, max) {
-    if (value === undefined || value === null) return '#ccc';
+    if (value === undefined || value === null) return '#F7F9FB';
     const ratio = Math.max(0, Math.min(1, (value - min) / (max - min)));
     if (ratio < 0.14) return colorStops[0];
     if (ratio < 0.28) return colorStops[1];
@@ -55,7 +63,7 @@ map1.on('load', function () {
         'source': 'countries',
         'source-layer': 'country_boundaries',
         'paint': {
-            'fill-color': '#FFFFFF',
+            'fill-color': '#F7F9FB',
             'fill-opacity': 1
         }
     });
@@ -66,7 +74,7 @@ map1.on('load', function () {
         'source': 'countries',
         'source-layer': 'country_boundaries',
         'paint': {
-            'line-color': '#000',
+            'line-color': '#555',
             'line-width': 0.5
         }
     });
@@ -83,44 +91,44 @@ map1.on('load', function () {
         filter: ['==', 'iso_3166_1_alpha_3', '']
     });
 
-    map1.once('idle', function() {
-    const features = map1.querySourceFeatures('countries', { sourceLayer: 'country_boundaries' });
-    features.forEach(feature => {
-        const iso = feature.properties.iso_3166_1_alpha_3;
-        const name = feature.properties.name_en;
-        if (tradeData[iso]) {
-            tradeData[iso].name = name;
-        }
-    });
-
-    // 初始化
-    updateMapColors('total');
-    updateD3Treemap('total');
-    updatePieChart('GLOBAL');
-
-    // 绑定滑条
-    const slider = document.getElementById('projectionToggle');
-    const labels = document.querySelectorAll('.labels span');
-    let selectedCountry = null;
-
-    labels[0].classList.add('active');
-
-    slider.addEventListener('input', function () {
-        const value = parseInt(slider.value);
-        labels.forEach((label, index) => {
-            label.style.fontWeight = (index === value) ? 'bold' : 'normal';
-            label.style.color = (index === value) ? '#333' : '#888';
+    map1.once('idle', function () {
+        const features = map1.querySourceFeatures('countries', { sourceLayer: 'country_boundaries' });
+        features.forEach(feature => {
+            const iso = feature.properties.iso_3166_1_alpha_3;
+            const name = feature.properties.name_en;
+            if (tradeData[iso]) {
+                tradeData[iso].name = name;
+            }
         });
 
-        let field = 'total';
-        if (value === 1) field = 'import';
-        if (value === 2) field = 'export';
+        // 初始化
+        updateMapColors('total');
+        updateD3Treemap('total');
+        updatePieChart('GLOBAL');
 
-        updateMapColors(field);
-        updateD3Treemap(field);
-        updatePieChart(selectedCountry || 'GLOBAL');
+        // 绑定滑条
+        const slider = document.getElementById('projectionToggle');
+        const labels = document.querySelectorAll('.labels span');
+        let selectedCountry = null;
+
+        labels[0].classList.add('active');
+
+        slider.addEventListener('input', function () {
+            const value = parseInt(slider.value);
+            labels.forEach((label, index) => {
+                label.style.fontWeight = (index === value) ? 'bold' : 'normal';
+                label.style.color = (index === value) ? '#333' : '#888';
+            });
+
+            let field = 'total';
+            if (value === 1) field = 'import';
+            if (value === 2) field = 'export';
+
+            updateMapColors(field);
+            updateD3Treemap(field);
+            updatePieChart(selectedCountry || 'GLOBAL');
+        });
     });
-});
 
     // ---------- Hover 刷新轮廓 ----------
     let selectedCountry = null;
@@ -172,7 +180,7 @@ function updateMapColors(field) {
         const val = tradeData[iso]?.[field];
         colorMatch.push(iso, getColorForValue(val, min, max));
     }
-    colorMatch.push('#ccc');
+    colorMatch.push('#F7F9FB');
     map1.setPaintProperty('country-fills', 'fill-color', colorMatch);
 }
 
@@ -181,7 +189,7 @@ function updateD3Treemap(field) {
     const data = Object.entries(tradeData)
         .map(([iso, d]) => ({
             iso,
-            name: d.name || iso,  // 用全称（来自 Mapbox），没有就用 ISO
+            name: d.name || iso,
             value: typeof d[field] === 'number' ? d[field] : 0
         }))
         .sort((a, b) => b.value - a.value)
@@ -195,7 +203,7 @@ function updateD3Treemap(field) {
         .attr("width", width)
         .attr("height", height);
 
-    svg.selectAll("*").remove();  // 清空旧图形
+    svg.selectAll("*").remove();
 
     const root = d3.hierarchy({ children: data })
         .sum(d => d.value);
@@ -297,7 +305,7 @@ function updatePieChart(isoCode = 'GLOBAL') {
         labels: ['Import', 'Export'],
         datasets: [{
             data: [importValue, exportValue],
-            backgroundColor: ['rgb(95, 191, 255)', 'rgb(34, 0, 255)']
+            backgroundColor: ['rgb(95, 191, 255)', '#1E0F75']
         }]
     };
 

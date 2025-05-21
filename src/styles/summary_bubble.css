@@ -37,12 +37,12 @@
         }
 
         .pharma-function-bar h2 {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.75);
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
+            margin: 1rem;
+            font-weight: 700;
             align-items: flex-start;
         }
 
@@ -250,10 +250,11 @@
         }
 
         .pharma-summary-insights h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #222;
-            margin-bottom: 1.2rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1D2B5F;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
             letter-spacing: 0.02em;
             border-bottom: 1px solid #eee;
             padding-bottom: 0.5rem;
