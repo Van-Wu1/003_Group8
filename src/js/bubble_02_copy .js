@@ -78,6 +78,8 @@ function getRadiusByZoomAndValue(zoom, value) {
 function applyFilter() {
   currentSelectedFunctions = getSelectedFunctions();
   currentMinCompanyCount = parseInt(document.getElementById('minCompanyCount').value, 10) || 0;
+
+
   updateTopCitiesByFunctionMulti(currentSelectedFunctions, currentCityLimit, currentMinCompanyCount);
   updateMapWithFilters(currentSelectedFunctions, currentMinCompanyCount);
 };
@@ -745,40 +747,16 @@ document.getElementById('toggleChartsBtn').addEventListener('click', () => {
   const wrapper = document.getElementById('dashboardWrapper');
 
   const isExpanded = bg.classList.toggle('expanded');
-  
-  if (isExpanded) {
-    charts.classList.add('expanded');
-    charts.classList.remove('collapsed');  // ✅ 关键：移除 collapsed
-  } else {
-    charts.classList.remove('expanded');
-    charts.classList.add('collapsed');     // ✅ 收起时加回 collapsed
-  }
+  charts.classList.toggle('expanded', isExpanded);
 
-  if (wrapper) {
-    wrapper.classList.toggle('scrollable', isExpanded);
+  if (wrapper && isExpanded) {
+    wrapper.classList.add('scrollable');
+  } else {
+    wrapper.classList.remove('scrollable');
   }
 
   btn.innerText = isExpanded ? '▼ Hide Charts' : '▲ Show Charts';
 });
-
-['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange'].forEach(eventName => {
-  document.addEventListener(eventName, () => {
-    console.log('Fullscreen event detected!');
-    const wrapper = document.getElementById('dashboardWrapper');
-    const isFullscreen =
-      document.fullscreenElement ||
-      document.webkitFullscreenElement ||
-      document.mozFullScreenElement ||
-      document.msFullscreenElement;
-
-    if (isFullscreen) {
-      wrapper.classList.add('fullscreen');
-    } else {
-      wrapper.classList.remove('fullscreen');
-    }
-  });
-});
-
 
 
 

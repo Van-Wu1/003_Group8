@@ -109,6 +109,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     initUserPreferences();
     showLoading(false);
   }
+
+  initHelpModalEvents();
+  ensureHelpButtonWorks();
 });
 
 // 检查必要DOM元素是否存在
@@ -387,7 +390,7 @@ function populateCompanySelector() {
   // 添加所有公司选项
   const allOption = document.createElement('option');
   allOption.value = 'ALL';
-  allOption.textContent = 'All top 20 companies';
+  allOption.textContent = 'ALL TOP 20 COMPANIES';
   dom.companySelector.appendChild(allOption);
 
   // 添加公司选项（按收入排序）
@@ -462,12 +465,12 @@ function prepareNetworkData() {
 
   // 颜色映射
   const continentColors = {
-    'NA': '#e73cb9', // 北美 - 红色
-    'SA': '#f39c12', // 南美 - 橙色
-    'EU': '#3498db', // 欧洲 - 蓝色
-    'AS': '#2ecc71', // 亚洲 - 绿色
-    'AF': '#9b59b6', // 非洲 - 紫色
-    'OC': '#f1c40f', // 大洋洲 - 黄色
+    NA: '#E893C5', // 北美 - 粉色
+    EU: '#3785D8', // 欧洲 - 蓝色
+    AS: '#ADC6E5', // 亚洲 - 浅蓝色
+    AF: '#BF8CE1', // 非洲 - 紫色
+    SA: '#EBB2C3', // 南美 - 浅粉色
+    OC: '#CBD8E8',  // 大洋洲 - 最浅蓝色
     'default': '#95a5a6'
   };
 
@@ -1030,20 +1033,21 @@ function createNetworkDensityChart(canvas, data) {
         label: 'Number of nodes',
         data: densityData,
         backgroundColor: [
-          'rgba(231, 76, 60, 0.8)',  // NA - 北美洲
-          'rgba(243, 156, 18, 0.8)', // SA - 南美洲
-          'rgba(52, 152, 219, 0.8)', // EU - 欧洲
-          'rgba(46, 204, 113, 0.8)', // AS - 亚洲
-          'rgba(155, 89, 182, 0.8)', // AF - 非洲
-          'rgba(241, 196, 15, 0.8)'  // OC - 大洋洲
+          // 使用夜空色卡颜色:
+          'rgba(232, 147, 197, 0.8)', // 粉色 - NA
+          'rgba(235, 178, 195, 0.8)', // 浅粉色 - SA
+          'rgba(55, 133, 216, 0.8)',  // 蓝色 - EU
+          'rgba(173, 198, 229, 0.8)', // 浅蓝色 - AS
+          'rgba(191, 140, 225, 0.8)', // 紫色 - AF
+          'rgba(203, 216, 232, 0.8)'  // 最浅蓝色 - OC
         ],
         borderColor: [
-          'rgba(231, 76, 60, 1)',
-          'rgba(243, 156, 18, 1)',
-          'rgba(52, 152, 219, 1)',
-          'rgba(46, 204, 113, 1)',
-          'rgba(155, 89, 182, 1)',
-          'rgba(241, 196, 15, 1)'
+          'rgba(232, 147, 197, 1)', // 粉色
+          'rgba(235, 178, 195, 1)', // 浅粉色
+          'rgba(55, 133, 216, 1)',  // 蓝色
+          'rgba(173, 198, 229, 1)', // 浅蓝色
+          'rgba(191, 140, 225, 1)', // 紫色
+          'rgba(203, 216, 232, 1)'  // 最浅蓝色
         ],
         borderWidth: 1
       }]
@@ -1123,14 +1127,14 @@ function createControlDistanceChart(canvas, data) {
       datasets: [{
         label: 'Total Controls',
         data: distanceGroups.map(g => g.count),
-        backgroundColor: 'rgba(52, 152, 219, 0.8)',
-        borderColor: 'rgba(52, 152, 219, 1)',
+        backgroundColor: 'rgba(55, 133, 216, 0.8)', // 蓝色
+        borderColor: 'rgba(55, 133, 216, 1)', // 蓝色
         borderWidth: 1
       }, {
         label: 'International Controls',
         data: distanceGroups.map(g => g.international),
-        backgroundColor: 'rgba(231, 76, 60, 0.8)',
-        borderColor: 'rgba(231, 76, 60, 1)',
+        backgroundColor: 'rgba(232, 147, 197, 0.8)', // 粉色
+        borderColor: 'rgba(232, 147, 197, 1)', // 粉色
         borderWidth: 1
       }]
     },
@@ -1206,8 +1210,8 @@ function createPowerHubChart(canvas, data) {
       datasets: [{
         label: 'Number of Controlling Companies',
         data: topCities.map(c => c.companies.size),
-        backgroundColor: 'rgba(46, 204, 113, 0.8)',
-        borderColor: 'rgba(46, 204, 113, 1)',
+        backgroundColor: 'rgba(173, 198, 229, 0.8)', // 浅蓝色
+        borderColor: 'rgba(173, 198, 229, 1)', // 浅蓝色
         borderWidth: 1
       }]
     },
@@ -1448,111 +1452,159 @@ function initEventListeners() {
     dom.infoArea.addEventListener('mouseleave', collapsePanel);
   }
 
+  const closeBtn = document.getElementById('help-modal-close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeHelpModal);
+  }
+
+  // 点击模态框外部关闭
+  const helpModal = document.getElementById('help-modal');
+  if (helpModal) {
+    helpModal.addEventListener('click', (event) => {
+      if (event.target === helpModal) {
+        closeHelpModal();
+      }
+    });
+  }
+
+  // ESC键关闭模态框
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeHelpModal();
+    }
+  });
+
+  ensureHelpButtonWorks();
 
 }
 
-// 显示帮助模态框
-// 修改后的 showHelpModal 函数
+// 显示帮助模态框函数
 function showHelpModal() {
-  console.log("help");
+  console.log("帮助按钮被点击，正在打开模态框");
   const helpModalBody = document.getElementById('help-modal-body');
   const helpModal = document.getElementById('help-modal');
 
   if (!helpModalBody || !helpModal) return;
 
-  // 帮助内容HTML - 英文版
+  // 帮助内容HTML - 重新组织内容避免重叠
   const helpContent = `
     <div class="help-content">
-      <section class="help-section">
-        <h3>Global Pharmaceutical Control Network Visualization</h3>
-        <p>This visualization tool demonstrates the spatial distribution patterns and control relationships of major pharmaceutical companies worldwide.</p>
-      </section>
-      
-      <section class="help-section">
-        <h3>Main Functional Areas</h3>
-        
-        <div class="help-subsection">
-          <h4>1. Control Panel (Left)</h4>
-          <ul>
-            <li><strong>Company Selector:</strong> Choose individual companies or "All Top 20 Companies"</li>
-            <li><strong>Ownership Filter:</strong> Adjust minimum ownership threshold (default: 50%)</li>
-            <li><strong>Network Statistics:</strong> Key metrics for selected companies</li>
-            <li><strong>Control Hierarchy:</strong> Visual representation of corporate structure</li>
-            <li><strong>Power Hubs:</strong> Major control centers</li>
-          </ul>
-        </div>
-        
-        <div class="help-subsection">
-          <h4>2. Map View (Center)</h4>
-          <ul>
-            <li><strong>Nodes:</strong>
-              <ul>
-                <li><span style="color: #e74c3c;">●</span> HQ Cities</li>
-                <li><span style="color: #3498db;">●</span> Subsidiary Cities</li>
-              </ul>
-            </li>
-            <li><strong>Connections:</strong>
-              <ul>
-                <li>Thick lines: Full control (100%)</li>
-                <li>Medium lines: Majority control (51-99%)</li>
-                <li>Thin lines: Minority control (≤50%)</li>
-              </ul>
-            </li>
-            <li><strong>Map Controls:</strong>
-              <ul>
-                <li><i class="fas fa-expand"></i> Fit to data</li>
-                <li><i class="fas fa-building"></i> Focus on HQ</li>
-                <li><i class="fas fa-tag"></i> Toggle labels</li>
-                <li><i class="fas fa-question-circle"></i> Show help</li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-        
-      </section>
-      
-      <section class="help-section">
-        <h3>Basic Operations</h3>
-        
-        <div class="help-subsection">
-          <h4>Viewing Company Networks</h4>
-          <ol>
-            <li>Select a company from dropdown</li>
-            <li>Map auto-centers on HQ</li>
-            <li>Subsidiary list updates automatically</li>
-          </ol>
-        </div>
-        
-        <div class="help-subsection">
-          <h4>Filtering Controls</h4>
-          <ol>
-            <li>Adjust ownership slider</li>
-            <li>Only shows relationships above threshold</li>
-          </ol>
-        </div>
-        
-        <div class="help-subsection">
-          <h4>Node Details</h4>
-          <ol>
-            <li>Click any node</li>
-            <li>Popup shows city details</li>
-            <li>Subsidiary cities show local operations</li>
-          </ol>
-        </div>
-      </section>
-      
-      <section class="help-section">
-        <h3>Data Notes</h3>
-        <p>Based on control relationships of top 20 pharma companies. Values marked with * are estimates.</p>
-      </section>
-      
-      <section class="help-section">
-        <h3>Tips & Tricks</h3>
+      <!-- 功能概述 -->
+      <section class="help-section" id="overview">
+        <h3>功能概述</h3>
+        <p>本可视化工具展示了全球主要制药公司的空间分布模式和控制关系，帮助您了解企业总部与子公司之间的所有权结构。</p>
         <ul>
-          <li>Double-click to zoom</li>
-          <li>Mouse wheel for zooming</li>
-          <li>Click-drag to pan</li>
-          <li>Hover over truncated names for full text</li>
+          <li>直观查看跨国制药公司的总部与子公司分布</li>
+          <li>了解企业之间的所有权关系和空间层级</li>
+          <li>探索不同区域和城市的控制力量</li>
+          <li>分析国际化程度与控制强度</li>
+        </ul>
+      </section>
+
+      <!-- 控制面板 -->
+      <section class="help-section" id="controls">
+        <h3>控制面板</h3>
+        <h4>筛选与控制</h4>
+        <ul>
+          <li><strong>公司选择器</strong>：从下拉菜单中选择单个制药公司或查看全部前20家公司</li>
+          <li><strong>所有权滑块</strong>：调整最低所有权比例阈值，筛选不同控制强度的关系</li>
+        </ul>
+        
+        <h4>数据展示面板</h4>
+        <p>点击面板标题可展开或折叠相应的信息板块：</p>
+        <ul>
+          <li><strong>网络概览</strong>：显示实体数量、总部城市、子公司城市、平均所有权等关键统计数据</li>
+          <li><strong>控制层次结构</strong>：直观呈现总部与子公司之间的层级关系和完全控制比例</li>
+          <li><strong>权力枢纽城市</strong>：排名最具影响力的城市及其控制公司数量</li>
+        </ul>
+      </section>
+      
+      <!-- 地图视图 -->
+      <section class="help-section" id="map">
+        <h3>地图视图</h3>
+        <h4>图例说明</h4>
+        <ul>
+          <li><strong>红色节点</strong>：总部城市，表示公司决策中心</li>
+          <li><strong>蓝色节点</strong>：子公司城市，表示被控制实体所在地</li>
+          <li><strong>连接线强度</strong>：
+            <ul>
+              <li>粗线 - 完全控制 (100%所有权)</li>
+              <li>中等线 - 多数控制 (51-99%所有权)</li>
+              <li>细线 - 少数控制 (≤50%所有权)</li>
+            </ul>
+          </li>
+        </ul>
+        
+        <h4>地图控制按钮</h4>
+        <ul>
+          <li><strong>适应数据</strong>：调整视图显示所有数据点</li>
+          <li><strong>聚焦总部</strong>：快速定位到公司总部</li>
+          <li><strong>切换标签</strong>：显示/隐藏城市名称标签</li>
+          <li><strong>显示帮助</strong>：打开本帮助面板</li>
+        </ul>
+        
+        <h4>右侧详情栏</h4>
+        <p>将鼠标悬停在右侧标签上可展开详情面板，查看更多分析：</p>
+        <ul>
+          <li><strong>网络密度分析</strong>：展示不同大洲的节点分布</li>
+          <li><strong>跨国控制路径</strong>：分析控制距离与国际化程度</li>
+          <li><strong>权力枢纽城市</strong>：显示最具战略重要性的城市</li>
+          <li><strong>子公司表格</strong>：提供详细的子公司清单与筛选功能</li>
+        </ul>
+      </section>
+      
+      <!-- 操作指南 -->
+      <section class="help-section" id="operations">
+        <h3>操作指南</h3>
+        
+        <h4>查看节点详情</h4>
+        <ol>
+          <li>点击地图上的任意总部（红色）或子公司（蓝色）节点</li>
+          <li>弹出窗口将显示该节点的详细信息</li>
+          <li>对于总部城市，您将看到公司概览</li>
+          <li>对于子公司城市，您将看到该城市中所有子公司的列表</li>
+        </ol>
+        
+        <h4>筛选控制关系</h4>
+        <ol>
+          <li>拖动所有权滑块调整最低阈值</li>
+          <li>点击滑块外部区域或释放滑块以应用筛选</li>
+          <li>观察地图和数据如何随着筛选条件变化</li>
+          <li>调低阈值可查看更多间接和少数控股关系</li>
+        </ol>
+        
+        <h4>使用子公司表格</h4>
+        <ol>
+          <li>将鼠标悬停在右侧"Hover me"标签上</li>
+          <li>点击表格/图表切换按钮（图表图标）</li>
+          <li>使用搜索框查找特定子公司</li>
+          <li>通过下拉菜单筛选大洲</li>
+          <li>点击排序按钮按所有权或资产排序</li>
+        </ol>
+      </section>
+      
+      <!-- 数据说明 -->
+      <section class="help-section" id="data">
+        <h3>数据说明</h3>
+        <p>本可视化使用的数据基于全球前20大制药公司的企业结构、所有权关系和地理分布信息。</p>
+        
+        <h4>数据来源</h4>
+        <ul>
+          <li>公司年报与财务披露文件</li>
+          <li>商业数据库与企业注册信息</li>
+          <li>行业分析报告与专业数据集</li>
+        </ul>
+        <p><em>注：标有*号的数值为估计值，基于可用信息和行业均值计算得出。</em></p>
+        
+        <h4>颜色编码</h4>
+        <p>地图上不同大洲使用不同颜色标记：</p>
+        <ul>
+          <li>北美洲：粉色 (#E893C5)</li>
+          <li>欧洲：蓝色 (#3785D8)</li>
+          <li>亚洲：浅蓝色 (#ADC6E5)</li>
+          <li>非洲：紫色 (#BF8CE1)</li>
+          <li>南美洲：浅粉色 (#EBB2C3)</li>
+          <li>大洋洲：极浅蓝色 (#CBD8E8)</li>
         </ul>
       </section>
     </div>
@@ -1563,6 +1615,146 @@ function showHelpModal() {
 
   // 显示模态框
   helpModal.classList.remove('hidden');
+
+  // 设置导航功能
+  setupHelpNavigation();
+}
+
+// 关闭帮助模态框
+function closeHelpModal() {
+  const helpModal = document.getElementById('help-modal');
+  if (helpModal) {
+    helpModal.classList.add('hidden');
+  }
+}
+
+// 在页面加载完成后初始化帮助模态框事件
+function initHelpModalEvents() {
+  // 关闭按钮点击事件
+  const closeBtn = document.getElementById('help-modal-close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeHelpModal);
+  }
+
+  // 点击模态框外部关闭
+  const helpModal = document.getElementById('help-modal');
+  if (helpModal) {
+    helpModal.addEventListener('click', (event) => {
+      if (event.target === helpModal) {
+        closeHelpModal();
+      }
+    });
+  }
+
+  // ESC键关闭模态框
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeHelpModal();
+    }
+  });
+
+  // 帮助按钮点击事件
+  const helpBtn = document.getElementById('help-btn');
+  if (helpBtn) {
+    helpBtn.addEventListener('click', showHelpModal);
+  }
+}
+
+
+// 设置帮助导航功能
+function setupHelpNavigation() {
+  // 获取所有导航项和帮助区块
+  const navItems = document.querySelectorAll('.help-nav .nav-item');
+  const helpSections = document.querySelectorAll('.help-section');
+  const helpModalBody = document.getElementById('help-modal-body');
+
+  // 导航项点击事件
+  navItems.forEach(item => {
+    item.addEventListener('click', () => {
+      // 移除所有激活状态
+      navItems.forEach(nav => nav.classList.remove('active'));
+
+      // 添加当前项激活状态
+      item.classList.add('active');
+
+      // 滚动到目标区块
+      const targetId = item.getAttribute('data-target');
+      const targetSection = document.getElementById(targetId);
+
+      if (targetSection && helpModalBody) {
+        // 计算正确的滚动位置，考虑导航栏高度
+        const navHeight = document.querySelector('.help-nav').offsetHeight;
+        const offsetPosition = targetSection.offsetTop - navHeight - 15; // 15px额外间距
+
+        helpModalBody.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+
+  // 监听滚动事件以更新活动导航项
+  if (helpModalBody) {
+    helpModalBody.addEventListener('scroll', () => {
+      // 获取当前滚动位置
+      const scrollPosition = helpModalBody.scrollTop;
+      const navHeight = document.querySelector('.help-nav').offsetHeight;
+
+      // 查找当前可见的部分
+      let currentSectionId = '';
+
+      helpSections.forEach(section => {
+        // 考虑导航栏高度和偏移量
+        const sectionTop = section.offsetTop - navHeight - 20;
+        const sectionBottom = sectionTop + section.offsetHeight;
+
+        if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+          currentSectionId = section.id;
+        }
+      });
+
+      // 更新导航项激活状态
+      if (currentSectionId) {
+        navItems.forEach(item => {
+          const targetId = item.getAttribute('data-target');
+          if (targetId === currentSectionId) {
+            item.classList.add('active');
+          } else {
+            item.classList.remove('active');
+          }
+        });
+      }
+    });
+  }
+}
+
+// 确保帮助按钮工作正常
+function ensureHelpButtonWorks() {
+  const helpBtn = document.getElementById('help-btn');
+  if (helpBtn) {
+    // 通过克隆节点移除任何现有的事件监听器
+    const newHelpBtn = helpBtn.cloneNode(true);
+    helpBtn.parentNode.replaceChild(newHelpBtn, helpBtn);
+
+    // 添加事件监听器
+    newHelpBtn.addEventListener('click', showHelpModal);
+    console.log("帮助按钮事件监听器已附加");
+  }
+}
+
+// Make sure the event listener for the help button is set up correctly
+function ensureHelpButtonWorks() {
+  const helpBtn = document.getElementById('help-btn');
+  if (helpBtn) {
+    // Remove any existing event listeners by cloning the node
+    const newHelpBtn = helpBtn.cloneNode(true);
+    helpBtn.parentNode.replaceChild(newHelpBtn, helpBtn);
+
+    // Add the event listener
+    newHelpBtn.addEventListener('click', showHelpModal);
+    console.log("Help button event listener attached");
+  }
 }
 
 // 切换面板标签
@@ -1994,19 +2186,35 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    // Initialize panels - Control Hierarchy panel should be open by default
     panel.style.overflow = "hidden";
     panel.style.transition = "max-height 0.3s ease";
-    panel.style.maxHeight = "0";
+
+    // Special handling for Control Hierarchy panel - make it open by default
+    if (btn.textContent.trim() === "Control Hierarchy") {
+      btn.classList.add("active");
+      panel.style.maxHeight = panel.scrollHeight + "px";
+      panel.style.overflow = "auto";
+    } else {
+      panel.style.maxHeight = "0";
+    }
 
     btn.addEventListener("click", () => {
+      // Toggle active class on button
       btn.classList.toggle("active");
-      const expanded = panel.style.maxHeight && panel.style.maxHeight !== "0px";
-      
+
+      // Check if currently expanded
+      const expanded = panel.style.maxHeight !== "0px" && panel.style.maxHeight !== "";
+
       if (expanded) {
+        // Collapse panel
         panel.style.maxHeight = "0";
         panel.style.overflow = "hidden";
       } else {
+        // Expand panel
+        // Use scrollHeight to determine the actual height needed
         panel.style.maxHeight = panel.scrollHeight + "px";
+
         // Add a small delay to switch to auto overflow once animation completes
         setTimeout(() => {
           panel.style.overflow = "auto";

@@ -1,3 +1,115 @@
+:root {
+  --color-deep-blue: #1E0F75;
+  /* 深蓝色 */
+  --color-blue: #1C1DAB;
+  /* 蓝色 */
+  --color-light-blue: #3785D8;
+  /* 浅蓝色 */
+  --color-pale-blue: #ADC6E5;
+  /* 最浅蓝色 */
+  --color-purple: #BF8CE1;
+  /* 紫色 */
+  --color-pink: #E893C5;
+  /* 粉色 */
+  --color-light-pink: #EBB2C3;
+  /* 浅粉色 */
+  --color-ultra-pale: #CBD8E8;
+  /* 极浅蓝色 */
+}
+
+.Section6 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #F7F9FB;
+  padding: 20px;
+  text-align: center;
+}
+
+.Section6 .intro-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 60px;
+}
+
+.Section6 h2 {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 40px;
+  font-weight: 600;
+  line-height: 1.2;
+  /* Improved line height for the title */
+  white-space: nowrap;
+  /* Prevent title from breaking */
+}
+
+/* For smaller screens, allow title to wrap but maintain readability */
+@media (max-width: 768px) {
+  .Section6 h2 {
+    white-space: normal;
+    font-size: 2rem;
+  }
+}
+
+.Section6 p {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: #34495e;
+  margin-bottom: 30px;
+  max-width: 780px;
+  /* Control line length for better readability */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.Section6 .highlight {
+  background: linear-gradient(90deg, #BF8CE1 0%, #3498db 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-weight: 600;
+  display: inline-block;
+  animation: gradientShift 6s infinite linear;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.Section6 .btn {
+  display: inline-block;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.Section6 .btn-primary {
+  background: linear-gradient(90deg, #e893c5 0%, #BF8CE1 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(191, 140, 225, 0.4);
+}
+
+.Section6 .btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(191, 140, 225, 0.5);
+}
+
 .Section7 {
   margin-top: 180px;
   scroll-snap-align: start;
@@ -26,11 +138,11 @@
   align-items: center;
   font-size: 12px;
   position: relative;
-  background: white;
+  background: #f8f9fa;
   overflow-y: auto;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
   z-index: 5;
-  border-right: 1px solid #e6e9ec;
+  border-right: 1px solid #ADC6E5;
   flex-shrink: 0;
 }
 
@@ -39,6 +151,7 @@
   width: 100%;
   padding: 0 10px 0 10px;
 }
+
 
 .panel-section {
   border-bottom: 1px solid #eee;
@@ -125,7 +238,7 @@
 
 .panel-toggle-btn {
   width: 100%;
-  background-color: #3498db;
+  background: linear-gradient(to right, #1E0F75, #3785D8);
   color: white;
   font-size: 1.1rem;
   font-weight: bold;
@@ -134,13 +247,13 @@
   text-align: left;
   cursor: pointer;
   outline: none;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
   margin-top: 10px;
   border-radius: 4px;
 }
 
 .panel-toggle-btn:hover {
-  background-color: #34495e;
+  background: linear-gradient(to right, #1C1DAB, #3785D8);
 }
 
 .panel-toggle-btn::after {
@@ -158,6 +271,28 @@
   transition: max-height 0.3s ease;
 }
 
+/* 滑块颜色修改 */
+input[type="range"]::-webkit-slider-thumb {
+  background: #1C1DAB;
+  /* 蓝色 */
+}
+
+input[type="range"]::-moz-range-thumb {
+  background: #1C1DAB;
+  /* 蓝色 */
+}
+
+input[type="range"]::-ms-thumb {
+  background: #1C1DAB;
+  /* 蓝色 */
+}
+
+/* 滑块轨道颜色 */
+input[type="range"]::-webkit-slider-runnable-track {
+  background: linear-gradient(to right, #ADC6E5, #3785D8);
+  /* 浅蓝到蓝的渐变 */
+}
+
 /* 卡片容器样式 - 为过滤器创建视觉分隔 */
 .filter-card {
   background-color: #f8f9fa;
@@ -171,15 +306,15 @@
 /* 标题样式 */
 .filter-card-title {
   font-weight: bold;
-  color: #2c3e50;
+  color: #1e0f75;
   margin-bottom: 15px;
   padding-bottom: 8px;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid #ADC6E5;
 }
 
 /* 红色强调文字样式 */
 .highlight-text {
-  color: #e74c3c;
+  color: #E893C5;
   font-weight: bold;
   margin-bottom: 8px;
   display: block;
@@ -194,8 +329,17 @@
 .filter-label {
   display: block;
   margin-bottom: 8px;
-  color: #34495e;
+  color: #3785D8;
   font-weight: 500;
+}
+
+/* 下拉框和输入框焦点颜色 */
+select:focus,
+input:focus {
+  border-color: #3785D8;
+  /* 蓝色 */
+  box-shadow: 0 0 0 2px rgba(55, 133, 216, 0.2);
+  /* 蓝色阴影 */
 }
 
 .stats-card {
@@ -224,7 +368,8 @@
 .stat-value {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #1C1DAB;
+  /* 蓝色 */
   margin-top: 0.2rem;
 }
 
@@ -357,7 +502,8 @@
 }
 
 .hq-bar {
-  background: #e74c3c;
+  background: #E893C5;
+  /* 粉色 */
 }
 
 .center-value {
@@ -409,28 +555,70 @@
   width: 36px;
   height: 36px;
   background: white;
-  border: none;
+  border: 1px solid #ADC6E5;
+  /* 浅蓝色边框 */
   border-radius: 4px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #2c3e50;
+  color: #1E0F75;
   transition: all 0.2s;
 }
 
 .map-controls button:hover {
-  background: #f8f9fa;
+  background-color: #ADC6E5;
+  /* 浅蓝色 */
 }
 
 .map-controls button#help-btn {
-  background: #3498db;
+  background: #1E0F75;
+  /* 深蓝色 */
   color: white;
 }
 
 .map-controls button#help-btn:hover {
-  background: #2980b9;
+  background: #1C1DAB;
+  /* 稍浅一点的蓝色 */
+}
+
+/* Animated help button to draw attention */
+#help-btn {
+  background: #1E0F75;
+  /* Deep blue background */
+  color: white;
+  animation: pulse-glow 2s infinite alternate;
+  position: relative;
+  z-index: 1000;
+  /* Ensure it's above other elements */
+}
+
+#help-btn:hover {
+  background: #1C1DAB;
+  /* Slightly lighter blue on hover */
+  animation: none;
+  /* Stop animation on hover */
+  transform: scale(1.1);
+  /* Slightly enlarge on hover */
+}
+
+/* Make the help icon larger */
+#help-btn i {
+  font-size: 1.2rem;
+}
+
+/* Add a pulsing animation */
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 5px rgba(30, 15, 117, 0.7);
+    transform: scale(1);
+  }
+
+  100% {
+    box-shadow: 0 0 15px rgba(232, 147, 197, 0.9), 0 0 20px rgba(191, 140, 225, 0.6);
+    transform: scale(1.05);
+  }
 }
 
 /* 这里是地图的图例 */
@@ -530,27 +718,33 @@
 }
 
 .na-color {
-  background-color: #e73cb9;
+  background-color: #E893C5;
+  /* 粉色 */
 }
 
 .eu-color {
-  background-color: #3498db;
+  background-color: #3785D8;
+  /* 蓝色 */
 }
 
 .as-color {
-  background-color: #2ecc71;
+  background-color: #ADC6E5;
+  /* 浅蓝色 */
 }
 
 .af-color {
-  background-color: #9b59b6;
+  background-color: #BF8CE1;
+  /* 紫色 */
 }
 
 .sa-color {
-  background-color: #f39c12;
+  background-color: #EBB2C3;
+  /* 浅粉色 */
 }
 
 .oc-color {
-  background-color: #f1c40f;
+  background-color: #CBD8E8;
+  /* 最浅的蓝色 */
 }
 
 
@@ -567,14 +761,23 @@
   font-size: 22px;
   font-weight: bold;
   cursor: pointer;
-  background-color: #e0e0e0;
-  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(to bottom, #1E0F75, #3785D8);
+  color: white;
+  box-shadow: 2px 0 6px rgba(30, 15, 117, 0.3);
   transition: background-color 0.3s ease, left 0.3s ease;
   z-index: 999;
 }
 
+#slide-tab:hover {
+  background: linear-gradient(to bottom, #1C1DAB, #3785D8);
+  /* 稍浅一点的蓝色渐变 */
+}
+
 #information_area {
-  background-color: #fffbfb;
+  background-color: #f8f9fa;
+  /* 浅色背景 */
+  border-left: 1px solid #ADC6E5;
+  /* 浅蓝色边框 */
   margin-top: 180px;
   width: 0;
   height: calc(100vh - 90px);
@@ -595,7 +798,8 @@
 }
 
 #details-panel {
-  max-height: calc(100vh - 150px); /* Allow space for header */
+  max-height: calc(100vh - 150px);
+  /* Allow space for header */
   overflow-y: auto;
 }
 
@@ -612,8 +816,9 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background: #f8f9fa;
-  border-bottom: 1px solid #e0e0e0;
+  background: linear-gradient(to right, #1E0F75, #3785D8);
+  color: white;
+  border-bottom: none;
   flex-shrink: 0;
 }
 
@@ -625,7 +830,7 @@
 .toggle-btn {
   background: none;
   border: none;
-  color: #3498db;
+  color: white;
   font-size: 1rem;
   cursor: pointer;
   padding: 0.4rem;
@@ -634,12 +839,14 @@
 }
 
 .toggle-btn:hover {
-  background: rgba(52, 152, 219, 0.1);
+  background: rgba(173, 198, 229, 0.3);
+  /* 浅蓝色半透明 */
 }
 
 .toggle-btn.active {
-  background: #3498db;
-  color: white;
+  background: #ADC6E5;
+  color: #1E0F75;
+  ;
 }
 
 .panel-content-wrapper {
@@ -700,7 +907,7 @@
 
 .filter-bar {
   display: flex;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
   gap: 0.8rem;
   flex-wrap: wrap;
   flex-shrink: 0;
@@ -755,10 +962,24 @@
   transition: all 0.2s;
 }
 
-.sort-btn.active {
+/*.sort-btn.active {
   background: #3498db;
   color: white;
   border-color: #3498db;
+}*/
+
+/* Ownership 按钮使用粉色配色 */
+.sort-btn.active[data-sort="ownership"] {
+  background: var(--color-pink);
+  border-color: var(--color-pink);
+  color: white;
+}
+
+/* Assets 按钮使用紫色配色 */
+.sort-btn.active[data-sort="assets"] {
+  background: var(--color-purple);
+  border-color: var(--color-purple);
+  color: white;
 }
 
 .table-container {
@@ -778,8 +999,12 @@
 #subsidiaries-table th {
   padding: 0.8rem;
   text-align: left;
-  background: #f8f9fa;
-  border-bottom: 2px solid #e0e0e0;
+  background: linear-gradient(to right, #ADC6E5, #CBD8E8);
+  /* 浅蓝色渐变 */
+  color: #1E0F75;
+  /* 深蓝色文字 */
+  border-bottom: 2px solid #3785D8;
+  /* 蓝色下边框 */
   position: sticky;
   top: 0;
   z-index: 1;
@@ -791,7 +1016,8 @@
 }
 
 #subsidiaries-table tr:hover {
-  background: #f1f9ff;
+  background-color: rgba(173, 198, 229, 0.2);
+  /* 浅蓝色半透明 */
 }
 
 
@@ -828,15 +1054,22 @@
 
 /* help */
 .help-content {
-  padding: 0 1rem 1rem 1rem;
+  margin: 0 0 20px 0;
+  padding: 0 20px 20px 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
   color: #333;
   line-height: 1.7;
   z-index: 9999;
 }
 
 .help-section {
-  margin-bottom: 2.5rem;
-  padding-bottom: 1.5rem;
+  padding-top: 60px !important;
+  /* 添加顶部内边距，确保内容不被导航栏遮挡 */
+  margin-top: -45px !important;
+  /* 负外边距以抵消视觉上的间距影响 */
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
   position: relative;
   border-bottom: 1px solid #f0f0f0;
   clear: both;
@@ -848,10 +1081,11 @@
 }
 
 .help-section h3 {
-  color: #2c3e50;
-  font-size: 1.3rem;
-  border-bottom: 2px solid #3498db;
-  padding-bottom: 0.5rem;
+  color: var(--color-deep-blue);
+  font-size: 1.1rem;
+  margin: 15px 0 10px 0;
+  border-bottom: 2px solid var(--color-light-blue);
+  padding-bottom: 5px;
   margin-bottom: 1.2rem;
   font-weight: 600;
 }
@@ -865,15 +1099,17 @@
 }
 
 .help-subsection h4 {
-  color: #34495e;
-  font-size: 1.1rem;
+  color: var(--color-blue);
+  font-size: 1rem;
+  margin: 15px 0 10px 0;
   margin-bottom: 1rem;
   font-weight: 500;
 }
 
 .help-content ul,
 .help-content ol {
-  padding-left: 1.8rem;
+  padding-left: 20px;
+  margin: 10px 0;
   margin-bottom: 1.2rem;
 }
 
@@ -887,9 +1123,16 @@
 }
 
 .help-content li {
-  margin-bottom: 0.7rem;
-  line-height: 1.6;
+  margin-bottom: 8px;
+  line-height: 1.5;
   padding-right: 10px;
+}
+
+/* 确保列表项中的小圆点与文字保持合适的间距 */
+.help-content ul li {
+  position: relative;
+  list-style-type: disc;
+  margin-left: 5px;
 }
 
 .help-content p {
@@ -900,7 +1143,7 @@
 
 .help-content strong {
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--color-blue);
 }
 
 #help-modal .modal-content {
@@ -909,13 +1152,24 @@
   max-height: 85vh;
 }
 
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  max-width: 800px;
+  max-height: 85vh;
+  overflow: hidden;
+  position: relative;
+  width: 90%;
+}
+
 #help-modal-body {
-  padding: 1.5rem 2rem;
+  padding: 0;
   overflow-y: auto;
   max-height: calc(85vh - 60px);
   font-family: 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   scrollbar-width: thin;
   scrollbar-color: #95a5a6 #ecf0f1;
+  color: #333;
 }
 
 #help-modal-body::-webkit-scrollbar {
@@ -932,11 +1186,156 @@
 }
 
 #help-modal {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
   z-index: 2000;
+}
+
+#help-modal.hidden {
+  display: none;
 }
 
 @media (min-width: 768px) {
   #help-modal .modal-content {
     max-width: 850px !important;
   }
+}
+
+/* 内容区域样式 */
+.modal-content {
+  background: white;
+  border-radius: 10px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 85vh;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 顶部标题样式 */
+.modal-header {
+  padding: 15px 20px;
+  background: linear-gradient(to right, var(--color-deep-blue), var(--color-light-blue));
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.modal-header h2 {
+  color: white !important;  /* 使用!important确保覆盖任何其他样式 */
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  white-space: normal;
+}
+
+/* 关闭按钮 */
+.modal-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 导航菜单 */
+.help-nav {
+  background: #f8f9fa;
+  padding: 10px 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.nav-item {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: var(--color-deep-blue);
+  cursor: pointer;
+  background: white;
+  border: 1px solid #e0e0e0;
+  white-space: nowrap;
+}
+
+.nav-item.active {
+  background: var(--color-light-blue);
+  color: white;
+  border-color: var(--color-light-blue);
+}
+
+
+/* 列表样式 */
+.help-content ol {
+  padding-left: 25px;
+  margin: 10px 0;
+}
+
+.help-content ul {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+.help-content li {
+  margin-bottom: 5px;
+  line-height: 1.5;
+}
+
+/* 增强对比度解决可读性问题 */
+.help-content {
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+/* 修复列表嵌套问题 */
+.help-tab-content ol {
+  margin-top: 8px;
+}
+
+/* 确保数据说明部分有足够间距 */
+#data {
+  padding-bottom: 30px;
+}
+
+/* 解决点击时的滚动定位问题 */
+html {
+  scroll-padding-top: 60px;
+  /* 为锚点链接提供滚动内边距 */
+}
+
+/* 1. 修改帮助模态框标题颜色 */
+.modal-header h2 {
+  color: white !important; /* 使用!important确保覆盖任何其他样式 */
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  white-space: normal;
+}
+
+/* 2. 修改控制关系详情面板标题颜色 */
+.panel-header h2 {
+  color: white !important; /* 使用!important确保覆盖任何其他样式 */
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
 }
