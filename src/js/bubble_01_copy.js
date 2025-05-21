@@ -78,8 +78,6 @@ function getRadiusByZoomAndValue(zoom, value) {
 function applyFilter() {
   currentSelectedFunctions = getSelectedFunctions();
   currentMinCompanyCount = parseInt(document.getElementById('minCompanyCount').value, 10) || 0;
-
-
   updateTopCitiesByFunctionMulti(currentSelectedFunctions, currentCityLimit, currentMinCompanyCount);
   updateMapWithFilters(currentSelectedFunctions, currentMinCompanyCount);
 };
@@ -762,6 +760,25 @@ document.getElementById('toggleChartsBtn').addEventListener('click', () => {
 
   btn.innerText = isExpanded ? '▼ Hide Charts' : '▲ Show Charts';
 });
+
+['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange'].forEach(eventName => {
+  document.addEventListener(eventName, () => {
+    console.log('Fullscreen event detected!');
+    const wrapper = document.getElementById('dashboardWrapper');
+    const isFullscreen =
+      document.fullscreenElement ||
+      document.webkitFullscreenElement ||
+      document.mozFullScreenElement ||
+      document.msFullscreenElement;
+
+    if (isFullscreen) {
+      wrapper.classList.add('fullscreen');
+    } else {
+      wrapper.classList.remove('fullscreen');
+    }
+  });
+});
+
 
 
 
