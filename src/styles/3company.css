@@ -271,26 +271,27 @@
   transition: max-height 0.3s ease;
 }
 
+#ownership-slider{
+  width: 100%;
+}
+
 /* 滑块颜色修改 */
-input[type="range"]::-webkit-slider-thumb {
+.Section7 input[type="range"]::-webkit-slider-thumb {
   background: #1C1DAB;
-  /* 蓝色 */
+  
 }
 
-input[type="range"]::-moz-range-thumb {
+.Section7 input[type="range"]::-moz-range-thumb {
   background: #1C1DAB;
-  /* 蓝色 */
 }
 
-input[type="range"]::-ms-thumb {
+.Section7 input[type="range"]::-ms-thumb {
   background: #1C1DAB;
-  /* 蓝色 */
 }
 
 /* 滑块轨道颜色 */
-input[type="range"]::-webkit-slider-runnable-track {
+.Section7 input[type="range"]::-webkit-slider-runnable-track {
   background: linear-gradient(to right, #ADC6E5, #3785D8);
-  /* 浅蓝到蓝的渐变 */
 }
 
 /* 卡片容器样式 - 为过滤器创建视觉分隔 */
@@ -1026,8 +1027,8 @@ input:focus {
   position: relative;
   top: 0;
   left: 0;
-  width: 20%;
-  height: 20%;
+  width: 100%;
+  height: 100%;
   background: rgba(255, 255, 255, 0.8);
   display: flex;
   flex-direction: column;
@@ -1232,7 +1233,8 @@ input:focus {
 }
 
 .modal-header h2 {
-  color: white !important;  /* 使用!important确保覆盖任何其他样式 */
+  color: white !important;
+  /* 使用!important确保覆盖任何其他样式 */
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
@@ -1325,7 +1327,8 @@ html {
 
 /* 1. 修改帮助模态框标题颜色 */
 .modal-header h2 {
-  color: white !important; /* 使用!important确保覆盖任何其他样式 */
+  color: white !important;
+  /* 使用!important确保覆盖任何其他样式 */
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
@@ -1334,7 +1337,8 @@ html {
 
 /* 2. 修改控制关系详情面板标题颜色 */
 .panel-header h2 {
-  color: white !important; /* 使用!important确保覆盖任何其他样式 */
+  color: white !important;
+  /* 使用!important确保覆盖任何其他样式 */
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0;

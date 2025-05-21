@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="./styles/3company.css" />
     <link rel="stylesheet" href="./styles/4styleHu.css" />
     <link rel="stylesheet" href="./styles/0team.css" />
+    <link rel="stylesheet" href="./styles/DataReference.css">
 
     <!-- Mapbox CDN -->
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
@@ -43,13 +44,13 @@
 <body>
     <header class="navbar">
         <div class="logo">PharmaNexus</div>
-        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <div class="menu-toggle">☰</div>
         <div class="sidebar" id="sidebar">
             <a href="#home">Home</a>
             <a href="#map">Map</a>
             <a href="#section7">Data</a>
-            <a href="#Team">Team</a>
-            <a href="#about">About</a>
+            <a href="#team">Team</a>
+            <a href="#data_reference">About</a>
         </div>
     </header>
 
@@ -269,7 +270,7 @@
                     </p>
                 </div>
             </div>
-            <a href="#section4" class="explore-button fade-slide delay-5">Explore the Urban Structure ↓</a>
+            <a href="#section5" class="explore-button fade-slide delay-5">Explore the Urban Structure ↓</a>
         </section>
 
         <section class="section5" id="section5">
@@ -507,8 +508,7 @@
 
                         <div class="filter-control">
                             <label class="filter-label">Ownership Filter:</label>
-                            <input type="range" id="ownership-slider" min="0" max="100" value="50" step="10"
-                                class="full-width">
+                            <input type="range" id="ownership-slider" min="0" max="100" value="50" step="10">
                             <div class="range-value"><span id="ownership-value">50</span>% and above</div>
                         </div>
                     </div>
@@ -838,10 +838,6 @@
 
         </section>
 
-
-
-
-
         <!-- huxinyue -->
         <section class="Section8">
             <div id="map_re">
@@ -911,40 +907,73 @@
             <button id="backButtonHu">Return to Single Map</button>
         </section>
 
-
-
-
-
         <!-- TeamIntro -->
-        <section class="Team" id="Team">
+        <section class="Team" id="team">
             <h1><strong>Team</strong></h1>
             <div class="TeamIntro">
-                <div class="member">
-                    <div class="member1pic"></div>
-                    <p>Borui Wang</p>
+                <div id="teampic">
+                    <div class="member">
+                        <div class="member1pic"></div>
+                        <p>Borui Wang</p>
+                    </div>
+                    <div class="member">
+                        <div class="member2pic"></div>
+                        <p>Qiu Yue</p>
+                    </div>
+                    <div class="member">
+                        <div class="member3pic"></div>
+                        <p>Xinyue Hu</p>
+                    </div>
+                    <div class="member">
+                        <div class="member4pic"></div>
+                        <p>Yifan Wu</p>
+                    </div>
                 </div>
-                <div class="member">
-                    <div class="member2pic"></div>
-                    <p>Qiu Yue</p>
+                <div id="nametip">
+                    <p>Names are arranged alphabetically — order does not reflect hierarchy.</p>
                 </div>
-                <div class="member">
-                    <div class="member3pic"></div>
-                    <p>Xinyue Hu</p>
-                </div>
-                <div class="member">
-                    <div class="member4pic"></div>
-                    <p>Yifan Wu</p>
-                </div>
-                <!-- 这里加一行小字：按照字母顺序排列 -->
             </div>
         </section>
 
-        <section class="DataReference">
-            <p>这里放数据和refer</p>
+        <section id="data_reference">
+            <div class="reference-wrapper fade-slide">
+                <h2 class="reference-title">About</h2>
+
+                <div class="reference-block">
+                    <h3>Data Sources</h3>
+                    <ul class="reference-list">
+                        <li><a href="https://comtradeplus.un.org/" target="_blank">UN Comtrade: International Trade
+                                Data</a></li>
+                        <li><a href="https://www.orbis.bvdinfo.com/" target="_blank">Orbis by Bureau van Dijk: Firm
+                                Ownership Data</a></li>
+                        <li><a href="https://www.gfdrr.org/" target="_blank">GFDRR: Resilience Indicators</a></li>
+                    </ul>
+                </div>
+
+                <div class="reference-block">
+                    <h3>Academic References</h3>
+                    <ul class="reference-list">
+                        <li>Krätke, S. (2014). How manufacturing industries connect cities into global urban networks.
+                            <i>Global Networks</i>, 14(2), 148–168.
+                        </li>
+                        <li>Taylor, P.J., Derudder, B. (2016). <i>World City Network: A Global Urban Analysis</i>.
+                            Routledge.</li>
+                        <li>OECD (2023). Measuring Pharmaceutical Trade. OECD Health Statistics.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-content">
+                <p>
+                    &copy; 2025 Centre for Advanced Spatial Analysis, University College London
+                    |
+                    <a href="https://github.com/Van-Wu1/CASA0025_GroupWork.git" target="_blank">GitHub</a>
+                </p>
+            </div>
         </section>
+
     </main>
 
-    <footer>
+    <!-- <footer>
         <div class="footer-content">
             <p>
                 &copy; 2025 Centre for Advanced Spatial Analysis, University College London
@@ -952,7 +981,7 @@
                 <a href="https://github.com/Van-Wu1/CASA0025_GroupWork.git" target="_blank">GitHub</a>
             </p>
         </div>
-    </footer>
+    </footer> -->
 
     <script type="module" src="js/0navbar.js" defer></script>
     <script type="module" src="js/0home.js"></script>
