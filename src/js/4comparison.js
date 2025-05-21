@@ -25,20 +25,24 @@ function initComparison() {
         container: 'map11',
         style: 'mapbox://styles/mapbox/light-v11',
         center: [-1.5, 52.5],
-        zoom: 3.5,
-        pitch: 55,
+        zoom: 5.5,
+        pitch: 60,
         bearing: 0,
-        projection: 'mercator'
+        projection: 'mercator',
+        minZoom: 4,   // 最小缩放级别（不能缩太远）
+        maxZoom: 7
     });
 
     const mapB = new mapboxgl.Map({
         container: 'map22',
         style: 'mapbox://styles/mapbox/light-v11',
         center: [-1.5, 52.5],
-        zoom: 3.5,
-        pitch: 55,
+        zoom: 5.5,
+        pitch: 60,
         bearing: 0,
-        projection: 'mercator'
+        projection: 'mercator',
+        minZoom: 4,   
+        maxZoom: 7
     });
 
     let radarChartA = null, radarChartB = null;

@@ -3,6 +3,9 @@ console.log("✅ 4resilience.js 加载成功");
 let selectedCity = null;
 let overlay;
 let points;
+
+
+
 function haversineDistance(lat1, lon1, lat2, lon2) {
   const toRad = deg => deg * Math.PI / 180;
   const R = 6371; // 地球半径，单位：km
@@ -21,10 +24,20 @@ const map_re = new mapboxgl.Map({
   container: 'map_re',
   style: 'mapbox://styles/mapbox/light-v11',
   center: [-0.1276, 51.5072],  // 英国伦敦
-  zoom: 5,
+  zoom: 6,
   pitch: 60,                   // 斜视角度
   bearing: 0,
-  projection: 'mercator'
+  projection: 'mercator',
+  minZoom: 4,   // 最小缩放级别（不能缩太远）
+  maxZoom: 7,  // 最大缩放级别（不能缩太近）
+  maxBounds: [
+    [-180, -85],  // 西南角：最小经度、最小纬度
+    [180, 85]     // 东北角：最大经度、最大纬度
+  ],
+  dragPan: {
+  deceleration: 0.9  // 越接近 1，惯性越小（可选）
+}
+
 });
 
 map_re.addControl(new mapboxgl.NavigationControl(), 'top-right');
@@ -218,8 +231,62 @@ overlay = new deck.MapboxOverlay({
     layers: [baseLayer, mainLayer]
 });
 
+
+//legend listener
+const filterState = {
+  0: true,
+  1: true,
+  2: true
+};
+
+document.querySelectorAll('#legend input[type="checkbox"]').forEach(checkbox => {
+  checkbox.addEventListener('change', () => {
+    const cluster = parseInt(checkbox.dataset.cluster);
+    filterState[cluster] = checkbox.checked;
+    updateMapLayers();  // 重新渲染图层
+  });
+});
+
+function updateMapLayers() {
+  // 只保留选中的cluster
+  const filteredData = adjustedPoints.filter(p => filterState[p.cluster]);
+
+  //update baselayer
+    const newBaseLayer = new deck.ColumnLayer({
+    data: filteredData,
+    getPosition: d => d.adjustedPosition,
+    getElevation: 5000,
+    getFillColor: [220, 220, 220, 180],
+    radius: 22000,
+    extruded: true,
+    elevationScale: 1
+  });
+  // 更新主图层（重新创建 ColumnLayer）
+  const newMainLayer = new deck.ColumnLayer({
+    data: filteredData,
+    getPosition: d => d.adjustedPosition,
+    getElevation: d => d.resilienceIndex * 5000,
+    getFillColor: d => {
+      if (d.cluster === 2) return [158, 193, 207, 180];
+      if (d.cluster === 1) return [168, 213, 186, 180];
+      if (d.cluster === 0) return [203, 170, 203, 180];
+      return [200, 200, 200];
+    },
+    radius: 21000,
+    extruded: true,
+    elevationScale: 10
+  });
+
+  // 重新设置 overlay 图层（保留 baseLayer）
+  overlay.setProps({
+    layers: [newBaseLayer, newMainLayer]
+  });
+}
+
+
 map_re.on('load', () => {
     map_re.addControl(overlay);
+    map_re.getCanvas().style.backgroundColor = '#cfd8dc';
 });
 
         // ✅ 城市下拉菜单
@@ -239,6 +306,10 @@ map_re.on('load', () => {
             selectedCity = selected;
 
             const cityData = points.find(p => p.city.trim() === selectedCity);
+
+
+
+
             if (cityData) {
                 drawRadarChart(cityData);
 
@@ -250,6 +321,13 @@ map_re.on('load', () => {
                     curve: 1.5,
                     easing: t => t
                 });
+                setTimeout(() => {
+                 window.scrollTo({ top: 0, behavior: 'instant' });
+                 }, 0);
+
+
+
+
             }
         });
     });
