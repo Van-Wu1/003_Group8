@@ -152,6 +152,7 @@
   padding: 0 10px 0 10px;
 }
 
+
 .panel-section {
   border-bottom: 1px solid #eee;
   padding-bottom: 1.5rem;
@@ -906,7 +907,7 @@ input:focus {
 
 .filter-bar {
   display: flex;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
   gap: 0.8rem;
   flex-wrap: wrap;
   flex-shrink: 0;
@@ -961,10 +962,24 @@ input:focus {
   transition: all 0.2s;
 }
 
-.sort-btn.active {
+/*.sort-btn.active {
   background: #3498db;
   color: white;
   border-color: #3498db;
+}*/
+
+/* Ownership 按钮使用粉色配色 */
+.sort-btn.active[data-sort="ownership"] {
+  background: var(--color-pink);
+  border-color: var(--color-pink);
+  color: white;
+}
+
+/* Assets 按钮使用紫色配色 */
+.sort-btn.active[data-sort="assets"] {
+  background: var(--color-purple);
+  border-color: var(--color-purple);
+  color: white;
 }
 
 .table-container {
@@ -1049,8 +1064,10 @@ input:focus {
 }
 
 .help-section {
-  padding-top: 60px !important; /* 添加顶部内边距，确保内容不被导航栏遮挡 */
-  margin-top: -45px !important; /* 负外边距以抵消视觉上的间距影响 */
+  padding-top: 60px !important;
+  /* 添加顶部内边距，确保内容不被导航栏遮挡 */
+  margin-top: -45px !important;
+  /* 负外边距以抵消视觉上的间距影响 */
   padding-bottom: 20px;
   border-bottom: 1px solid #eee;
   position: relative;
@@ -1215,6 +1232,7 @@ input:focus {
 }
 
 .modal-header h2 {
+  color: white !important;  /* 使用!important确保覆盖任何其他样式 */
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
@@ -1301,5 +1319,23 @@ input:focus {
 
 /* 解决点击时的滚动定位问题 */
 html {
-  scroll-padding-top: 60px; /* 为锚点链接提供滚动内边距 */
+  scroll-padding-top: 60px;
+  /* 为锚点链接提供滚动内边距 */
+}
+
+/* 1. 修改帮助模态框标题颜色 */
+.modal-header h2 {
+  color: white !important; /* 使用!important确保覆盖任何其他样式 */
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  white-space: normal;
+}
+
+/* 2. 修改控制关系详情面板标题颜色 */
+.panel-header h2 {
+  color: white !important; /* 使用!important确保覆盖任何其他样式 */
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
 }
