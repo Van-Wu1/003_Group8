@@ -1361,3 +1361,179 @@ html {
   font-weight: 600;
   margin: 0;
 }
+
+/* 新增以点击城市详细信息*/
+/* Entity Detail Modal */
+#detail-modal {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+#detail-modal.hidden {
+  display: none;
+}
+
+#detail-modal .modal-content {
+  background: white;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+#detail-modal .modal-header {
+  padding: 15px 20px;
+  background: linear-gradient(to right, var(--color-deep-blue), var(--color-light-blue));
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#detail-modal .modal-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white !important;
+}
+
+#detail-modal .modal-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#detail-modal .modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  max-height: calc(80vh - 60px);
+}
+
+/* Entity details styling */
+.entity-details {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.entity-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.entity-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.hq-icon {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.sub-icon {
+  background-color: #3498db;
+  color: white;
+}
+
+.entity-title h3 {
+  margin: 0 0 5px 0;
+  font-weight: 600;
+}
+
+.entity-subtitle {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.detail-section {
+  margin-bottom: 20px;
+}
+
+.detail-section h4 {
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+  color: var(--color-deep-blue);
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.detail-item {
+  background: #f8f9fa;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.detail-label {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-bottom: 3px;
+}
+
+.detail-value {
+  font-weight: 600;
+  color: var(--color-blue);
+}
+
+/* City subsidiaries list */
+.city-subsidiaries-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.subsidiary-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.subsidiary-item:last-child {
+  border-bottom: none;
+}
+
+.subsidiary-name {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.subsidiary-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  margin-top: 3px;
+}
