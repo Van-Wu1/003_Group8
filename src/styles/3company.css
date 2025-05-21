@@ -238,10 +238,10 @@
 }
 
 .panel-toggle-btn {
-  width: 100%;
+  width:calc(100% - 10px);
   background: linear-gradient(to right, #1E0F75, #3785D8);
   color: white;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: bold;
   padding: 12px 12px;
   border: none;
@@ -308,6 +308,7 @@
 /* 标题样式 */
 .filter-card-title {
   font-weight: bold;
+  font-size: 1.2rem;
   color: #1e0f75;
   margin-bottom: 15px;
   padding-bottom: 8px;
