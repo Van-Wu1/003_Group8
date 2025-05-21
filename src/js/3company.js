@@ -1492,7 +1492,7 @@ function showHelpModal() {
       <!-- Overview -->
       <section class="help-section" id="overview">
         <h3>Overview</h3>
-        <p>This visualization tool shows spatial distribution patterns and ownership control relationships of top global pharmaceutical companies, helping you understand headquarters and subsidiary structures.</p>
+        <p>This visualization tool shows spatial distribution patterns and ownership control relationships of top 20 global pharmaceutical companies, helping you understand headquarters and subsidiary structures.</p>
         <ul>
           <li>Visualize headquarters and subsidiary locations of multinational pharma companies</li>
           <li>Explore ownership relationships and hierarchical control</li>
@@ -1557,6 +1557,7 @@ function showHelpModal() {
       <section class="help-section" id="operations">
         <h3>Usage Guide</h3>
         
+        <p>!!choose a pharm company first</p>
         <h4>View Node Details</h4>
         <ol>
           <li>Click any HQ (red) or subsidiary (blue) node on the map</li>
@@ -1590,9 +1591,7 @@ function showHelpModal() {
         
         <h4>Data Sources</h4>
         <ul>
-          <li>Annual reports and financial disclosures</li>
-          <li>Commercial databases and corporate registries</li>
-          <li>Industry analyses and specialized datasets</li>
+          <li>Orbis Commercial databases and corporate registries</li>
         </ul>
         <p><em>Note: Values marked with * are estimates based on available information and industry averages.</em></p>
         
