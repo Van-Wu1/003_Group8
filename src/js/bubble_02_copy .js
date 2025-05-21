@@ -747,17 +747,12 @@ document.getElementById('toggleChartsBtn').addEventListener('click', () => {
   const wrapper = document.getElementById('dashboardWrapper');
 
   const isExpanded = bg.classList.toggle('expanded');
-  
-  if (isExpanded) {
-    charts.classList.add('expanded');
-    charts.classList.remove('collapsed');  // ✅ 关键：移除 collapsed
-  } else {
-    charts.classList.remove('expanded');
-    charts.classList.add('collapsed');     // ✅ 收起时加回 collapsed
-  }
+  charts.classList.toggle('expanded', isExpanded);
 
-  if (wrapper) {
-    wrapper.classList.toggle('scrollable', isExpanded);
+  if (wrapper && isExpanded) {
+    wrapper.classList.add('scrollable');
+  } else {
+    wrapper.classList.remove('scrollable');
   }
 
   btn.innerText = isExpanded ? '▼ Hide Charts' : '▲ Show Charts';

@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="./styles/0home.css" />
     <link rel="stylesheet" href="./styles/0intro.css" />
     <link rel="stylesheet" href="./styles/1map1.css" />
-    <link rel="stylesheet" href="./styles/bubble_new.css" />
+    <link rel="stylesheet" href="./styles/bubble_new_01.css" />
+    <link rel="stylesheet" href="./styles/summary_bubble.css" />
     <link rel="stylesheet" href="./styles/3company.css" />
     <link rel="stylesheet" href="./styles/4styleHu.css" />
     <link rel="stylesheet" href="./styles/0team.css" />
@@ -296,7 +297,7 @@
                         <div class="right-panel" id="rightPanel">
                             <div class="info-panel" id="infoPanel">
                                 <div class="intro-text" id="defaultMessage">
-                                    <h4>Function Filters & Legend</h4>
+                                    <h4>Roles and Functions of Cities<br>in the Global Pharma Network</h4>
                                     <p>
                                         This platform visualizes the <strong>spatial organization</strong> of the global
                                         pharmaceutical
@@ -381,7 +382,90 @@
 
                 </div>
         </section>
+        <section id="bubble_summary">
+            <div class="pharma-horizontal-wrapper">
 
+                <div class="pharma-function-bar wheel-selector">
+                    <h2>Function Types</h2>
+                    <p class="wheel-hint">Scroll or click to explore function-specific city patterns.</p>
+                    <div class="wheel-wrapper">
+                        <!-- <div class="center-indicator"></div> -->
+                        <div class="wheel-container">
+                            <div class="wheel-item" data-function="rd">R&D</div>
+                            <div class="wheel-item" data-function="raw">API</div>
+                            <div class="wheel-item" data-function="manu">Manufacturing</div>
+                            <div class="wheel-item" data-function="pack">Packaging</div>
+                            <div class="wheel-item" data-function="wholesale">Wholesale</div>
+                            <div class="wheel-item" data-function="retail">Retail/Medical</div>
+                            <div class="wheel-item" data-function="support">Support/Other</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pharma-main-area">
+                    <!-- Matrix Area -->
+                    <div class="pharma-matrix-area chart-section">
+                        <div class="chart-title-wrapper">
+                            <h3 class="chart-title">Dependency vs Contribution</h3>
+                        </div>
+                        <div class="chart-body">
+                            <svg id="fingerprintChart"></svg>
+                        </div>
+                    </div>
+
+                    <!-- Bubble Area -->
+                    <div class="pharma-bubble-area chart-section">
+                        <div class="chart-title-wrapper">
+                            <h3 class="chart-title">City Role Structure</h3>
+                        </div>
+                        <div class="chart-body">
+                            <div class="chart-scale-wrapper">
+                                <svg id="bubbleChart"></svg>
+                            </div>
+                            <div id="bubbleLegend">
+                                <div class="legend-row">
+                                    <div class="bubble-shape circle"></div> Multi-functional
+                                </div>
+                                <div class="legend-row">
+                                    <div class="bubble-shape triangle"></div> Single-function
+                                </div>
+                                <div class="legend-row">
+                                    <div class="bubble-shape square"></div> Weakly Diversified
+                                </div>
+                                <div class="legend-row" style="margin-top: 8px;">Dominance Ratio</div>
+                                <div class="color-bar"></div>
+                                <div class="legend-row" style="justify-content: space-between;">
+                                    <span>0</span><span>1</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pharma-summary-insights">
+                    <h3>STRUCTURAL INSIGHTS</h3>
+                    <ul>
+                        <li><strong>Dual Specialization:</strong> Only a few cities combine both high specialization and
+                            large
+                            scale.</li>
+                        <li><strong>North American Pattern:</strong> Manufacturing dominates across U.S. cities, while
+                            R&D is
+                            limited to a few hubs.</li>
+                        <li><strong>Regional Dominance:</strong> Europe leads in Wholesale, whereas Asia shows high
+                            functional
+                            heterogeneity.</li>
+                        <li><strong>Diversity vs Dominance:</strong> Cities tend to trade off internal specialization
+                            for global
+                            influence — both rarely coexist.</li>
+                        <li><strong>Functional Geography:</strong> Multifunctional cities are more common in Europe and
+                            Asia;
+                            the U.S. has more specialized hubs.</li>
+                    </ul>
+
+                </div>
+
+            </div>
+        </section>
 
         <section class="Section6" id="section6">
             <div class="intro-container">
@@ -666,63 +750,75 @@
         </section>
 
 
-<section class="Section_m" id="methodology">
+        <section class="Section_m" id="methodology">
 
-  <!-- 🟢 左侧引导文字 -->
-  <div class="intro-content">
-    <h1>After reading all this, perhaps you're also wondering: </h1>
-    <p>Why have some cities managed to occupy the core of the network for so long?<br>
-       Which cities are likely to rise as new hubs?<br>
-       What are the key factors that need to be focused on to reduce risk?<br>
-       Perhaps the Urban Resilience Index can answer your questions.
-    </p>
-    <button id="exploreBtn">Explore</button>
-  </div>
+            <!-- 🟢 左侧引导文字 -->
+            <div class="intro-content">
+                <h1>After reading all this, perhaps you're also wondering: </h1>
+                <p>Why have some cities managed to occupy the core of the network for so long?<br>
+                    Which cities are likely to rise as new hubs?<br>
+                    What are the key factors that need to be focused on to reduce risk?<br>
+                    Perhaps the Urban Resilience Index can answer your questions.
+                </p>
+                <button id="exploreBtn">Explore</button>
+            </div>
 
-  <!-- 🟡 右侧内容，初始隐藏 -->
-  <div id="methodology-extra" class="hidden">
-    <div class="definition-row">
-      <div class="card">
-        <h2>What is Urban Resilience Index?</h2>
-        <p>When the cities we live in face shocks such as global epidemics, climate change, and economic crises, some cities are able to adapt quickly and grow steadily, while others are vulnerable to severe impacts. 
-            The Urban Resilience Index (URI) is a comprehensive measure of a city's ability to stabilise, recover and continue to function in such “volatile environments”.</p>
-        <ul>
-          <li>Functional Diversity(FD)</li>
-          <li>Operating Revenue(OP)</li>
-          <li>ESG Index</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h2>What is ESG index?</h2>
-        <ul>
-            <p>ESG index is now an important criterion used globally to judge whether a business is responsible and sustainable.</p>
-          <li><strong>Environmental(E)</strong>: whether a company attaches importance to green development and pollution reduction</li>
-          <li><strong>Social(S)</strong>: whether the treatment of employees, customer relations, and community impact are good</li>
-          <li><strong>Governance(G)</strong>: whether the management is transparent and the system is sound</li>
-          <li><strong>Overall(O)</strong>: A composite score</li>
-        </ul>
-      </div>
-    </div>
+            <!-- 🟡 右侧内容，初始隐藏 -->
+            <div id="methodology-extra" class="hidden">
+                <div class="definition-row">
+                    <div class="card">
+                        <h2>What is Urban Resilience Index?</h2>
+                        <p>When the cities we live in face shocks such as global epidemics, climate change, and economic
+                            crises, some cities are able to adapt quickly and grow steadily, while others are vulnerable
+                            to severe impacts.
+                            The Urban Resilience Index (URI) is a comprehensive measure of a city's ability to
+                            stabilise, recover and continue to function in such “volatile environments”.</p>
+                        <ul>
+                            <li>Functional Diversity(FD)</li>
+                            <li>Operating Revenue(OP)</li>
+                            <li>ESG Index</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h2>What is ESG index?</h2>
+                        <ul>
+                            <p>ESG index is now an important criterion used globally to judge whether a business is
+                                responsible and sustainable.</p>
+                            <li><strong>Environmental(E)</strong>: whether a company attaches importance to green
+                                development and pollution reduction</li>
+                            <li><strong>Social(S)</strong>: whether the treatment of employees, customer relations, and
+                                community impact are good</li>
+                            <li><strong>Governance(G)</strong>: whether the management is transparent and the system is
+                                sound</li>
+                            <li><strong>Overall(O)</strong>: A composite score</li>
+                        </ul>
+                    </div>
+                </div>
 
-    <div class="cluster-row">
-      <div class="cluster-card green">
-        <h3>environmentally orientated city</h3>
-        <p>environmentally friendly, energy efficient and carbon reducing; and have a strong ability to adapt to climate policies</p>
-      </div>
-      <div class="cluster-card blue">
-        <h3>Socially orientated city</h3>
-        <p>perform well in terms of employee well-being and community responsibility; place more emphasis on social equity and public relations; and are more likely to gain social support and trust in the event of a public incident</p>
-      </div>
-      <div class="cluster-card purple">
-        <h3>Governance-oriented city</h3>
-        <p>transparent and compliant in their management; have well-developed systems and clear response mechanisms; and are more able to respond quickly to emergencies and allocate resources efficiently</p>
-      </div>
-    </div>
-  </div>
+                <div class="cluster-row">
+                    <div class="cluster-card green">
+                        <h3>environmentally orientated city</h3>
+                        <p>environmentally friendly, energy efficient and carbon reducing; and have a strong ability to
+                            adapt to climate policies</p>
+                    </div>
+                    <div class="cluster-card blue">
+                        <h3>Socially orientated city</h3>
+                        <p>perform well in terms of employee well-being and community responsibility; place more
+                            emphasis on social equity and public relations; and are more likely to gain social support
+                            and trust in the event of a public incident</p>
+                    </div>
+                    <div class="cluster-card purple">
+                        <h3>Governance-oriented city</h3>
+                        <p>transparent and compliant in their management; have well-developed systems and clear response
+                            mechanisms; and are more able to respond quickly to emergencies and allocate resources
+                            efficiently</p>
+                    </div>
+                </div>
+            </div>
 
-</section>
+        </section>
 
-       
+
 
 
 
@@ -741,7 +837,7 @@
                     <div><span style="background-color: rgb(203, 170, 203);"></span> Governance-oriented city</div>
                 </div>
             </div>
-             
+
 
             <div class="menu">
                 <div id="radar">
@@ -837,7 +933,8 @@
     <script type="module" src="js/0home.js"></script>
     <script type="module" src="js/0intro.js"></script>
     <script type="module" src="js/1map_imexport.js"></script>
-    <script src="./js/bubble_01 copy.js"></script>
+    <script src="./js/bubble_01_copy.js"></script>
+    <script src="./js/summary_bubble.js"></script>
     <script src="./js/3company.js"></script>
     <script src="./js/4resilience.js"></script>
     <script src="./js/4comparison.js"></script>
