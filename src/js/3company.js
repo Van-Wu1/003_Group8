@@ -2191,13 +2191,18 @@ document.addEventListener("DOMContentLoaded", function () {
     panel.style.transition = "max-height 0.3s ease";
 
     // Special handling for Control Hierarchy panel - make it open by default
-    if (btn.textContent.trim() === "Control Hierarchy") {
-      btn.classList.add("active");
-      panel.style.maxHeight = panel.scrollHeight + "px";
-      panel.style.overflow = "auto";
-    } else {
-      panel.style.maxHeight = "0";
-    }
+    // if (btn.textContent.trim() === "Control Hierarchy") {
+    //   btn.classList.add("active");
+    //   panel.style.maxHeight = panel.scrollHeight + "px";
+    //   panel.style.overflow = "auto";
+    // } else {
+    //   panel.style.maxHeight = "0";
+    // }
+
+
+    panel.style.maxHeight = "0";
+    btn.classList.remove("active");
+
 
     btn.addEventListener("click", () => {
       // Toggle active class on button

@@ -484,8 +484,7 @@
                     <div class="filter-card">
                         <div class="filter-card-title">Control Network Filters</div>
                         <div class="highlight-text">
-                            <label for="company-selector"
-                                style="font-weight: bold; color: #E893C5; font-size: 1.1rem;">Select a
+                            <label for="company-selector" class="gradient-label">Select a
                                 pharmaceutical company:</label>
                             <select id="company-selector" class="full-width">
                                 <option value="" selected disabled>Please select a company</option>
@@ -751,6 +750,17 @@
 
                     <div id="help-modal-body">
                         <!-- 帮助内容将通过JavaScript填充 -->
+                    </div>
+                </div>
+            </div>
+            <div id="detail-modal" class="hidden">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 id="modal-title">Entity Details</h2>
+                        <button id="modal-close" class="modal-close">×</button>
+                    </div>
+                    <div id="modal-body" class="modal-body">
+                        <!-- Content will be dynamically populated -->
                     </div>
                 </div>
             </div>
