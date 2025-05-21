@@ -1480,143 +1480,143 @@ function initEventListeners() {
 
 // 显示帮助模态框函数
 function showHelpModal() {
-  console.log("帮助按钮被点击，正在打开模态框");
+  console.log("Help button clicked, opening help modal");
   const helpModalBody = document.getElementById('help-modal-body');
   const helpModal = document.getElementById('help-modal');
 
   if (!helpModalBody || !helpModal) return;
 
-  // 帮助内容HTML - 重新组织内容避免重叠
+  // Help content HTML – reorganized to avoid overlap
   const helpContent = `
     <div class="help-content">
-      <!-- 功能概述 -->
+      <!-- Overview -->
       <section class="help-section" id="overview">
-        <h3>功能概述</h3>
-        <p>本可视化工具展示了全球主要制药公司的空间分布模式和控制关系，帮助您了解企业总部与子公司之间的所有权结构。</p>
+        <h3>Overview</h3>
+        <p>This visualization tool shows spatial distribution patterns and ownership control relationships of top global pharmaceutical companies, helping you understand headquarters and subsidiary structures.</p>
         <ul>
-          <li>直观查看跨国制药公司的总部与子公司分布</li>
-          <li>了解企业之间的所有权关系和空间层级</li>
-          <li>探索不同区域和城市的控制力量</li>
-          <li>分析国际化程度与控制强度</li>
+          <li>Visualize headquarters and subsidiary locations of multinational pharma companies</li>
+          <li>Explore ownership relationships and hierarchical control</li>
+          <li>Analyze control strength across regions and cities</li>
+          <li>Assess international reach and control intensity</li>
         </ul>
       </section>
 
-      <!-- 控制面板 -->
+      <!-- Control Panel -->
       <section class="help-section" id="controls">
-        <h3>控制面板</h3>
-        <h4>筛选与控制</h4>
+        <h3>Control Panel</h3>
+        <h4>Filters & Controls</h4>
         <ul>
-          <li><strong>公司选择器</strong>：从下拉菜单中选择单个制药公司或查看全部前20家公司</li>
-          <li><strong>所有权滑块</strong>：调整最低所有权比例阈值，筛选不同控制强度的关系</li>
+          <li><strong>Company Selector</strong>: Choose a single pharmaceutical company or view the top 20 list</li>
+          <li><strong>Ownership Slider</strong>: Adjust the minimum ownership threshold to filter relationships by control strength</li>
         </ul>
         
-        <h4>数据展示面板</h4>
-        <p>点击面板标题可展开或折叠相应的信息板块：</p>
+        <h4>Data Display Panels</h4>
+        <p>Click a panel header to expand or collapse its content:</p>
         <ul>
-          <li><strong>网络概览</strong>：显示实体数量、总部城市、子公司城市、平均所有权等关键统计数据</li>
-          <li><strong>控制层次结构</strong>：直观呈现总部与子公司之间的层级关系和完全控制比例</li>
-          <li><strong>权力枢纽城市</strong>：排名最具影响力的城市及其控制公司数量</li>
+          <li><strong>Network Overview</strong>: Key statistics such as entity count, HQ cities, subsidiary cities, and average ownership</li>
+          <li><strong>Control Hierarchy</strong>: Hierarchical view of headquarters and subsidiaries with full-control ratios</li>
+          <li><strong>Power Hub Cities</strong>: Rank of most influential cities and number of companies they control</li>
         </ul>
       </section>
       
-      <!-- 地图视图 -->
+      <!-- Map View -->
       <section class="help-section" id="map">
-        <h3>地图视图</h3>
-        <h4>图例说明</h4>
+        <h3>Map View</h3>
+        <h4>Legend</h4>
         <ul>
-          <li><strong>红色节点</strong>：总部城市，表示公司决策中心</li>
-          <li><strong>蓝色节点</strong>：子公司城市，表示被控制实体所在地</li>
-          <li><strong>连接线强度</strong>：
+          <li><strong>Red Nodes</strong>: Headquarters cities (decision centers)</li>
+          <li><strong>Blue Nodes</strong>: Subsidiary cities (controlled entities)</li>
+          <li><strong>Line Thickness</strong>:
             <ul>
-              <li>粗线 - 完全控制 (100%所有权)</li>
-              <li>中等线 - 多数控制 (51-99%所有权)</li>
-              <li>细线 - 少数控制 (≤50%所有权)</li>
+              <li>Thick – Full Control (100% ownership)</li>
+              <li>Medium – Majority Control (51–99% ownership)</li>
+              <li>Thin – Minority Control (≤50% ownership)</li>
             </ul>
           </li>
         </ul>
         
-        <h4>地图控制按钮</h4>
+        <h4>Map Controls</h4>
         <ul>
-          <li><strong>适应数据</strong>：调整视图显示所有数据点</li>
-          <li><strong>聚焦总部</strong>：快速定位到公司总部</li>
-          <li><strong>切换标签</strong>：显示/隐藏城市名称标签</li>
-          <li><strong>显示帮助</strong>：打开本帮助面板</li>
+          <li><strong>Fit Data</strong>: Adjust map to show all data points</li>
+          <li><strong>Focus HQ</strong>: Center map on the headquarters</li>
+          <li><strong>Toggle Labels</strong>: Show/hide city name labels</li>
+          <li><strong>Show Help</strong>: Open this help panel</li>
         </ul>
         
-        <h4>右侧详情栏</h4>
-        <p>将鼠标悬停在右侧标签上可展开详情面板，查看更多分析：</p>
+        <h4>Right-Side Details</h4>
+        <p>Hover over the right-side tab to expand the details panel for more analysis:</p>
         <ul>
-          <li><strong>网络密度分析</strong>：展示不同大洲的节点分布</li>
-          <li><strong>跨国控制路径</strong>：分析控制距离与国际化程度</li>
-          <li><strong>权力枢纽城市</strong>：显示最具战略重要性的城市</li>
-          <li><strong>子公司表格</strong>：提供详细的子公司清单与筛选功能</li>
+          <li><strong>Network Density</strong>: Displays node distribution by continent</li>
+          <li><strong>Cross-Border Paths</strong>: Analyzes control distance and international reach</li>
+          <li><strong>Power Hub Cities</strong>: Highlights strategically important cities</li>
+          <li><strong>Subsidiary Table</strong>: Detailed subsidiary list with filtering</li>
         </ul>
       </section>
       
-      <!-- 操作指南 -->
+      <!-- Usage Guide -->
       <section class="help-section" id="operations">
-        <h3>操作指南</h3>
+        <h3>Usage Guide</h3>
         
-        <h4>查看节点详情</h4>
+        <h4>View Node Details</h4>
         <ol>
-          <li>点击地图上的任意总部（红色）或子公司（蓝色）节点</li>
-          <li>弹出窗口将显示该节点的详细信息</li>
-          <li>对于总部城市，您将看到公司概览</li>
-          <li>对于子公司城市，您将看到该城市中所有子公司的列表</li>
+          <li>Click any HQ (red) or subsidiary (blue) node on the map</li>
+          <li>A popup will show detailed information for that node</li>
+          <li>For HQ cities, an overview of the company will appear</li>
+          <li>For subsidiary cities, a list of all subsidiaries in that city will appear</li>
         </ol>
         
-        <h4>筛选控制关系</h4>
+        <h4>Filter Ownership Relationships</h4>
         <ol>
-          <li>拖动所有权滑块调整最低阈值</li>
-          <li>点击滑块外部区域或释放滑块以应用筛选</li>
-          <li>观察地图和数据如何随着筛选条件变化</li>
-          <li>调低阈值可查看更多间接和少数控股关系</li>
+          <li>Drag the ownership slider to set the minimum threshold</li>
+          <li>Release the slider or click outside to apply the filter</li>
+          <li>Watch how the map and data update based on your selection</li>
+          <li>Lower thresholds reveal more indirect and minority holdings</li>
         </ol>
         
-        <h4>使用子公司表格</h4>
+        <h4>Use the Subsidiary Table</h4>
         <ol>
-          <li>将鼠标悬停在右侧"Hover me"标签上</li>
-          <li>点击表格/图表切换按钮（图表图标）</li>
-          <li>使用搜索框查找特定子公司</li>
-          <li>通过下拉菜单筛选大洲</li>
-          <li>点击排序按钮按所有权或资产排序</li>
+          <li>Hover over the “Hover me” tab on the right</li>
+          <li>Click the table/chart toggle button</li>
+          <li>Use the search box to find a specific subsidiary</li>
+          <li>Filter by continent using the dropdown</li>
+          <li>Sort by ownership or assets using the buttons</li>
         </ol>
       </section>
       
-      <!-- 数据说明 -->
+      <!-- Data Details -->
       <section class="help-section" id="data">
-        <h3>数据说明</h3>
-        <p>本可视化使用的数据基于全球前20大制药公司的企业结构、所有权关系和地理分布信息。</p>
+        <h3>Data Details</h3>
+        <p>The data behind this visualization is based on corporate structures, ownership relationships, and geographic information for the top 20 global pharmaceutical companies.</p>
         
-        <h4>数据来源</h4>
+        <h4>Data Sources</h4>
         <ul>
-          <li>公司年报与财务披露文件</li>
-          <li>商业数据库与企业注册信息</li>
-          <li>行业分析报告与专业数据集</li>
+          <li>Annual reports and financial disclosures</li>
+          <li>Commercial databases and corporate registries</li>
+          <li>Industry analyses and specialized datasets</li>
         </ul>
-        <p><em>注：标有*号的数值为估计值，基于可用信息和行业均值计算得出。</em></p>
+        <p><em>Note: Values marked with * are estimates based on available information and industry averages.</em></p>
         
-        <h4>颜色编码</h4>
-        <p>地图上不同大洲使用不同颜色标记：</p>
+        <h4>Color Coding</h4>
+        <p>Different continents are color-coded on the map:</p>
         <ul>
-          <li>北美洲：粉色 (#E893C5)</li>
-          <li>欧洲：蓝色 (#3785D8)</li>
-          <li>亚洲：浅蓝色 (#ADC6E5)</li>
-          <li>非洲：紫色 (#BF8CE1)</li>
-          <li>南美洲：浅粉色 (#EBB2C3)</li>
-          <li>大洋洲：极浅蓝色 (#CBD8E8)</li>
+          <li>North America: Pink (#E893C5)</li>
+          <li>Europe: Blue (#3785D8)</li>
+          <li>Asia: Light Blue (#ADC6E5)</li>
+          <li>Africa: Purple (#BF8CE1)</li>
+          <li>South America: Light Pink (#EBB2C3)</li>
+          <li>Oceania: Pale Blue (#CBD8E8)</li>
         </ul>
       </section>
     </div>
   `;
 
-  // 填充帮助内容
+  // Inject help content
   helpModalBody.innerHTML = helpContent;
 
-  // 显示模态框
+  // Show the modal
   helpModal.classList.remove('hidden');
 
-  // 设置导航功能
+  // Initialize help navigation links
   setupHelpNavigation();
 }
 
