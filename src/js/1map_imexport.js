@@ -18,8 +18,8 @@ mapboxgl.accessToken = 'pk.eyJ1IjoidmFuMTEyMDEwMTZ3dSIsImEiOiJjbTd1b2JodnMwMmV1M
 
 const map1 = new mapboxgl.Map({
     container: 'map1',
-    style: 'mapbox://styles/van11201016wu/cmaicl244001t01s90chs5mfb',
-    center: [10, 30],
+    style: 'mapbox://styles/van11201016wu/cmabq2dt000lb01sd50i8cp8x',
+    center: [0, 0],
     zoom: 0.78
 });
 
@@ -56,7 +56,7 @@ map1.on('load', function () {
         'source-layer': 'country_boundaries',
         'paint': {
             'fill-color': '#FFFFFF',
-            'fill-opacity': 0.7
+            'fill-opacity': 1
         }
     });
 
@@ -77,7 +77,7 @@ map1.on('load', function () {
         source: 'countries',
         'source-layer': 'country_boundaries',
         paint: {
-            'line-color': '#ff0000',
+            'line-color': '#f156ff',
             'line-width': 1.5
         },
         filter: ['==', 'iso_3166_1_alpha_3', '']
