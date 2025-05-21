@@ -1039,15 +1039,20 @@ input:focus {
 
 /* help */
 .help-content {
-  padding: 0 1rem 1rem 1rem;
+  margin: 0 0 20px 0;
+  padding: 0 20px 20px 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
   color: #333;
   line-height: 1.7;
   z-index: 9999;
 }
 
 .help-section {
-  margin-bottom: 2.5rem;
-  padding-bottom: 1.5rem;
+  padding-top: 60px !important; /* 添加顶部内边距，确保内容不被导航栏遮挡 */
+  margin-top: -45px !important; /* 负外边距以抵消视觉上的间距影响 */
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
   position: relative;
   border-bottom: 1px solid #f0f0f0;
   clear: both;
@@ -1059,10 +1064,11 @@ input:focus {
 }
 
 .help-section h3 {
-  color: #2c3e50;
-  font-size: 1.3rem;
-  border-bottom: 2px solid #3498db;
-  padding-bottom: 0.5rem;
+  color: var(--color-deep-blue);
+  font-size: 1.1rem;
+  margin: 15px 0 10px 0;
+  border-bottom: 2px solid var(--color-light-blue);
+  padding-bottom: 5px;
   margin-bottom: 1.2rem;
   font-weight: 600;
 }
@@ -1076,15 +1082,17 @@ input:focus {
 }
 
 .help-subsection h4 {
-  color: #34495e;
-  font-size: 1.1rem;
+  color: var(--color-blue);
+  font-size: 1rem;
+  margin: 15px 0 10px 0;
   margin-bottom: 1rem;
   font-weight: 500;
 }
 
 .help-content ul,
 .help-content ol {
-  padding-left: 1.8rem;
+  padding-left: 20px;
+  margin: 10px 0;
   margin-bottom: 1.2rem;
 }
 
@@ -1098,9 +1106,16 @@ input:focus {
 }
 
 .help-content li {
-  margin-bottom: 0.7rem;
-  line-height: 1.6;
+  margin-bottom: 8px;
+  line-height: 1.5;
   padding-right: 10px;
+}
+
+/* 确保列表项中的小圆点与文字保持合适的间距 */
+.help-content ul li {
+  position: relative;
+  list-style-type: disc;
+  margin-left: 5px;
 }
 
 .help-content p {
@@ -1111,7 +1126,7 @@ input:focus {
 
 .help-content strong {
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--color-blue);
 }
 
 #help-modal .modal-content {
@@ -1131,12 +1146,13 @@ input:focus {
 }
 
 #help-modal-body {
-  padding: 1.5rem 2rem;
+  padding: 0;
   overflow-y: auto;
   max-height: calc(85vh - 60px);
   font-family: 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   scrollbar-width: thin;
   scrollbar-color: #95a5a6 #ecf0f1;
+  color: #333;
 }
 
 #help-modal-body::-webkit-scrollbar {
@@ -1173,4 +1189,117 @@ input:focus {
   #help-modal .modal-content {
     max-width: 850px !important;
   }
+}
+
+/* 内容区域样式 */
+.modal-content {
+  background: white;
+  border-radius: 10px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 85vh;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 顶部标题样式 */
+.modal-header {
+  padding: 15px 20px;
+  background: linear-gradient(to right, var(--color-deep-blue), var(--color-light-blue));
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  white-space: normal;
+}
+
+/* 关闭按钮 */
+.modal-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 导航菜单 */
+.help-nav {
+  background: #f8f9fa;
+  padding: 10px 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.nav-item {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: var(--color-deep-blue);
+  cursor: pointer;
+  background: white;
+  border: 1px solid #e0e0e0;
+  white-space: nowrap;
+}
+
+.nav-item.active {
+  background: var(--color-light-blue);
+  color: white;
+  border-color: var(--color-light-blue);
+}
+
+
+/* 列表样式 */
+.help-content ol {
+  padding-left: 25px;
+  margin: 10px 0;
+}
+
+.help-content ul {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+.help-content li {
+  margin-bottom: 5px;
+  line-height: 1.5;
+}
+
+/* 增强对比度解决可读性问题 */
+.help-content {
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+/* 修复列表嵌套问题 */
+.help-tab-content ol {
+  margin-top: 8px;
+}
+
+/* 确保数据说明部分有足够间距 */
+#data {
+  padding-bottom: 30px;
+}
+
+/* 解决点击时的滚动定位问题 */
+html {
+  scroll-padding-top: 60px; /* 为锚点链接提供滚动内边距 */
 }
