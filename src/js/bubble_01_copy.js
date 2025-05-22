@@ -78,7 +78,7 @@ function getRadiusByZoomAndValue(zoom, value) {
 function applyFilter() {
   currentSelectedFunctions = getSelectedFunctions();
   currentMinCompanyCount = parseInt(document.getElementById('minCompanyCount').value, 10) || 0;
-  updateTopCitiesByFunctionMulti(currentSelectedFunctions, currentCityLimit, currentMinCompanyCount);
+  updateTopCitiesByFunctionMulti(currentSelectedFunctions, undefined, currentMinCompanyCount);
   updateMapWithFilters(currentSelectedFunctions, currentMinCompanyCount);
 };
 
@@ -745,7 +745,7 @@ document.getElementById('toggleChartsBtn').addEventListener('click', () => {
   const wrapper = document.getElementById('dashboardWrapper');
 
   const isExpanded = bg.classList.toggle('expanded');
-  
+
   if (isExpanded) {
     charts.classList.add('expanded');
     charts.classList.remove('collapsed');  // ✅ 关键：移除 collapsed
