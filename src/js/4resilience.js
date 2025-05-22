@@ -42,20 +42,20 @@ const map_re = new mapboxgl.Map({
 
 map_re.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
-fetch('./data/clean/City_level_resilience_data_FINAL_FIXED.geojson')
+fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.geojson')
   .then(response => response.json())
   .then(data => {
     points = data.features.map(f => ({
       position: f.geometry.coordinates,
-      resilienceIndex: f.properties.resilienceIndex,
-      cluster: f.properties.Cluster,
-      city: f.properties.City.trim(),
-      MSCIoverall: f.properties.MSCIoverall,                 // ✅ 新增
-      MSCIenvi: f.properties.MSCIenvi,
-      MSCIsocial: f.properties.MSCIsocial,
-      MSCIgovern: f.properties.MSCIgovern,
-      operatingRevenue: f.properties["Operating revenue"],
-      functionalDiversity: f.properties.functionalDiversity
+      resilienceIndex: f.properties.resilienceindex,
+      cluster: f.properties.cluster,
+      city: f.properties.city.trim(),
+      MSCIoverall: f.properties.mscioverall,                 // ✅ 新增
+      MSCIenvi: f.properties.mscienvi,
+      MSCIsocial: f.properties.mscisocial,
+      MSCIgovern: f.properties.mscigovern,
+      operatingRevenue: f.properties.operatingrevenue,
+      functionalDiversity: f.properties.functionaldiversity
 
     }));
 
@@ -402,7 +402,7 @@ function drawRadarChart(props) {
           props.MSCIenvi,
           props.MSCIsocial,
           props.MSCIgovern,
-          props["operatingRevenue"] / 1500000,
+          props.operatingRevenue,
           props.functionalDiversity
         ],
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
