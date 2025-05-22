@@ -39,8 +39,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script src="https://unpkg.com/deck.gl@latest/dist.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 
 <body>
@@ -50,7 +48,10 @@
         <div class="sidebar" id="sidebar">
             <a href="#home">Home</a>
             <a href="#pharma-page-1">Introduction</a>
-            <a href="#section7">Data</a>
+            <a href="#section3">Map1</a>
+            <a href="#section5">Map2</a>
+            <a href="#section7">Map3</a>
+            <a href="#section8">Map4</a>
             <a href="#team">Team</a>
             <a href="#data_reference">About</a>
         </div>
@@ -179,7 +180,7 @@
         </section>
 
         <!-- 第三张也是第一张贸易总览地图 -->
-        <section class="Section3">
+        <section class="Section3" id="section3">
             <!-- 这个是顶上的文字部分 -->
             <div class="section-header">
                 <h2 class="section-header-animate">
@@ -192,42 +193,22 @@
 
             <!-- 这里是主体模块 123 -->
             <div class="map-legend-container">
-                <!-- 左侧： 图例 -->
-                <!-- <div id="Map1Legend">
-                    <div><p>HIGH</p></div>
-                    <div id="Map1BlockLegend"></div>
-                    <div><p>LOW</p></div>
-                </div> -->
-
-                <!-- 中间：上部地图，下部切换 -->
+                <!-- 左中：上部地图，下部切换 -->
                 <div class="middle">
                     <div id="map1">
                         <div class="toggle-container">
-                        <div class="labels">
-                            <span>Total Trade</span>
-                            <span>Import</span>
-                            <span>Export</span>
-                        </div>
-                        <div class="switch">
-                            <input type="range" min="0" max="2" value="0" id="projectionToggle">
-                            <div class="track"></div>
-                            <div class="thumb"></div>
+                            <div class="labels">
+                                <span>Total Trade</span>
+                                <span>Import</span>
+                                <span>Export</span>
+                            </div>
+                            <div class="switch">
+                                <input type="range" min="0" max="2" value="0" id="projectionToggle">
+                                <div class="track"></div>
+                                <div class="thumb"></div>
+                            </div>
                         </div>
                     </div>
-                    </div>
-
-                    <!-- <div class="toggle-container">
-                        <div class="labels">
-                            <span>Total Trade</span>
-                            <span>Import</span>
-                            <span>Export</span>
-                        </div>
-                        <div class="switch">
-                            <input type="range" min="0" max="2" value="0" id="projectionToggle">
-                            <div class="track"></div>
-                            <div class="thumb"></div>
-                        </div>
-                    </div> -->
                 </div>
 
                 <!-- 右侧：图表区 -->
@@ -292,7 +273,7 @@
                         <div class="right-panel" id="rightPanel">
                             <div class="info-panel" id="infoPanel">
                                 <div class="intro-text" id="defaultMessage">
-                                    <h4>Roles and Functions of Cities<br>in the Global Pharma Network</h4>
+                                    <h4>Roles and Functions of Cities <br> in the Global Pharma Network</h4>
                                     <p>
                                         This platform visualizes the <strong>spatial organization</strong> of the global
                                         pharmaceutical
@@ -458,9 +439,7 @@
                             Asia;
                             the U.S. has more specialized hubs.</li>
                     </ul>
-
                 </div>
-
             </div>
         </section>
 
@@ -772,80 +751,87 @@
 
         <section class="Section_m" id="methodology">
 
-          
-<div id="intro-screen">
-  <div class="intro-content">
-    <h1>After reading all this, perhaps you're also wondering:</h1>
-    <p>
-      Why have some cities managed to occupy the core of the network for so long?<br>
-      Which cities are likely to rise as new hubs?<br>
-      What are the key factors that need to be focused on to reduce risk?<br>
-      Perhaps the <span class="gradient-text">Urban Resilience Index</span> can answer your questions.
-    </p>
-    <button id="exploreBtn">Explore</button>
-  </div>
-</div>
+
+            <div id="intro-screen">
+                <div class="intro-content">
+                    <h1>After reading all this, perhaps you're also wondering:</h1>
+                    <p>
+                        Why have some cities managed to occupy the core of the network for so long?<br>
+                        Which cities are likely to rise as new hubs?<br>
+                        What are the key factors that need to be focused on to reduce risk?<br>
+                        Perhaps the <span class="gradient-text">Urban Resilience Index</span> can answer your questions.
+                    </p>
+                    <button id="exploreBtn">Explore</button>
+                </div>
+            </div>
 
 
 
             <!-- 🟡 右侧内容，初始隐藏 -->
             <div id="methodology-extra" class="hidden">
                 <div class="content-wrapper">
-                <div class="definition-row">
-                    <div class="card">
-                        <h2>What is Urban Resilience Index?</h2>
-                        <p>When the cities we live in face shocks such as global epidemics, climate change, and economic
-                            crises, some cities are able to adapt quickly and grow steadily, while others are vulnerable
-                            to severe impacts.
-                            The Urban Resilience Index (URI) is a comprehensive measure of a city's ability to
-                            stabilise, recover and continue to function in such “volatile environments”.</p>
-                        <ul>
-                            <li>Functional Diversity(FD)</li>
-                            <li>Operating Revenue(OP)</li>
-                            <li>ESG Index</li>
-                        </ul>
+                    <div class="definition-row">
+                        <div class="card">
+                            <h2>What is Urban Resilience Index?</h2>
+                            <p>When the cities we live in face shocks such as global epidemics, climate change, and
+                                economic
+                                crises, some cities are able to adapt quickly and grow steadily, while others are
+                                vulnerable
+                                to severe impacts.
+                                The Urban Resilience Index (URI) is a comprehensive measure of a city's ability to
+                                stabilise, recover and continue to function in such “volatile environments”.</p>
+                            <ul>
+                                <li>Functional Diversity(FD)</li>
+                                <li>Operating Revenue(OP)</li>
+                                <li>ESG Index</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h2>What is ESG index?</h2>
+                            <ul>
+                                <p>ESG index is now an important criterion used globally to judge whether a business is
+                                    responsible and sustainable.</p>
+                                <li><strong>Environmental(E)</strong>: whether a company attaches importance to green
+                                    development and pollution reduction</li>
+                                <li><strong>Social(S)</strong>: whether the treatment of employees, customer relations,
+                                    and
+                                    community impact are good</li>
+                                <li><strong>Governance(G)</strong>: whether the management is transparent and the system
+                                    is
+                                    sound</li>
+                                <li><strong>Overall(O)</strong>: A composite score</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="card">
-                        <h2>What is ESG index?</h2>
-                        <ul>
-                            <p>ESG index is now an important criterion used globally to judge whether a business is
-                                responsible and sustainable.</p>
-                            <li><strong>Environmental(E)</strong>: whether a company attaches importance to green
-                                development and pollution reduction</li>
-                            <li><strong>Social(S)</strong>: whether the treatment of employees, customer relations, and
-                                community impact are good</li>
-                            <li><strong>Governance(G)</strong>: whether the management is transparent and the system is
-                                sound</li>
-                            <li><strong>Overall(O)</strong>: A composite score</li>
-                        </ul>
+
+                    <div class="cluster-row">
+                        <div class="cluster-card green">
+                            <h3>Environmentally Orientated City</h3>
+                            <p>Environmentally friendly, energy efficient and carbon reducing; and have a strong ability
+                                to
+                                adapt to climate policies</p>
+                        </div>
+                        <div class="cluster-card blue">
+                            <h3>Socially Orientated City</h3>
+                            <p>Perform well in terms of employee well-being and community responsibility; place more
+                                emphasis on social equity and public relations; and are more likely to gain social
+                                support
+                                and trust in the event of a public incident</p>
+                        </div>
+                        <div class="cluster-card purple">
+                            <h3>Governance-oriented City</h3>
+                            <p>Transparent and compliant in their management; have well-developed systems and clear
+                                response
+                                mechanisms; and are more able to respond quickly to emergencies and allocate resources
+                                efficiently</p>
+                        </div>
                     </div>
                 </div>
-
-                <div class="cluster-row">
-                    <div class="cluster-card green">
-                        <h3>Environmentally Orientated City</h3>
-                        <p>Environmentally friendly, energy efficient and carbon reducing; and have a strong ability to
-                            adapt to climate policies</p>
-                    </div>
-                    <div class="cluster-card blue">
-                        <h3>Socially Orientated City</h3>
-                        <p>Perform well in terms of employee well-being and community responsibility; place more
-                            emphasis on social equity and public relations; and are more likely to gain social support
-                            and trust in the event of a public incident</p>
-                    </div>
-                    <div class="cluster-card purple">
-                        <h3>Governance-oriented City</h3>
-                        <p>Transparent and compliant in their management; have well-developed systems and clear response
-                            mechanisms; and are more able to respond quickly to emergencies and allocate resources
-                            efficiently</p>
-                    </div>
-                </div></div>
             </div>
-
         </section>
 
         <!-- huxinyue -->
-        <section class="Section8">
+        <section class="Section8" id="section8">
             <div id="map_re">
                 <div id="citySelector">
                     <label for="cityDropdown">Select City:</label>
@@ -853,28 +839,24 @@
                         <option value="">please select city</option>
                     </select>
                 </div>
-<div id="legend">
-<div>
-  <input type="checkbox" data-cluster="2" checked>
-  <span class="color-box" style="background-color: #3785D8;"></span>
-  <span class="label-text">Environmentally Oriented City</span>
-</div>
-<div>
-  <input type="checkbox" data-cluster="1" checked>
-  <span class="color-box" style="background-color: #A692E8;"></span>
-  <span class="label-text">Socially Oriented City</span>
-</div>
-<div>
-  <input type="checkbox" data-cluster="0" checked>
-  <span class="color-box" style="background-color: #F3A6A1;"></span>
-  <span class="label-text">Governance-oriented City</span>
-</div>
-
+                <div id="legend">
+                    <div>
+                        <input type="checkbox" data-cluster="2" checked>
+                        <span class="color-box" style="background-color: #3785D8;"></span>
+                        <span class="label-text">Environmentally Oriented City</span>
+                    </div>
+                    <div>
+                        <input type="checkbox" data-cluster="1" checked>
+                        <span class="color-box" style="background-color: #A692E8;"></span>
+                        <span class="label-text">Socially Oriented City</span>
+                    </div>
+                    <div>
+                        <input type="checkbox" data-cluster="0" checked>
+                        <span class="color-box" style="background-color: #F3A6A1;"></span>
+                        <span class="label-text">Governance-oriented City</span>
+                    </div>
                 </div>
-
             </div>
-            </div>
-
 
             <div class="menu">
                 <div id="radar">
@@ -905,48 +887,37 @@
                     <div id="map11" class="mapBox"></div>
                 </div>
 
-
                 <div class="centerPanel">
-                     <div id="compareInfoText" class="info-box">
-  <h3>City Comparison Mode</h3>
-  <p>
-    This page allows comparison of ESG indicators between two cities.<br>
-    To return to single-city view, please click the button below.
-  </p>
-</div>
+                    <div id="compareInfoText" class="info-box">
+                        <h3>City Comparison Mode</h3>
+                        <p>
+                            This page allows comparison of ESG indicators between two cities.<br>
+                            To return to single-city view, please click the button below.
+                        </p>
+                    </div>
 
-    <button id="backButtonHu">Return to Single Map</button>
-    <div id="radarContainer">
-      <canvas id="comparisonRadarChart" width="300" height="300"></canvas>
-    </div>
-    <div id="legendcon">
-      <div><span style="background-color: #3785D8;"></span> Environmentally Oriented City</div>
-      <div><span style="background-color: #A692E8;"></span> Socially Oriented City</div>
-      <div><span style="background-color: #F3A6A1;"></span> Governance-oriented City</div>
-    </div>
-  </div>
-
+                    <button id="backButtonHu">Return to Single Map</button>
+                    <div id="radarContainer">
+                        <canvas id="comparisonRadarChart" width="300" height="300"></canvas>
+                    </div>
+                    <div id="legendcon">
+                        <div><span style="background-color: #3785D8;"></span> Environmentally Oriented City</div>
+                        <div><span style="background-color: #A692E8;"></span> Socially Oriented City</div>
+                        <div><span style="background-color: #F3A6A1;"></span> Governance-oriented City</div>
+                    </div>
+                </div>
 
                 <div class="mapPanel">
-  <div class="selectorBox selectorB">
-    <label for="cityDropdownB">City B:</label>
-    <select id="cityDropdownB">
-      <option value="">Select</option>
-    </select>
-  </div>
-  <div id="map22" class="mapBox"></div>
-</div>
-
-
+                    <div class="selectorBox selectorB">
+                        <label for="cityDropdownB">City B:</label>
+                        <select id="cityDropdownB">
+                            <option value="">Select</option>
+                        </select>
+                    </div>
+                    <div id="map22" class="mapBox"></div>
+                </div>
             </div>
-            
-           
-           
         </section>
-
-
-
-
 
         <!-- TeamIntro -->
         <section class="Team" id="team">
@@ -1011,7 +982,6 @@
                 </p>
             </div>
         </section>
-
     </main>
 
     <!-- <footer>
