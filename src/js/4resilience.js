@@ -42,20 +42,20 @@ const map_re = new mapboxgl.Map({
 
 map_re.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
-fetch('./data/clean/City_level_resilience_data_FINAL_FIXED.geojson')
+fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.geojson')
   .then(response => response.json())
   .then(data => {
     points = data.features.map(f => ({
       position: f.geometry.coordinates,
-      resilienceIndex: f.properties.resilienceIndex,
-      cluster: f.properties.Cluster,
-      city: f.properties.City.trim(),
-      MSCIoverall: f.properties.MSCIoverall,                 // ✅ 新增
-      MSCIenvi: f.properties.MSCIenvi,
-      MSCIsocial: f.properties.MSCIsocial,
-      MSCIgovern: f.properties.MSCIgovern,
-      operatingRevenue: f.properties["Operating revenue"],
-      functionalDiversity: f.properties.functionalDiversity
+      resilienceIndex: f.properties.resilienceindex,
+      cluster: f.properties.cluster,
+      city: f.properties.city.trim(),
+      MSCIoverall: f.properties.mscioverall,                 // ✅ 新增
+      MSCIenvi: f.properties.mscienvi,
+      MSCIsocial: f.properties.mscisocial,
+      MSCIgovern: f.properties.mscigovern,
+      operatingRevenue: f.properties.operatingrevenue,
+      functionalDiversity: f.properties.functionaldiversity
 
     }));
 
@@ -209,20 +209,24 @@ fetch('./data/clean/City_level_resilience_data_FINAL_FIXED.geojson')
 
 
 
-    const mainLayer = new deck.ColumnLayer({
-      data: adjustedPoints,
-      getPosition: d => d.adjustedPosition,  // ✅ 用偏移后位置
-      getElevation: d => d.resilienceIndex * 5000,
-      getFillColor: d => {
-        if (d.cluster === 2) return [55, 133, 216, 180];
-        if (d.cluster === 1) return [166, 146, 232, 180];
-        if (d.cluster === 0) return [243, 166, 161, 180];
-        return [200, 200, 200];
-      },
-      radius: 21000,
-      extruded: true,
-      elevationScale: 10
-    });
+const mainLayer = new deck.ColumnLayer({
+  data: adjustedPoints,
+  getPosition: d => d.adjustedPosition,
+  getElevation: d => d.resilienceIndex * 5000,
+  getFillColor: d => {
+    if (d.city === selectedCity) return [255, 179, 71, 255]; // 🔶 选中的城市变黄色
+    if (d.cluster === 2) return [55, 133, 216, 180];
+    if (d.cluster === 1) return [166, 146, 232, 180];
+    if (d.cluster === 0) return [243, 166, 161, 180];
+    return [200, 200, 200];
+  },
+  getLineColor: d => d.city === selectedCity ? [255, 255, 255] : [0, 0, 0, 0],
+  lineWidthMinPixels: 1, 
+  radius: 21000,
+  extruded: true,
+  elevationScale: 10
+});
+
 
 
 
@@ -315,17 +319,51 @@ fetch('./data/clean/City_level_resilience_data_FINAL_FIXED.geojson')
       if (cityData) {
         drawRadarChart(cityData);
 
-        // ✅ 新增地图飞到该城市
-        map_re.flyTo({
-          center: cityData.position,
-          zoom: 6,
-          speed: 1.2,
-          curve: 1.5,
-          easing: t => t
-        });
-        setTimeout(() => {
-          window.scrollTo({ top: 0, behavior: 'instant' });
-        }, 0);
+                // ✅ 新增地图飞到该城市
+                map_re.flyTo({
+                    center: cityData.position,
+                    zoom: 6,
+                    speed: 1.2,
+                    curve: 1.5,
+                    easing: t => t
+                });
+                setTimeout(() => {
+                 window.scrollTo({ top: 0, behavior: 'instant' });
+                 }, 0);
+// 🔶 重新创建 mainLayer 并高亮选中柱子
+const filteredData = adjustedPoints.filter(p => filterState[p.cluster]);
+const newMainLayer = new deck.ColumnLayer({
+  data: filteredData,
+  getPosition: d => d.adjustedPosition,
+  getElevation: d => d.resilienceIndex * 5000,
+  getFillColor: d => {
+    if (d.city === selectedCity) return [255, 179, 71, 255]; // 高亮选中
+    if (d.cluster === 2) return [55, 133, 216, 180];
+    if (d.cluster === 1) return [166, 146, 232, 180];
+    if (d.cluster === 0) return [243, 166, 161, 180];
+    return [200, 200, 200];
+  },
+  getLineColor: d => d.city === selectedCity ? [255, 255, 255] : [0, 0, 0, 0],
+  lineWidthMinPixels: 1, 
+  radius: 21000,
+  extruded: true,
+  elevationScale: 10
+});
+
+// ⚠️ 保留原 baseLayer
+const newBaseLayer = new deck.ColumnLayer({
+  data: filteredData,
+  getPosition: d => d.adjustedPosition,
+  getElevation: 5000,
+  getFillColor: [220, 220, 220, 180],
+  radius: 22000,
+  extruded: true,
+  elevationScale: 1
+});
+
+overlay.setProps({
+  layers: [newBaseLayer, newMainLayer]
+});
 
 
 
@@ -364,7 +402,7 @@ function drawRadarChart(props) {
           props.MSCIenvi,
           props.MSCIsocial,
           props.MSCIgovern,
-          props["operatingRevenue"] / 1500000,
+          props.operatingRevenue,
           props.functionalDiversity
         ],
         backgroundColor: 'rgba(54, 162, 235, 0.2)',

@@ -48,20 +48,20 @@ function initComparison() {
     let radarChartA = null, radarChartB = null;
     let points = [];
 
-    fetch('./data/clean/City_level_resilience_data_FINAL_FIXED.geojson')
+    fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.geojson')
         .then(res => res.json())
         .then(data => {
             points = data.features.map(f => ({
                 position: f.geometry.coordinates,
-                resilienceIndex: f.properties.resilienceIndex,
-                cluster: f.properties.Cluster,
-                city: f.properties.City.trim(),
-                MSCIoverall: f.properties.MSCIoverall,
-                MSCIenvi: f.properties.MSCIenvi,
-                MSCIsocial: f.properties.MSCIsocial,
-                MSCIgovern: f.properties.MSCIgovern,
-                operatingRevenue: f.properties.operatingRevenue,
-                functionalDiversity: f.properties.functionalDiversity
+                resilienceIndex: f.properties.resilienceindex,
+                cluster: f.properties.cluster,
+                city: f.properties.city.trim(),
+                MSCIoverall: f.properties.mscioverall,
+                MSCIenvi: f.properties.mscienvi,
+                MSCIsocial: f.properties.mscisocial,
+                MSCIgovern: f.properties.mscigovern,
+                operatingRevenue: f.properties.operatingrevenue,
+                functionalDiversity: f.properties.functionaldiversity
             }));
 
             const GROUP_DISTANCE_KM = 50;
