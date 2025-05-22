@@ -256,7 +256,7 @@ function drawComparisonRadarChart(cityA, cityB) {
                     color:'#000',
                     display: true,
                     text: 'Comparison of City A and B',
-                    font: { family: 'Times New Roman', size: 16 }
+                    font: {size: 16 }
                 }
             },
             scales: {
@@ -267,11 +267,11 @@ function drawComparisonRadarChart(cityA, cityB) {
                     
                     pointLabels: {
                         color:'#000',
-                        font: { family: 'Times New Roman', size: 13 },
+                        font: { size: 13 },
                         padding: 5
                     },
                     ticks: {backdropColor: 'transparent',color:'#000',
-                        font: { family: 'Times New Roman' }
+                        
                     },
                     grid: {
       color: '#555555'        

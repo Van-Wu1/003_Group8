@@ -154,7 +154,7 @@ for (const group of groups) {
         ticks: {
             drawTicks: true,
             color: '#000',                              // ✅ 改为深灰
-            font: { family: 'Times New Roman', size: 10 },
+            font: { size: 10 },
             maxRotation: 0,
             minRotation: 0,
             padding: 5,
@@ -171,7 +171,7 @@ for (const group of groups) {
         ticks: {
             drawTicks: true,
             color: '#000',                              // ✅ 改为深灰
-            font: { family: 'Times New Roman', size: 10 },
+            font: {  size: 10 },
             padding: 5
         }
     }
@@ -179,12 +179,12 @@ for (const group of groups) {
                 plugins: {
                     legend: { position: 'bottom',
                         
-                        labels: { color: '#000',padding: 0, font: { family: 'Times New Roman', size: 10 }}
+                        labels: { color: '#000',padding: 0, font: { size: 10 }}
                     },
                     title: {
                         display: true,
                         text: 'Top 5 cities in the resilience index',
-                        font: { family: 'Times New Roman', size: 16 },
+                        font: { size: 16 },
                         color:'#000'
                     }
                 }
@@ -378,7 +378,7 @@ function drawRadarChart(props) {
         title: {
         display: true,
         text: [`City: ${props.city}`, `Resilience Index: ${props.resilienceIndex.toFixed(2)}`],
-        font: { family: 'Times New Roman', size: 18},
+        font: { size: 18},
         color: '#000' 
     }},
             scales: {
@@ -387,10 +387,10 @@ function drawRadarChart(props) {
                     suggestedMin: 0,
                     suggestedMax: 5 , 
                     pointLabels: {color: '#000',
-                        font: { family: 'Times New Roman', size: 13 },
+                        font: {  size: 13 },
                         padding: 0},
                     ticks: {color: '#000',   
-                font: { family: 'Times New Roman'},
+                
                 backdropColor: 'transparent'
             },
             
