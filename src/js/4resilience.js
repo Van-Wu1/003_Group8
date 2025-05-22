@@ -149,11 +149,11 @@ for (const group of groups) {
                 scales: {
     x: {
         offset: true,
-        border: { color: '#666', width: 1 },           // ✅ 改为深灰
+        border: { color: '#1E0F75', width: 1 },           // ✅ 改为深灰
         grid: { display: false },
         ticks: {
             drawTicks: true,
-            color: '#333',                              // ✅ 改为深灰
+            color: '#000',                              // ✅ 改为深灰
             font: { family: 'Times New Roman', size: 10 },
             maxRotation: 0,
             minRotation: 0,
@@ -165,12 +165,12 @@ for (const group of groups) {
         }
     },
     y: {
-        border: { color: '#666', width: 1 },           // ✅ 改为深灰
+        border: { color: '#1E0F75', width: 1 },           // ✅ 改为深灰
         grid: { display: false },
         beginAtZero: true,
         ticks: {
             drawTicks: true,
-            color: '#666',                              // ✅ 改为深灰
+            color: '#000',                              // ✅ 改为深灰
             font: { family: 'Times New Roman', size: 10 },
             padding: 5
         }
@@ -178,13 +178,14 @@ for (const group of groups) {
 },
                 plugins: {
                     legend: { position: 'bottom',
-                        color: '#666',
-                        labels: { padding: 0, font: { family: 'Times New Roman', size: 10 }}
+                        
+                        labels: { color: '#000',padding: 0, font: { family: 'Times New Roman', size: 10 }}
                     },
                     title: {
                         display: true,
                         text: 'Top 5 cities in the resilience index',
-                        font: { family: 'Times New Roman', size: 16 }
+                        font: { family: 'Times New Roman', size: 16 },
+                        color:'#000'
                     }
                 }
             }
@@ -212,10 +213,10 @@ const mainLayer = new deck.ColumnLayer({
   getPosition: d => d.adjustedPosition,  // ✅ 用偏移后位置
   getElevation: d => d.resilienceIndex * 5000,
   getFillColor: d => {
-    if (d.cluster === 2) return [158, 193, 207,180];
-    if (d.cluster === 1) return [168, 213, 186,180];
-    if (d.cluster === 0) return [203, 170, 203,180];
-    return [200, 200, 200];
+    if (d.cluster === 2) return [55, 133, 216, 180];
+      if (d.cluster === 1) return [166, 146, 232, 180];
+      if (d.cluster === 0) return [243, 166, 161, 180];
+      return [200, 200, 200];
   },
   radius: 21000,
   extruded: true,
@@ -267,9 +268,9 @@ function updateMapLayers() {
     getPosition: d => d.adjustedPosition,
     getElevation: d => d.resilienceIndex * 5000,
     getFillColor: d => {
-      if (d.cluster === 2) return [158, 193, 207, 180];
-      if (d.cluster === 1) return [168, 213, 186, 180];
-      if (d.cluster === 0) return [203, 170, 203, 180];
+      if (d.cluster === 2) return [55, 133, 216, 180];
+      if (d.cluster === 1) return [166, 146, 232, 180];
+      if (d.cluster === 0) return [243, 166, 161, 180];
       return [200, 200, 200];
     },
     radius: 21000,
@@ -366,7 +367,7 @@ function drawRadarChart(props) {
                     props.functionalDiversity
                 ],
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgb(124, 189, 232)',
+                borderColor:' #1E0F75',
                 borderWidth: 2
             }]
         },
@@ -377,20 +378,27 @@ function drawRadarChart(props) {
         title: {
         display: true,
         text: [`City: ${props.city}`, `Resilience Index: ${props.resilienceIndex.toFixed(2)}`],
-        font: { family: 'Times New Roman', size: 18}
+        font: { family: 'Times New Roman', size: 18},
+        color: '#000' 
     }},
             scales: {
                 r: {
-                    angleLines: { display: true },
+                    angleLines: { color: '#555555',display: true },
                     suggestedMin: 0,
-                    suggestedMax: 5 ,   // ✅ 你可以根据实际数据范围调整
-                    pointLabels: {
+                    suggestedMax: 5 , 
+                    pointLabels: {color: '#000',
                         font: { family: 'Times New Roman', size: 13 },
                         padding: 0},
-                    ticks: {
-                font: { family: 'Times New Roman'}
-            }
+                    ticks: {color: '#000',   
+                font: { family: 'Times New Roman'},
+                backdropColor: 'transparent'
+            },
+            
+            grid: {
+      color: '#555555'        
+    }
                 }
+                
             }
         }
     });

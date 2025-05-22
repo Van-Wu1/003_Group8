@@ -145,8 +145,8 @@ for (const group of groups) {
                 data: points,
                 getPosition: d => d.adjustedPosition,
                 getElevation: d => d.resilienceIndex*5000,
-                getFillColor: d => d.cluster===2?[158,193,207,180]:d.cluster===1?[168,213,186,180]:d.cluster===0?[203,170,203,180]:[200,200,200],
-                radius: 21000,
+                
+                radius: 21000,getFillColor: d => d.cluster===2?[55, 133, 216, 180]:d.cluster===1?[166, 146, 232, 180]:d.cluster===0?[243, 166, 161, 180]:[200,200,200],
                 extruded: true,
                 elevationScale: 10
             });
@@ -165,7 +165,7 @@ for (const group of groups) {
                 data: points,
                 getPosition: d => d.position,
                 getElevation: d => d.resilienceIndex*5000,
-                getFillColor: d => d.cluster===2?[158,193,207,180]:d.cluster===1?[168,213,186,180]:d.cluster===0?[203,170,203,180]:[200,200,200],
+                getFillColor: d => d.cluster===2?[55, 133, 216, 180]:d.cluster===1?[166, 146, 232, 180]:d.cluster===0?[243, 166, 161, 180]:[200,200,200],
                 radius: 21000,
                 extruded: true,
                 elevationScale: 10
@@ -196,8 +196,9 @@ function drawComparisonRadarChart(cityA, cityB) {
                 cityA.operatingRevenue / 1000000,
                 cityA.functionalDiversity
             ],
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: 'rgba(30, 15, 117, 0.2)',
+    borderColor: '#1E0F75',
+    pointBackgroundColor: '#1E0F75',
             borderWidth: 2
         });
     }
@@ -213,8 +214,9 @@ function drawComparisonRadarChart(cityA, cityB) {
                 cityB.operatingRevenue / 1000000,
                 cityB.functionalDiversity
             ],
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: 'rgba(56, 133, 216, 0.2)',
+    borderColor: '#3785D8',
+    pointBackgroundColor: '#3785D8',
             borderWidth: 2
         });
     }
@@ -242,8 +244,16 @@ function drawComparisonRadarChart(cityA, cityB) {
             maintainAspectRatio: false,
             responsive: true,
             plugins: {
-                legend: { position: 'bottom' },
+                legend: { color:'#000',position: 'bottom',
+                    align: 'start', 
+  labels: {
+    textAlign: 'left', 
+    boxWidth: 20,
+    padding: 10
+  }
+                 },
                 title: {
+                    color:'#000',
                     display: true,
                     text: 'Comparison of City A and B',
                     font: { family: 'Times New Roman', size: 16 }
@@ -251,16 +261,21 @@ function drawComparisonRadarChart(cityA, cityB) {
             },
             scales: {
                 r: {
-                    angleLines: { display: true },
+                    angleLines: {color:'#555555',display: true },
                     suggestedMin: 0,
                     suggestedMax: 7,
+                    
                     pointLabels: {
+                        color:'#000',
                         font: { family: 'Times New Roman', size: 13 },
                         padding: 5
                     },
-                    ticks: {
+                    ticks: {backdropColor: 'transparent',color:'#000',
                         font: { family: 'Times New Roman' }
-                    }
+                    },
+                    grid: {
+      color: '#555555'        
+    }
                 }
             }
         }
