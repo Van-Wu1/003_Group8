@@ -604,6 +604,36 @@ fetch('data/clean/city_function.json')
         }
       });
 
+      mapboxMap.addSource('highlight-city', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: []
+        }
+      });
+
+      mapboxMap.addLayer({
+        id: 'highlight-city-layer',
+        type: 'circle',
+        source: 'highlight-city',
+        paint: {
+          'circle-radius': [
+            'interpolate', ['linear'], ['zoom'],
+            2, ['interpolate', ['linear'], ['get', 'total'], 0, 4, 40, 10],
+            4, ['interpolate', ['linear'], ['get', 'total'], 0, 5, 40, 20],
+            6, ['interpolate', ['linear'], ['get', 'total'], 0, 10, 40, 30],
+            8, ['+', 15, ['*', ['sqrt', ['get', 'total']], 4]]
+          ],
+          'circle-color': 'rgba(255, 255, 0, 0.2)',
+          'circle-stroke-color': 'rgba(255, 215, 0, 0.5)',
+          'circle-stroke-width': 8,
+          'circle-blur': 0.4,
+          'circle-opacity': 1.0
+
+        }
+      });
+
+
       // 鼠标交互 tooltip
       const tooltip = new mapboxgl.Popup({
         closeButton: false,
@@ -663,6 +693,12 @@ fetch('data/clean/city_function.json')
           }
         }
 
+        const clickedFeature = e.features[0];
+
+        mapboxMap.getSource('highlight-city').setData({
+          type: 'FeatureCollection',
+          features: [clickedFeature] // 直接把点击的 feature 作为高亮数据
+        });
 
         const donutData = prepareDonutData(info);
         showCityCard(cityName, donutData, info);
