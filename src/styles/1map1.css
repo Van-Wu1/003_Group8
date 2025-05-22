@@ -1,5 +1,5 @@
 .Section3 {
-  padding: 70px 10px 5px 30px;
+  padding: 70px 15px 5px 10px;
   height: 100vh;
   scroll-snap-align: start;
   background-color: #F7F9FB;
@@ -12,13 +12,12 @@
 
 /* !!!!!!!!!!!! 1 顶部标题 !!!!!!!!!!!!*/
 .section-header {
-  margin-top: 20px;
+  margin-top: 10px;
   text-align: center;
-  margin-bottom: 10px;
 }
 
 .section-header h2 {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
   color: #333;
   max-width: 1000px;
@@ -41,38 +40,9 @@
   min-height: 480px;
 }
 
-/* !!!!!!!!! Left: legend !!!!!!!!!*/
-#Map1BlockLegend {
-  width: 1%;
-  margin-right: 1%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 12px;
-  color: #000000ea;
-}
-
-.block-bar {
-  width: 20px;
-  height: 80vh;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 1px solid #aaa;
-  border-radius: 5px;
-  overflow: hidden;
-  margin: 5px 0;
-}
-
-.block {
-  flex: 1;
-  width: 100%;
-}
-
 /* !!!!!!!!! Middle !!!!!!!!! */
 .middle {
+  margin-left: 10px;
   width: 75%;
   display: flex;
   flex-direction: column;
@@ -81,18 +51,28 @@
 }
 
 #map1 {
-  flex: 1;
+  position: relative;
+  height: 98%;
   width: 100%;
-  background-color: #eee;
+  background-color: #F7F9FB;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); */
 }
 
 
 /* Bottom: switch */
 .toggle-container {
-  margin-top: 10px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff00;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10; 
+  backdrop-filter: blur(6px);
 }
 
 .labels {
@@ -166,11 +146,11 @@
 /* !!!!!!!!! Right: chart !!!!!!!!!*/
 /* 右侧整体 */
 .chart {
-  width: 22%;
+  width: 25%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+  height: 98%;
   box-sizing: border-box;
   /* border-radius: 10px; */
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -178,7 +158,7 @@
 
 .treecontent {
   width: 100%;
-  height: 300px;
+  height: 250px;
   position: relative;
   padding: 0;
   margin: 0;

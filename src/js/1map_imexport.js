@@ -1,197 +1,219 @@
-import mapboxgl from 'mapbox-gl';
-import { tradeData } from '../data/clean/trade_data';
+// Imports
+import * as am5 from "@amcharts/amcharts5";
+import * as am5map from "@amcharts/amcharts5/map";
+import am5geodata_worldLow from "@amcharts/amcharts5-geodata/worldLow";
+import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
+import { tradeData } from "../data/clean/trade_data";
 
-// create tooltip
-const tooltip = document.createElement('div');
-tooltip.className = 'tooltip';
-tooltip.style.position = 'absolute';
-tooltip.style.background = 'rgba(0, 0, 0, 0.7)';
-tooltip.style.color = '#fff';
-tooltip.style.padding = '5px';
-tooltip.style.borderRadius = '3px';
-tooltip.style.pointerEvents = 'none';
-tooltip.style.opacity = 0;
-document.body.appendChild(tooltip);
+let pieChartInstance = null;
+let globalSummary = null;
+let polygonSeries = null;
 
-// mapbox
-mapboxgl.accessToken = 'pk.eyJ1IjoidmFuMTEyMDEwMTZ3dSIsImEiOiJjbTd1b2JodnMwMmV1MmpzYTlhcXJxNWJ1In0.PC95-6c3OQtSQoxlvNAWOA';
+window.addEventListener("DOMContentLoaded", () => {
+    const slider = document.getElementById("projectionToggle");
+    const { root, polygonSeries: ps } = initAmMap();
+    polygonSeries = ps;
 
-const map1 = new mapboxgl.Map({
-    container: 'map1',
-    style: 'mapbox://styles/van11201016wu/cmabq2dt000lb01sd50i8cp8x',
-    center: [-5, 0],
-    zoom: 0.98
-});
+    // 初始化
+    document.querySelectorAll('.labels span')[0].classList.add('active');
+    updateAmMapField(polygonSeries, "total");
+    updateD3Treemap("total");
+    updatePieChart("GLOBAL");
 
-map1.setMinZoom(0.98);
-map1.setMaxZoom(3);
+    slider.addEventListener("input", function () {
+        const value = parseInt(slider.value);
+        let field = "total";
+        if (value === 1) field = "import";
+        if (value === 2) field = "export";
 
-// 7-class RdYlGn 色带
-//const colorStops = ['#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#08519c', '#08306b'];
-const colorStops = [
-    '#CBD8E8',
-    '#ADC6E5',
-    '#7EAEE6',
-    '#4A88D8',
-    '#2D50C7',
-    '#1C1DAB',
-    '#1E0F75'
-];
+        updateAmMapField(polygonSeries, field);
+        updateD3Treemap(field);
+        updatePieChart("GLOBAL");
 
-function getColorForValue(value, min, max) {
-    if (value === undefined || value === null) return '#F7F9FB';
-    const ratio = Math.max(0, Math.min(1, (value - min) / (max - min)));
-    if (ratio < 0.14) return colorStops[0];
-    if (ratio < 0.28) return colorStops[1];
-    if (ratio < 0.42) return colorStops[2];
-    if (ratio < 0.56) return colorStops[3];
-    if (ratio < 0.7) return colorStops[4];
-    if (ratio < 0.84) return colorStops[5];
-    return colorStops[6];
-}
-
-map1.on('load', function () {
-    // 加载国家矢量切片
-    map1.addSource('countries', {
-        'type': 'vector',
-        'url': 'mapbox://mapbox.country-boundaries-v1'
-    });
-
-    map1.addLayer({
-        'id': 'country-fills',
-        'type': 'fill',
-        'source': 'countries',
-        'source-layer': 'country_boundaries',
-        'paint': {
-            'fill-color': '#F7F9FB',
-            'fill-opacity': 1
-        }
-    });
-
-    map1.addLayer({
-        'id': 'country-borders',
-        'type': 'line',
-        'source': 'countries',
-        'source-layer': 'country_boundaries',
-        'paint': {
-            'line-color': '#555',
-            'line-width': 0.5
-        }
-    });
-
-    map1.addLayer({
-        id: 'country-hover',
-        type: 'line',
-        source: 'countries',
-        'source-layer': 'country_boundaries',
-        paint: {
-            'line-color': '#f156ff',
-            'line-width': 1.5
-        },
-        filter: ['==', 'iso_3166_1_alpha_3', '']
-    });
-
-    map1.once('idle', function () {
-        const features = map1.querySourceFeatures('countries', { sourceLayer: 'country_boundaries' });
-        features.forEach(feature => {
-            const iso = feature.properties.iso_3166_1_alpha_3;
-            const name = feature.properties.name_en;
-            if (tradeData[iso]) {
-                tradeData[iso].name = name;
+        const labelSpans = document.querySelectorAll('.labels span');
+        labelSpans.forEach((span, idx) => {
+            if (idx === value) {
+                span.classList.add('active');
+            } else {
+                span.classList.remove('active');
             }
         });
-
-        // 初始化
-        updateMapColors('total');
-        updateD3Treemap('total');
-        updatePieChart('GLOBAL');
-
-        // 绑定滑条
-        const slider = document.getElementById('projectionToggle');
-        const labels = document.querySelectorAll('.labels span');
-        let selectedCountry = null;
-
-        labels[0].classList.add('active');
-
-        slider.addEventListener('input', function () {
-            const value = parseInt(slider.value);
-            labels.forEach((label, index) => {
-                label.style.fontWeight = (index === value) ? 'bold' : 'normal';
-                label.style.color = (index === value) ? '#333' : '#888';
-            });
-
-            let field = 'total';
-            if (value === 1) field = 'import';
-            if (value === 2) field = 'export';
-
-            updateMapColors(field);
-            updateD3Treemap(field);
-            updatePieChart(selectedCountry || 'GLOBAL');
-        });
-    });
-
-    // ---------- Hover 刷新轮廓 ----------
-    let selectedCountry = null;
-
-    map1.on('mousemove', 'country-fills', function (e) {
-        if (!selectedCountry) {
-            const isoCode = e.features[0].properties.iso_3166_1_alpha_3;
-            map1.setFilter('country-hover', ['==', 'iso_3166_1_alpha_3', isoCode]);
-        }
-    });
-
-    map1.on('mouseleave', 'country-fills', function () {
-        if (!selectedCountry) {
-            map1.setFilter('country-hover', ['==', 'iso_3166_1_alpha_3', '']);
-        }
-    });
-
-    // ---------- 点击锁定国家 ----------
-    map1.on('click', 'country-fills', function (e) {
-        const isoCode = e.features[0].properties.iso_3166_1_alpha_3;
-        selectedCountry = isoCode;
-        map1.setFilter('country-hover', ['==', 'iso_3166_1_alpha_3', isoCode]);
-        updatePieChart(isoCode);
-    });
-
-    // ---------- 点击地图空白处清除锁定 ----------
-    map1.on('click', function (e) {
-        const features = map1.queryRenderedFeatures(e.point, { layers: ['country-fills'] });
-        if (!features.length) {
-            selectedCountry = null;
-            map1.setFilter('country-hover', ['==', 'iso_3166_1_alpha_3', '']);
-            updatePieChart('GLOBAL');
-        }
     });
 });
 
+function initAmMap() {
+    const root = am5.Root.new("map1");
+    root.setThemes([am5themes_Animated.new(root)]);
 
-// -----Function Section-----
-// 热力图的function
-function updateMapColors(field) {
-    const values = Object.values(tradeData).map(d => d[field]).filter(v => typeof v === 'number');
-    if (values.length === 0) return;
-    const sorted = [...values].sort((a, b) => a - b);
-    const min = sorted[0];
-    const max = sorted[Math.floor(sorted.length * 0.98)]; // 98% 分位数（可以写进方法论）
+    const chart = root.container.children.push(
+        am5map.MapChart.new(root, {
+            projection: am5map.geoNaturalEarth1(),
+            background: am5.Rectangle.new(root, {
+                fill: am5.color(0xF7F9FB),
+                fillOpacity: 1
+            })
+        })
+    );
 
-    const colorMatch = ['match', ['get', 'iso_3166_1_alpha_3']];
-    for (const iso in tradeData) {
-        const val = tradeData[iso]?.[field];
-        colorMatch.push(iso, getColorForValue(val, min, max));
-    }
-    colorMatch.push('#F7F9FB');
-    map1.setPaintProperty('country-fills', 'fill-color', colorMatch);
+    chart.series.unshift(am5map.GraticuleSeries.new(root, { step: 10 })).mapLines.template.setAll({ strokeOpacity: 0.05 });
+
+    const ps = chart.series.push(am5map.MapPolygonSeries.new(root, {
+        geoJSON: am5geodata_worldLow,
+        valueField: "value",
+        calculateAggregates: true,
+        exclude: ["AQ"]
+    }));
+
+    ps.set("heatRules", [
+        {
+            target: ps.mapPolygons.template,
+            dataField: "value",
+            min: am5.color(0xc6dbef),
+            max: am5.color(0x08306b),
+            key: "fill"
+        }
+    ]);
+
+    ps.mapPolygons.template.setAll({
+        tooltipText: "{name}: {value}",
+        fill: am5.color(0xe0e0e0),
+        stroke: am5.color(0xffffff)
+    });
+
+    ps.mapPolygons.template.adapters.add("tooltipText", function (text, target) {
+        const dataItem = target.dataItem;
+        const val = dataItem && dataItem.dataContext ? dataItem.dataContext.value : null;
+        if (val != null) {
+            const formatted = (val / 1e9).toFixed(2);
+            return `{name}: ${formatted} billion`;
+        } else {
+            return `{name}: No Data`;
+        }
+    });
+
+    ps.mapPolygons.template.events.on("click", function (ev) {
+        const iso2 = ev.target.dataItem.dataContext.id;
+        const iso3 = iso2to3(iso2);
+
+        if (iso3) {
+            updatePieChart(iso3);
+        } else {
+            updatePieChart("GLOBAL");
+        }
+    });
+
+    const heatLegend = chart.children.push(am5.HeatLegend.new(root, {
+        orientation: "horizontal",
+        startColor: am5.color(0xc6dbef),
+        endColor: am5.color(0x08306b),
+        stepCount: 10,
+        startText: "Low",
+        endText: "High",
+        y: am5.percent(80),
+        x: am5.percent(50),
+        centerX: am5.percent(50)
+    }));
+
+
+    ps.mapPolygons.template.events.on("pointerover", function (ev) {
+        heatLegend.showValue(ev.target.dataItem.get("value"));
+    });
+
+    ps.events.on("datavalidated", function () {
+        heatLegend.set("startValue", ps.getPrivate("valueLow"));
+        heatLegend.set("endValue", ps.getPrivate("valueHigh"));
+
+        chart.zoomToGeoPoint({ longitude: 0, latitude: 0 }, 1.2);
+    });
+
+    return { root, polygonSeries: ps };
 }
+
+const iso3to2 = {
+    ABW: "AW", AFG: "AF", AGO: "AO", AIA: "AI", ALA: "AX",
+    ALB: "AL", AND: "AD", ARE: "AE", ARG: "AR", ARM: "AM",
+    ASM: "AS", ATA: "AQ", ATF: "TF", ATG: "AG", AUS: "AU",
+    AUT: "AT", AZE: "AZ", BDI: "BI", BEL: "BE", BEN: "BJ",
+    BES: "BQ", BFA: "BF", BGD: "BD", BGR: "BG", BHR: "BH",
+    BHS: "BS", BIH: "BA", BLM: "BL", BLR: "BY", BLZ: "BZ",
+    BMU: "BM", BOL: "BO", BRA: "BR", BRB: "BB", BRN: "BN",
+    BTN: "BT", BVT: "BV", BWA: "BW", CAF: "CF", CAN: "CA",
+    CCK: "CC", CHE: "CH", CHL: "CL", CHN: "CN", CIV: "CI",
+    CMR: "CM", COD: "CD", COG: "CG", COK: "CK", COL: "CO",
+    COM: "KM", CPV: "CV", CRI: "CR", CUB: "CU", CUW: "CW",
+    CXR: "CX", CYM: "KY", CYP: "CY", CZE: "CZ", DEU: "DE",
+    DJI: "DJ", DMA: "DM", DNK: "DK", DOM: "DO", DZA: "DZ",
+    ECU: "EC", EGY: "EG", ERI: "ER", ESH: "EH", ESP: "ES",
+    EST: "EE", ETH: "ET", FIN: "FI", FJI: "FJ", FLK: "FK",
+    FRA: "FR", FRO: "FO", FSM: "FM", GAB: "GA", GBR: "GB",
+    GEO: "GE", GGY: "GG", GHA: "GH", GIB: "GI", GIN: "GN",
+    GLP: "GP", GMB: "GM", GNB: "GW", GNQ: "GQ", GRC: "GR",
+    GRD: "GD", GRL: "GL", GTM: "GT", GUF: "GF", GUM: "GU",
+    GUY: "GY", HKG: "HK", HMD: "HM", HND: "HN", HRV: "HR",
+    HTI: "HT", HUN: "HU", IDN: "ID", IMN: "IM", IND: "IN",
+    IOT: "IO", IRL: "IE", IRN: "IR", IRQ: "IQ", ISL: "IS",
+    ISR: "IL", ITA: "IT", JAM: "JM", JEY: "JE", JOR: "JO",
+    JPN: "JP", KAZ: "KZ", KEN: "KE", KGZ: "KG", KHM: "KH",
+    KIR: "KI", KNA: "KN", KOR: "KR", KWT: "KW", LAO: "LA",
+    LBN: "LB", LBR: "LR", LBY: "LY", LCA: "LC", LIE: "LI",
+    LKA: "LK", LSO: "LS", LTU: "LT", LUX: "LU", LVA: "LV",
+    MAC: "MO", MAF: "MF", MAR: "MA", MCO: "MC", MDA: "MD",
+    MDG: "MG", MDV: "MV", MEX: "MX", MHL: "MH", MKD: "MK",
+    MLI: "ML", MLT: "MT", MMR: "MM", MNE: "ME", MNG: "MN",
+    MNP: "MP", MOZ: "MZ", MRT: "MR", MSR: "MS", MTQ: "MQ",
+    MUS: "MU", MWI: "MW", MYS: "MY", MYT: "YT", NAM: "NA",
+    NCL: "NC", NER: "NE", NFK: "NF", NGA: "NG", NIC: "NI",
+    NIU: "NU", NLD: "NL", NOR: "NO", NPL: "NP", NRU: "NR",
+    NZL: "NZ", OMN: "OM", PAK: "PK", PAN: "PA", PCN: "PN",
+    PER: "PE", PHL: "PH", PLW: "PW", PNG: "PG", POL: "PL",
+    PRI: "PR", PRK: "KP", PRT: "PT", PRY: "PY", PSE: "PS",
+    PYF: "PF", QAT: "QA", REU: "RE", ROU: "RO", RUS: "RU",
+    RWA: "RW", SAU: "SA", SDN: "SD", SEN: "SN", SGP: "SG",
+    SGS: "GS", SHN: "SH", SJM: "SJ", SLB: "SB", SLE: "SL",
+    SLV: "SV", SMR: "SM", SOM: "SO", SPM: "PM", SRB: "RS",
+    SSD: "SS", STP: "ST", SUR: "SR", SVK: "SK", SVN: "SI",
+    SWE: "SE", SWZ: "SZ", SXM: "SX", SYC: "SC", SYR: "SY",
+    TCA: "TC", TCD: "TD", TGO: "TG", THA: "TH", TJK: "TJ",
+    TKL: "TK", TKM: "TM", TLS: "TL", TON: "TO", TTO: "TT",
+    TUN: "TN", TUR: "TR", TUV: "TV", TWN: "TW", TZA: "TZ",
+    UGA: "UG", UKR: "UA", UMI: "UM", URY: "UY", USA: "US",
+    UZB: "UZ", VAT: "VA", VCT: "VC", VEN: "VE", VGB: "VG",
+    VIR: "VI", VNM: "VN", VUT: "VU", WLF: "WF", WSM: "WS",
+    YEM: "YE", ZAF: "ZA", ZMB: "ZM", ZWE: "ZW"
+};
+
+
+function mapTradeDataToAmFormat(field = "total") {
+    return Object.entries(tradeData)
+        .map(([iso3, entry]) => {
+            const iso2 = iso3to2[iso3];
+            if (!iso2) return null;
+            return {
+                id: iso2,
+                value: entry[field] ?? 0
+            };
+        })
+        .filter(Boolean);
+}
+
+function updateAmMapField(polygonSeries, field) {
+    polygonSeries.set("valueField", "value");
+    polygonSeries.data.setAll(mapTradeDataToAmFormat(field));
+}
+
+function iso2to3(iso2) {
+    for (const [iso3, iso2value] of Object.entries(iso3to2)) {
+        if (iso2value === iso2) return iso3;
+    }
+    return null;
+}
+
+
 
 // 矩形树图
 function updateD3Treemap(field) {
     const data = Object.entries(tradeData)
-        .map(([iso, d]) => ({
-            iso,
-            name: d.name || iso,
-            value: typeof d[field] === 'number' ? d[field] : 0
-        }))
+        .map(([iso, d]) => ({ iso, name: d.name || iso, value: typeof d[field] === 'number' ? d[field] : 0 }))
         .sort((a, b) => b.value - a.value)
         .slice(0, 10);
 
@@ -203,58 +225,55 @@ function updateD3Treemap(field) {
         .attr("width", width)
         .attr("height", height);
 
-    svg.selectAll("*").remove();
-
-    const root = d3.hierarchy({ children: data })
-        .sum(d => d.value);
-
-    d3.treemap()
-        .size([width, height])
-        .padding(2)(root);
+    const root = d3.hierarchy({ children: data }).sum(d => d.value);
+    d3.treemap().size([width, height]).padding(2)(root);
 
     const color = d3.scaleSequential([0, d3.max(data, d => d.value)], d3.interpolateBlues);
+    const t = d3.transition().duration(800).ease(d3.easeCubicInOut);
 
     const nodes = svg.selectAll("g")
-        .data(root.leaves())
-        .enter()
-        .append("g")
+        .data(root.leaves(), d => d.data.iso);
+
+    // 更新位置与大小
+    nodes.transition(t)
         .attr("transform", d => `translate(${d.x0},${d.y0})`);
 
-    nodes.append("rect")
+    nodes.select("rect").transition(t)
         .attr("width", d => d.x1 - d.x0)
         .attr("height", d => d.y1 - d.y0)
         .attr("fill", d => color(d.value));
 
-    nodes.append("text")
+    // 进入新节点
+    const enter = nodes.enter().append("g")
+        .attr("transform", d => `translate(${d.x0},${d.y0})`);
+
+    enter.append("rect")
+        .attr("width", 0)
+        .attr("height", 0)
+        .attr("fill", d => color(d.value))
+        .transition(t)
+        .attr("width", d => d.x1 - d.x0)
+        .attr("height", d => d.y1 - d.y0);
+
+    enter.append("text")
         .attr("x", 4)
         .attr("y", 14)
         .text(d => d.data.name)
         .attr("font-size", "10px")
         .attr("fill", "white");
 
-    nodes.append("text")
+    enter.append("text")
         .attr("x", 4)
         .attr("y", 28)
-        .text(d => (d.data.value / 1e8).toFixed(2))
+        .text(d => (d.data.value / 1e9).toFixed(2))
         .attr("font-size", "10px")
         .attr("fill", "white");
 
-    nodes.append("title")
-        .text(d => `${d.data.name}: ${(d.data.value / 1e8).toFixed(2)}`);
+    nodes.exit().remove();
 
-    const formatField = (field) => {
-        if (field === 'total') return 'Total Trade';
-        if (field === 'import') return 'Import';
-        if (field === 'export') return 'Export';
-        return field;
-    };
-    document.querySelector('.rank p').textContent = `Ranking (${formatField(field)})`;
+    document.querySelector('.rank p').textContent = `Ranking (${field.charAt(0).toUpperCase() + field.slice(1)})`;
 }
 
-
-//饼图的function
-let pieChartInstance = null;
-let globalSummary = null;
 
 function computeGlobalSummary() {
     let totalImport = 0;
@@ -272,16 +291,17 @@ function initGlobalSummary() {
     }
 }
 
+// 饼图
 function updatePieChart(isoCode = 'GLOBAL') {
     const pieContainer = document.querySelector('.piecontent');
     if (!pieContainer) return;
 
     pieContainer.innerHTML = `
-        <canvas id="pieChart" width="160" height="160" style="max-width: 100%;"></canvas>
-        <p class="pie-label"></p>
-    `;
+    <canvas id="pieChart" width="160" height="160" style="max-width: 100%;"></canvas>
+    <p class="pie-label"></p>
+  `;
+
     const ctx = document.getElementById('pieChart').getContext('2d');
-    // const labelEl = pieContainer.querySelector('.pie-label');
 
     let importValue, exportValue;
     let label = 'Global';
@@ -296,11 +316,10 @@ function updatePieChart(isoCode = 'GLOBAL') {
         exportValue = countryData.export || 0;
         label = countryData.name || isoCode;
     }
+
     document.querySelector('.pie-chart-title').textContent = `${label} Import / Export`;
 
-
     const total = importValue + exportValue;
-
     const chartData = {
         labels: ['Import', 'Export'],
         datasets: [{
@@ -314,32 +333,22 @@ function updatePieChart(isoCode = 'GLOBAL') {
         maintainAspectRatio: false,
         plugins: {
             legend: { display: false },
-            datalabels: {
-                display: false  // 不在图中显示文字
-            },
+            datalabels: { display: false },
             tooltip: {
                 displayColors: false,
                 callbacks: {
                     label: function (context) {
-                        const value = (context.raw / 1e8).toFixed(2);
+                        const value = (context.raw / 1e9).toFixed(2);
                         const percent = total ? ((context.raw / total) * 100).toFixed(1) : 0;
-                        return [
-                            `Value: ${value} (100 million)`,
-                            `Percent: ${percent}%`
-                        ]
+                        return [`Value: ${value} (100 million)`, `Percent: ${percent}%`];
                     }
                 }
             },
-            // 饼图title不显示！！！
-            title: {
-                display: false
-            }
+            title: { display: false }
         }
     };
 
-    if (pieChartInstance) {
-        pieChartInstance.destroy();
-    }
+    if (pieChartInstance) pieChartInstance.destroy();
     pieChartInstance = new Chart(ctx, {
         type: 'pie',
         data: chartData,

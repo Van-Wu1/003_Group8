@@ -34,6 +34,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script src="https://unpkg.com/deck.gl@latest/dist.min.js"></script>
@@ -191,25 +193,16 @@
             <!-- 这里是主体模块 123 -->
             <div class="map-legend-container">
                 <!-- 左侧： 图例 -->
-                <div id="Map1BlockLegend">
-                    <span class="legend-top">Highest</span>
-                    <div class="block-bar">
-                        <div class="block" style="background:#1E0F75;"></div>
-                        <div class="block" style="background:#1C1DAB;"></div>
-                        <div class="block" style="background:#2D50C7;"></div>
-                        <div class="block" style="background:#4A88D8;"></div>
-                        <div class="block" style="background:#7EAEE6;"></div>
-                        <div class="block" style="background:#ADC6E5;"></div>
-                        <div class="block" style="background:#CBD8E8;"></div>
-                    </div>
-                    <span class="legend-bottom">Lowest</span>
-                </div>
+                <!-- <div id="Map1Legend">
+                    <div><p>HIGH</p></div>
+                    <div id="Map1BlockLegend"></div>
+                    <div><p>LOW</p></div>
+                </div> -->
 
                 <!-- 中间：上部地图，下部切换 -->
                 <div class="middle">
-                    <div id="map1"></div>
-
-                    <div class="toggle-container">
+                    <div id="map1">
+                        <div class="toggle-container">
                         <div class="labels">
                             <span>Total Trade</span>
                             <span>Import</span>
@@ -221,6 +214,20 @@
                             <div class="thumb"></div>
                         </div>
                     </div>
+                    </div>
+
+                    <!-- <div class="toggle-container">
+                        <div class="labels">
+                            <span>Total Trade</span>
+                            <span>Import</span>
+                            <span>Export</span>
+                        </div>
+                        <div class="switch">
+                            <input type="range" min="0" max="2" value="0" id="projectionToggle">
+                            <div class="track"></div>
+                            <div class="thumb"></div>
+                        </div>
+                    </div> -->
                 </div>
 
                 <!-- 右侧：图表区 -->
@@ -872,7 +879,7 @@
             </div>
 
             <button id="gotoComparison" style="
-                       position: absolute; top: 100px; right: 500px; z-index: 9999;
+                       position: absolute; top: 100px; right: 500px; z-index: 9997;
                        background-color: white; border: 1px solid #ccc;
                        padding: 5px 10px; cursor: pointer;">Enter the Comparison Model
             </button>
