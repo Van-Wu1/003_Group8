@@ -63,15 +63,15 @@ h1 {
 }
 
 .member2pic {
-    background-image: url("../img/QiuYue.jpg");
-}
-
-.member3pic {
     background-image: url("../img/XinyueHu.jpg");
 }
 
-.member4pic {
+.member3pic {
     background-image: url("../img/YifanWu.jpg");
+}
+
+.member4pic {
+    background-image: url("../img/QiuYue.jpg");
 }
 
 .member1pic:hover,
