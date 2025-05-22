@@ -48,7 +48,10 @@
         <div class="sidebar" id="sidebar">
             <a href="#home">Home</a>
             <a href="#pharma-page-1">Introduction</a>
-            <a href="#section7">Data</a>
+            <a href="#section3">Map1</a>
+            <a href="#section5">Map2</a>
+            <a href="#section7">Map3</a>
+            <a href="#section8">Map4</a>
             <a href="#team">Team</a>
             <a href="#data_reference">About</a>
         </div>
@@ -177,7 +180,7 @@
         </section>
 
         <!-- 第三张也是第一张贸易总览地图 -->
-        <section class="Section3">
+        <section class="Section3" id="section3">
             <!-- 这个是顶上的文字部分 -->
             <div class="section-header">
                 <h2 class="section-header-animate">
@@ -190,14 +193,7 @@
 
             <!-- 这里是主体模块 123 -->
             <div class="map-legend-container">
-                <!-- 左侧： 图例 -->
-                <!-- <div id="Map1Legend">
-                    <div><p>HIGH</p></div>
-                    <div id="Map1BlockLegend"></div>
-                    <div><p>LOW</p></div>
-                </div> -->
-
-                <!-- 中间：上部地图，下部切换 -->
+                <!-- 左中：上部地图，下部切换 -->
                 <div class="middle">
                     <div id="map1">
                         <div class="toggle-container">
@@ -213,19 +209,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- <div class="toggle-container">
-                        <div class="labels">
-                            <span>Total Trade</span>
-                            <span>Import</span>
-                            <span>Export</span>
-                        </div>
-                        <div class="switch">
-                            <input type="range" min="0" max="2" value="0" id="projectionToggle">
-                            <div class="track"></div>
-                            <div class="thumb"></div>
-                        </div>
-                    </div> -->
                 </div>
 
                 <!-- 右侧：图表区 -->
@@ -290,7 +273,7 @@
                         <div class="right-panel" id="rightPanel">
                             <div class="info-panel" id="infoPanel">
                                 <div class="intro-text" id="defaultMessage">
-                                    <h4>Roles and Functions of Cities<br>in the Global Pharma Network</h4>
+                                    <h4>Roles and Functions of Cities <br> in the Global Pharma Network</h4>
                                     <p>
                                         This platform visualizes the <strong>spatial organization</strong> of the global
                                         pharmaceutical
@@ -456,9 +439,7 @@
                             Asia;
                             the U.S. has more specialized hubs.</li>
                     </ul>
-
                 </div>
-
             </div>
         </section>
 
@@ -847,11 +828,10 @@
                     </div>
                 </div>
             </div>
-
         </section>
 
         <!-- huxinyue -->
-        <section class="Section8">
+        <section class="Section8" id="section8">
             <div id="map_re">
                 <div id="citySelector">
                     <label for="cityDropdown">Select City:</label>
