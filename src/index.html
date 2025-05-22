@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="./styles/3company.css" />
     <link rel="stylesheet" href="./styles/4styleHu.css" />
     <link rel="stylesheet" href="./styles/0team.css" />
+    <link rel="stylesheet" href="./styles/DataReference.css">
 
     <!-- Mapbox CDN -->
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
@@ -33,6 +34,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script src="https://unpkg.com/deck.gl@latest/dist.min.js"></script>
@@ -43,13 +46,13 @@
 <body>
     <header class="navbar">
         <div class="logo">PharmaNexus</div>
-        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <div class="menu-toggle">☰</div>
         <div class="sidebar" id="sidebar">
             <a href="#home">Home</a>
-            <a href="#map">Map</a>
+            <a href="#pharma-page-1">Introduction</a>
             <a href="#section7">Data</a>
-            <a href="#Team">Team</a>
-            <a href="#about">About</a>
+            <a href="#team">Team</a>
+            <a href="#data_reference">About</a>
         </div>
     </header>
 
@@ -76,7 +79,6 @@
         </section>
 
         <!-- 第二块intro的切入 -->
-
         <!-- Page 2: Pharma Global Importance & Model Rationale -->
         <section class="pharma-section gradient-bg top-padded" id="pharma-page-1">
             <div class="pharma-flex two-column">
@@ -115,7 +117,7 @@
         <section class="pharma-section gradient-bg center-vertical" id="pharma-intro-2">
             <div class="pharma-flex two-column">
                 <div class="pharma-left">
-                    <img src="./assets/supply-fragment.svg" alt="Supply Chain Fragility" class="floating-img" />
+                    <img src="./img/woman-shrugging.png" alt="woman-shrugging" class="floating-img" />
                 </div>
                 <div class="pharma-right fade-slide">
                     <div class="text-block">
@@ -171,21 +173,9 @@
                         <div class="module-card">Resilience & Comparison</div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- intro和第一张图之间的过渡页 -->
-        <section class="pharma-section transition-bg center-vertical" id="pharma-transition">
-            <div class="transition-block fade-slide">
-                <h2 class="transition-title">Beneath the Surface,</h2>
-                <h2 class="transition-title emphasis">A Network Awaits</h2>
-                <p class="transition-caption">What lies ahead is not a map, but a living system — vast, layered,
-                    connected.</p>
-                <p class="transition-caption">Let the structure emerge.</p>
-                <div class="transition-icon">
-                    <img src="./assets/transition-network.svg" alt="network gateway" />
-                </div>
             </div>
+            <div id="MapBegin">↓ Scroll down to start exploring the map ↓</div>
         </section>
 
         <!-- 第三张也是第一张贸易总览地图 -->
@@ -203,25 +193,16 @@
             <!-- 这里是主体模块 123 -->
             <div class="map-legend-container">
                 <!-- 左侧： 图例 -->
-                <div id="Map1BlockLegend">
-                    <span class="legend-top">Highest</span>
-                    <div class="block-bar">
-                        <div class="block" style="background:#08306b;"></div>
-                        <div class="block" style="background:#08519c;"></div>
-                        <div class="block" style="background:#2171b5;"></div>
-                        <div class="block" style="background:#4292c6;"></div>
-                        <div class="block" style="background:#6baed6;"></div>
-                        <div class="block" style="background:#9ecae1;"></div>
-                        <div class="block" style="background:#c6dbef;"></div>
-                    </div>
-                    <span class="legend-bottom">Lowest</span>
-                </div>
+                <!-- <div id="Map1Legend">
+                    <div><p>HIGH</p></div>
+                    <div id="Map1BlockLegend"></div>
+                    <div><p>LOW</p></div>
+                </div> -->
 
                 <!-- 中间：上部地图，下部切换 -->
                 <div class="middle">
-                    <div id="map1"></div>
-
-                    <div class="toggle-container">
+                    <div id="map1">
+                        <div class="toggle-container">
                         <div class="labels">
                             <span>Total Trade</span>
                             <span>Import</span>
@@ -233,6 +214,20 @@
                             <div class="thumb"></div>
                         </div>
                     </div>
+                    </div>
+
+                    <!-- <div class="toggle-container">
+                        <div class="labels">
+                            <span>Total Trade</span>
+                            <span>Import</span>
+                            <span>Export</span>
+                        </div>
+                        <div class="switch">
+                            <input type="range" min="0" max="2" value="0" id="projectionToggle">
+                            <div class="track"></div>
+                            <div class="thumb"></div>
+                        </div>
+                    </div> -->
                 </div>
 
                 <!-- 右侧：图表区 -->
@@ -269,7 +264,7 @@
                     </p>
                 </div>
             </div>
-            <a href="#section4" class="explore-button fade-slide delay-5">Explore the Urban Structure ↓</a>
+            <a href="#section5" class="explore-button fade-slide delay-5">Explore the Urban Structure ↓</a>
         </section>
 
         <section class="section5" id="section5">
@@ -378,10 +373,13 @@
                                 </p>
                                 <canvas id="scatterCanvas" width="320" height="200"></canvas>
                             </div>
+                        </section>
                     </div>
 
                 </div>
+            </div>
         </section>
+
         <section id="bubble_summary">
             <div class="pharma-horizontal-wrapper">
                 <div class="pharma-function-bar wheel-selector">
@@ -441,7 +439,7 @@
                     </div>
                 </div>
 
-                <div class="pharma-summary-insights">
+                <div class="pharma-summary-insights" id="pharma-summary-insights">
                     <h3>STRUCTURAL INSIGHTS</h3>
                     <ul>
                         <li><strong>Dual Specialization:</strong> Only a few cities combine both high specialization and
@@ -465,7 +463,6 @@
 
             </div>
         </section>
-
 
         <section class="Section6" id="section6">
             <div class="intro-container">
@@ -496,8 +493,7 @@
                     <div class="filter-card">
                         <div class="filter-card-title">Control Network Filters</div>
                         <div class="highlight-text">
-                            <label for="company-selector"
-                                style="font-weight: bold; color: #E893C5; font-size: 1.1rem;">Select a
+                            <label for="company-selector" class="gradient-label">Select a
                                 pharmaceutical company:</label>
                             <select id="company-selector" class="full-width">
                                 <option value="" selected disabled>Please select a company</option>
@@ -507,8 +503,7 @@
 
                         <div class="filter-control">
                             <label class="filter-label">Ownership Filter:</label>
-                            <input type="range" id="ownership-slider" min="0" max="100" value="50" step="10"
-                                class="full-width">
+                            <input type="range" id="ownership-slider" min="0" max="100" value="50" step="10">
                             <div class="range-value"><span id="ownership-value">50</span>% and above</div>
                         </div>
                     </div>
@@ -610,19 +605,12 @@
                             </div>
                         </div>
 
+                        <!-- 添加连接线说明 -->
                         <div class="legend-section">
-                            <h4>Ownership Strength</h4>
+                            <h4>Connections</h4>
                             <div class="legend-item">
-                                <span class="line-sample strong-line"></span>
-                                <span>Full (100%)</span>
-                            </div>
-                            <div class="legend-item">
-                                <span class="line-sample medium-line"></span>
-                                <span>Majority (51–99%)</span>
-                            </div>
-                            <div class="legend-item">
-                                <span class="line-sample weak-line"></span>
-                                <span>Minority (≤50%)</span>
+                                <div class="connection-line-sample"></div>
+                                Control Relationship
                             </div>
                         </div>
 
@@ -750,20 +738,32 @@
             <div id="help-modal" class="hidden">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2>PharmaNexus 全球制药控制网络</h2>
+                        <h2>PharmaNexus Global Pharmaceutical Control Network</h2>
                         <button id="help-modal-close" class="modal-close">×</button>
                     </div>
 
                     <div class="help-nav">
-                        <div class="nav-item active" data-target="overview">功能概述</div>
-                        <div class="nav-item" data-target="controls">控制面板</div>
-                        <div class="nav-item" data-target="map">地图视图</div>
-                        <div class="nav-item" data-target="operations">操作指南</div>
-                        <div class="nav-item" data-target="data">数据说明</div>
+                        <div class="nav-item active" data-target="overview">Overview</div>
+                        <div class="nav-item" data-target="controls">Control Panel</div>
+                        <div class="nav-item" data-target="map">Map View</div>
+                        <div class="nav-item" data-target="operations">Usage Guide</div>
+                        <div class="nav-item" data-target="data">Data Details</div>
                     </div>
+
 
                     <div id="help-modal-body">
                         <!-- 帮助内容将通过JavaScript填充 -->
+                    </div>
+                </div>
+            </div>
+            <div id="detail-modal" class="hidden">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 id="modal-title">Entity Details</h2>
+                        <button id="modal-close" class="modal-close">×</button>
+                    </div>
+                    <div id="modal-body" class="modal-body">
+                        <!-- Content will be dynamically populated -->
                     </div>
                 </div>
             </div>
@@ -844,10 +844,6 @@
 
         </section>
 
-
-
-
-
         <!-- huxinyue -->
         <section class="Section8">
             <div id="map_re">
@@ -874,9 +870,9 @@
   <span class="label-text">Governance-oriented City</span>
 </div>
 
-</div>
-
                 </div>
+
+            </div>
             </div>
 
 
@@ -953,35 +949,72 @@
 
 
         <!-- TeamIntro -->
-        <section class="Team" id="Team">
+        <section class="Team" id="team">
             <h1><strong>Team</strong></h1>
             <div class="TeamIntro">
-                <div class="member">
-                    <div class="member1pic"></div>
-                    <p>Borui Wang</p>
+                <div id="teampic">
+                    <div class="member">
+                        <div class="member1pic"></div>
+                        <p>Borui Wang</p>
+                    </div>
+                    <div class="member">
+                        <div class="member2pic"></div>
+                        <p>Qiu Yue</p>
+                    </div>
+                    <div class="member">
+                        <div class="member3pic"></div>
+                        <p>Xinyue Hu</p>
+                    </div>
+                    <div class="member">
+                        <div class="member4pic"></div>
+                        <p>Yifan Wu</p>
+                    </div>
                 </div>
-                <div class="member">
-                    <div class="member2pic"></div>
-                    <p>Qiu Yue</p>
+                <div id="nametip">
+                    <p>Names are arranged alphabetically — order does not reflect hierarchy.</p>
                 </div>
-                <div class="member">
-                    <div class="member3pic"></div>
-                    <p>Xinyue Hu</p>
-                </div>
-                <div class="member">
-                    <div class="member4pic"></div>
-                    <p>Yifan Wu</p>
-                </div>
-                <!-- 这里加一行小字：按照字母顺序排列 -->
             </div>
         </section>
 
-        <section class="DataReference">
-            <p>这里放数据和refer</p>
+        <section id="data_reference">
+            <div class="reference-wrapper fade-slide">
+                <h2 class="reference-title">About</h2>
+
+                <div class="reference-block">
+                    <h3>Data Sources</h3>
+                    <ul class="reference-list">
+                        <li><a href="https://comtradeplus.un.org/" target="_blank">UN Comtrade: International Trade
+                                Data</a></li>
+                        <li><a href="https://www.orbis.bvdinfo.com/" target="_blank">Orbis by Bureau van Dijk: Firm
+                                Ownership Data</a></li>
+                        <li><a href="https://www.gfdrr.org/" target="_blank">GFDRR: Resilience Indicators</a></li>
+                    </ul>
+                </div>
+
+                <div class="reference-block">
+                    <h3>Academic References</h3>
+                    <ul class="reference-list">
+                        <li>Krätke, S. (2014). How manufacturing industries connect cities into global urban networks.
+                            <i>Global Networks</i>, 14(2), 148–168.
+                        </li>
+                        <li>Taylor, P.J., Derudder, B. (2016). <i>World City Network: A Global Urban Analysis</i>.
+                            Routledge.</li>
+                        <li>OECD (2023). Measuring Pharmaceutical Trade. OECD Health Statistics.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-content">
+                <p>
+                    &copy; 2025 Centre for Advanced Spatial Analysis, University College London
+                    |
+                    <a href="https://github.com/Van-Wu1/003_Coding_ProgressiveTense" target="_blank">GitHub</a>
+                </p>
+            </div>
         </section>
+
     </main>
 
-    <footer>
+    <!-- <footer>
         <div class="footer-content">
             <p>
                 &copy; 2025 Centre for Advanced Spatial Analysis, University College London
@@ -989,7 +1022,7 @@
                 <a href="https://github.com/Van-Wu1/CASA0025_GroupWork.git" target="_blank">GitHub</a>
             </p>
         </div>
-    </footer>
+    </footer> -->
 
     <script type="module" src="js/0navbar.js" defer></script>
     <script type="module" src="js/0home.js"></script>

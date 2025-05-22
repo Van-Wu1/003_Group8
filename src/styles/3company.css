@@ -111,33 +111,32 @@
 }
 
 .Section7 {
+  position: relative;
   margin-top: 180px;
   scroll-snap-align: start;
   font-family: 'Helvetica Neue', sans-serif;
   box-sizing: border-box;
-  position: relative;
-  background: linear-gradient(to bottom, #ffffff 0%, #f0f4f8 100%);
+  background-color: #F7F9FB;
   color: rgb(0, 0, 0);
-  height: 100vh;
-  background-position: center;
+  height: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   text-align: center;
-  min-height: 90vh;
 }
 
 #left-position-control {
   width: 320px;
-  height: calc(100vh - 90px);
-  margin-top: 90px;
+  height: calc(100vh - 70px);
+  margin-top: 80px;
   align-self: flex-start;
   display: flex;
   flex-direction: column;
   align-items: center;
   font-size: 12px;
   position: relative;
+  padding: 0 4px;
   background: #f8f9fa;
   overflow-y: auto;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
@@ -152,6 +151,21 @@
   padding: 0 10px 0 10px;
 }
 
+.gradient-label {
+  font-weight: bold;
+  font-size: 1.1rem;
+
+  /* 渐变背景色 */
+  background: linear-gradient(90deg, #E893C5 0%, #BF8CE1 100%);
+  /* 标准属性，部分现代浏览器支持 */
+  background-clip: text;
+  /* WebKit 系浏览器需要前缀 */
+  -webkit-background-clip: text;
+  /* 让文字本身透明以显示背景 */
+  color: transparent;
+  /* WebKit 系浏览器需要这个把文字填充色设为透明 */
+  -webkit-text-fill-color: transparent;
+}
 
 .panel-section {
   border-bottom: 1px solid #eee;
@@ -237,10 +251,10 @@
 }
 
 .panel-toggle-btn {
-  width: 100%;
+  width: calc(100% - 10px);
   background: linear-gradient(to right, #1E0F75, #3785D8);
   color: white;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: bold;
   padding: 12px 12px;
   border: none;
@@ -271,26 +285,27 @@
   transition: max-height 0.3s ease;
 }
 
+#ownership-slider {
+  width: 100%;
+}
+
 /* 滑块颜色修改 */
-input[type="range"]::-webkit-slider-thumb {
+.Section7 input[type="range"]::-webkit-slider-thumb {
   background: #1C1DAB;
-  /* 蓝色 */
+
 }
 
-input[type="range"]::-moz-range-thumb {
+.Section7 input[type="range"]::-moz-range-thumb {
   background: #1C1DAB;
-  /* 蓝色 */
 }
 
-input[type="range"]::-ms-thumb {
+.Section7 input[type="range"]::-ms-thumb {
   background: #1C1DAB;
-  /* 蓝色 */
 }
 
 /* 滑块轨道颜色 */
-input[type="range"]::-webkit-slider-runnable-track {
+.Section7 input[type="range"]::-webkit-slider-runnable-track {
   background: linear-gradient(to right, #ADC6E5, #3785D8);
-  /* 浅蓝到蓝的渐变 */
 }
 
 /* 卡片容器样式 - 为过滤器创建视觉分隔 */
@@ -306,6 +321,7 @@ input[type="range"]::-webkit-slider-runnable-track {
 /* 标题样式 */
 .filter-card-title {
   font-weight: bold;
+  font-size: 1.2rem;
   color: #1e0f75;
   margin-bottom: 15px;
   padding-bottom: 8px;
@@ -331,6 +347,7 @@ input[type="range"]::-webkit-slider-runnable-track {
   margin-bottom: 8px;
   color: #3785D8;
   font-weight: 500;
+  font-size: 1rem;
 }
 
 /* 下拉框和输入框焦点颜色 */
@@ -514,7 +531,7 @@ input:focus {
 }
 
 #right-position-control {
-  margin-top: 90px;
+  margin-top: 80px;
   width: 80%;
   height: calc(100vh - 90px);
   display: flex;
@@ -678,25 +695,6 @@ input:focus {
   background-color: #9b59b6;
 }
 
-.line-sample {
-  width: 24px;
-  height: 0;
-  margin-right: 8px;
-}
-
-.strong-line {
-  border-top: 4px solid #e74c3c;
-}
-
-.medium-line {
-  border-top: 3px solid #e74c3c;
-  opacity: 0.8;
-}
-
-.weak-line {
-  border-top: 2px solid #e74c3c;
-  opacity: 0.6;
-}
 
 .legend-colors {
   display: grid;
@@ -751,9 +749,10 @@ input:focus {
 /* -------------右侧展开的栏目-------------------- */
 #slide-tab {
   position: relative;
-  margin-top: 180px;
+  margin-top: 80px;
+  height: calc(100vh - 80px);
+  bottom: 0;
   width: 32px;
-  height: 100%;
   writing-mode: vertical-rl;
   text-align: center;
   border-top-left-radius: 6px;
@@ -776,12 +775,9 @@ input:focus {
 #information_area {
   background-color: #f8f9fa;
   /* 浅色背景 */
-  border-left: 1px solid #ADC6E5;
-  /* 浅蓝色边框 */
-  margin-top: 180px;
+  margin-top: 160px;
   width: 0;
-  height: calc(100vh - 90px);
-  /* Change from 100% to viewport height minus header */
+  height: 100vh;
   bottom: 0;
   right: 0;
   overflow: hidden;
@@ -792,7 +788,6 @@ input:focus {
 }
 
 #information_area.expanded {
-  height: 100%;
   width: 7000px;
   overflow-y: auto;
 }
@@ -962,12 +957,6 @@ input:focus {
   transition: all 0.2s;
 }
 
-/*.sort-btn.active {
-  background: #3498db;
-  color: white;
-  border-color: #3498db;
-}*/
-
 /* Ownership 按钮使用粉色配色 */
 .sort-btn.active[data-sort="ownership"] {
   background: var(--color-pink);
@@ -1026,8 +1015,8 @@ input:focus {
   position: relative;
   top: 0;
   left: 0;
-  width: 20%;
-  height: 20%;
+  width: 100%;
+  height: 100%;
   background: rgba(255, 255, 255, 0.8);
   display: flex;
   flex-direction: column;
@@ -1232,7 +1221,8 @@ input:focus {
 }
 
 .modal-header h2 {
-  color: white !important;  /* 使用!important确保覆盖任何其他样式 */
+  color: white !important;
+  /* 使用!important确保覆盖任何其他样式 */
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
@@ -1325,7 +1315,8 @@ html {
 
 /* 1. 修改帮助模态框标题颜色 */
 .modal-header h2 {
-  color: white !important; /* 使用!important确保覆盖任何其他样式 */
+  color: white !important;
+  /* 使用!important确保覆盖任何其他样式 */
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
@@ -1334,8 +1325,185 @@ html {
 
 /* 2. 修改控制关系详情面板标题颜色 */
 .panel-header h2 {
-  color: white !important; /* 使用!important确保覆盖任何其他样式 */
+  color: white !important;
+  /* 使用!important确保覆盖任何其他样式 */
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0;
+}
+
+/* 新增以点击城市详细信息*/
+/* Entity Detail Modal */
+#detail-modal {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+#detail-modal.hidden {
+  display: none;
+}
+
+#detail-modal .modal-content {
+  background: white;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+#detail-modal .modal-header {
+  padding: 15px 20px;
+  background: linear-gradient(to right, var(--color-deep-blue), var(--color-light-blue));
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#detail-modal .modal-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white !important;
+}
+
+#detail-modal .modal-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#detail-modal .modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  max-height: calc(80vh - 60px);
+}
+
+/* Entity details styling */
+.entity-details {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.entity-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.entity-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.hq-icon {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.sub-icon {
+  background-color: #3498db;
+  color: white;
+}
+
+.entity-title h3 {
+  margin: 0 0 5px 0;
+  font-weight: 600;
+}
+
+.entity-subtitle {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.detail-section {
+  margin-bottom: 20px;
+}
+
+.detail-section h4 {
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+  color: var(--color-deep-blue);
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.detail-item {
+  background: #f8f9fa;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.detail-label {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-bottom: 3px;
+}
+
+.detail-value {
+  font-weight: 600;
+  color: var(--color-blue);
+}
+
+/* City subsidiaries list */
+.city-subsidiaries-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.subsidiary-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.subsidiary-item:last-child {
+  border-bottom: none;
+}
+
+.subsidiary-name {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.subsidiary-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  margin-top: 3px;
 }
