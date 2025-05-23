@@ -1,20 +1,12 @@
 :root {
   --color-deep-blue: #1E0F75;
-  /* 深蓝色 */
   --color-blue: #1C1DAB;
-  /* 蓝色 */
   --color-light-blue: #3785D8;
-  /* 浅蓝色 */
   --color-pale-blue: #ADC6E5;
-  /* 最浅蓝色 */
   --color-purple: #BF8CE1;
-  /* 紫色 */
   --color-pink: #E893C5;
-  /* 粉色 */
   --color-light-pink: #EBB2C3;
-  /* 浅粉色 */
   --color-ultra-pale: #CBD8E8;
-  /* 极浅蓝色 */
 }
 
 .Section7 {
@@ -61,15 +53,15 @@
   font-weight: bold;
   font-size: 1.1rem;
 
-  /* 渐变背景色 */
+  /* gradient background color */
   background: linear-gradient(90deg, #E893C5 0%, #BF8CE1 100%);
-  /* 标准属性，部分现代浏览器支持 */
+  /* Standard properties, supported by some modern browsers */
   background-clip: text;
-  /* WebKit 系浏览器需要前缀 */
+  /* WebKit-based browsers require a prefix */
   -webkit-background-clip: text;
-  /* 让文字本身透明以显示背景 */
+  /* Make the text itself transparent to show the background */
   color: transparent;
-  /* WebKit 系浏览器需要这个把文字填充色设为透明 */
+  /* WebKit-based browsers require this to set the text fill color to transparent. */
   -webkit-text-fill-color: transparent;
 }
 
@@ -195,7 +187,7 @@
   width: 100%;
 }
 
-/* 滑块颜色修改 */
+/* Slider color modification */
 .Section7 input[type="range"]::-webkit-slider-thumb {
   background: #1C1DAB;
 
@@ -209,12 +201,12 @@
   background: #1C1DAB;
 }
 
-/* 滑块轨道颜色 */
+/* Slider Track Color */
 .Section7 input[type="range"]::-webkit-slider-runnable-track {
   background: linear-gradient(to right, #ADC6E5, #3785D8);
 }
 
-/* 卡片容器样式 - 为过滤器创建视觉分隔 */
+/* Card Container Styles - Creating Visual Separation for Filters */
 .filter-card {
   background-color: #f8f9fa;
   border-radius: 8px;
@@ -224,7 +216,7 @@
   border: 1px solid #e6e9ec;
 }
 
-/* 标题样式 */
+/* Title Style */
 .filter-card-title {
   font-weight: bold;
   font-size: 1.2rem;
@@ -234,7 +226,7 @@
   border-bottom: 1px solid #ADC6E5;
 }
 
-/* 红色强调文字样式 */
+/* Red Emphasis Text Style */
 .highlight-text {
   color: #E893C5;
   font-weight: bold;
@@ -242,12 +234,12 @@
   display: block;
 }
 
-/* 滑块容器样式 */
+/* Slider container style */
 .filter-control {
   margin-top: 15px;
 }
 
-/* 滑块标签样式 */
+/* Slider Label Styles */
 .filter-label {
   display: block;
   margin-bottom: 8px;
@@ -256,13 +248,11 @@
   font-size: 1rem;
 }
 
-/* 下拉框和输入框焦点颜色 */
+/* Dropdown and Input Box Focus Colors */
 select:focus,
 input:focus {
   border-color: #3785D8;
-  /* 蓝色 */
   box-shadow: 0 0 0 2px rgba(55, 133, 216, 0.2);
-  /* 蓝色阴影 */
 }
 
 .stats-card {
@@ -292,7 +282,6 @@ input:focus {
   font-size: 1.1rem;
   font-weight: 600;
   color: #1C1DAB;
-  /* 蓝色 */
   margin-top: 0.2rem;
 }
 
@@ -426,7 +415,6 @@ input:focus {
 
 .hq-bar {
   background: #E893C5;
-  /* 粉色 */
 }
 
 .center-value {
@@ -448,14 +436,14 @@ input:focus {
 }
 
 
-/* 右侧所有 */
+/* All right */
 #map-container {
   position: relative;
   height: 100%;
   width: 100%;
 }
 
-/* 地图所有 */
+/* Map All */
 #mapCompany {
   position: relative;
   height: 100%;
@@ -463,7 +451,7 @@ input:focus {
 }
 
 
-/* 这里是地图左侧的按钮 */
+/* Here's the button on the left side of the map */
 .map-controls {
   position: absolute;
   top: 10px;
@@ -479,7 +467,6 @@ input:focus {
   height: 36px;
   background: white;
   border: 1px solid #ADC6E5;
-  /* 浅蓝色边框 */
   border-radius: 4px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   display: flex;
@@ -492,18 +479,15 @@ input:focus {
 
 .map-controls button:hover {
   background-color: #ADC6E5;
-  /* 浅蓝色 */
 }
 
 .map-controls button#help-btn {
   background: #1E0F75;
-  /* 深蓝色 */
   color: white;
 }
 
 .map-controls button#help-btn:hover {
   background: #1C1DAB;
-  /* 稍浅一点的蓝色 */
 }
 
 /* Animated help button to draw attention */
@@ -544,7 +528,7 @@ input:focus {
   }
 }
 
-/* 这里是地图的图例 */
+/* Here is a legend for the map */
 #map-legend {
   position: absolute;
   bottom: 20px;
@@ -623,36 +607,35 @@ input:focus {
 
 .na-color {
   background-color: #E893C5;
-  /* 粉色 */
 }
 
 .eu-color {
   background-color: #3785D8;
-  /* 蓝色 */
+
 }
 
 .as-color {
   background-color: #ADC6E5;
-  /* 浅蓝色 */
+
 }
 
 .af-color {
   background-color: #BF8CE1;
-  /* 紫色 */
+
 }
 
 .sa-color {
   background-color: #EBB2C3;
-  /* 浅粉色 */
+
 }
 
 .oc-color {
   background-color: #CBD8E8;
-  /* 最浅的蓝色 */
+
 }
 
 
-/* -------------右侧展开的栏目-------------------- */
+/* -------------Expanded columns on the right-------------------- */
 #slide-tab {
   position: relative;
   margin-top: 80px;
@@ -675,12 +658,12 @@ input:focus {
 
 #slide-tab:hover {
   background: linear-gradient(to bottom, #1C1DAB, #3785D8);
-  /* 稍浅一点的蓝色渐变 */
+  
 }
 
 #information_area {
   background-color: #f8f9fa;
-  /* 浅色背景 */
+  
   margin-top: 160px;
   width: 0;
   height: 100vh;
@@ -709,7 +692,7 @@ input:focus {
   width: 0px;
 }
 
-/* 上面的header */
+/* header */
 .panel-header {
   padding: 0 10px 0 15px;
   height: 60px;
@@ -741,7 +724,7 @@ input:focus {
 
 .toggle-btn:hover {
   background: rgba(173, 198, 229, 0.3);
-  /* 浅蓝色半透明 */
+ 
 }
 
 .toggle-btn.active {
@@ -758,7 +741,7 @@ input:focus {
   transition: all 0.3s ease;
 }
 
-/* 下面的切换 */
+/* The following switch */
 .panel-content {
   display: none !important;
   width: 100%;
@@ -863,14 +846,14 @@ input:focus {
   transition: all 0.2s;
 }
 
-/* Ownership 按钮使用粉色配色 */
+/* Ownership */
 .sort-btn.active[data-sort="ownership"] {
   background: var(--color-pink);
   border-color: var(--color-pink);
   color: white;
 }
 
-/* Assets 按钮使用紫色配色 */
+/* Assets */
 .sort-btn.active[data-sort="assets"] {
   background: var(--color-purple);
   border-color: var(--color-purple);
@@ -895,11 +878,11 @@ input:focus {
   padding: 0.8rem;
   text-align: left;
   background: linear-gradient(to right, #ADC6E5, #CBD8E8);
-  /* 浅蓝色渐变 */
+  
   color: #1E0F75;
-  /* 深蓝色文字 */
+ 
   border-bottom: 2px solid #3785D8;
-  /* 蓝色下边框 */
+ 
   position: sticky;
   top: 0;
   z-index: 1;
@@ -912,7 +895,7 @@ input:focus {
 
 #subsidiaries-table tr:hover {
   background-color: rgba(173, 198, 229, 0.2);
-  /* 浅蓝色半透明 */
+
 }
 
 
@@ -960,9 +943,9 @@ input:focus {
 
 .help-section {
   padding-top: 60px !important;
-  /* 添加顶部内边距，确保内容不被导航栏遮挡 */
+  /* Add a top inner margin to ensure content is not obscured by the navigation bar */
   margin-top: -45px !important;
-  /* 负外边距以抵消视觉上的间距影响 */
+  /* Negative outer margins to offset visual spacing effects */
   padding-bottom: 20px;
   border-bottom: 1px solid #eee;
   position: relative;
@@ -1023,7 +1006,7 @@ input:focus {
   padding-right: 10px;
 }
 
-/* 确保列表项中的小圆点与文字保持合适的间距 */
+/* Ensure that the dots in list items are properly spaced from the text */
 .help-content ul li {
   position: relative;
   list-style-type: disc;
@@ -1103,7 +1086,7 @@ input:focus {
   }
 }
 
-/* 内容区域样式 */
+/* Content Area Styles */
 .modal-content {
   background: white;
   border-radius: 10px;
@@ -1115,7 +1098,7 @@ input:focus {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* 顶部标题样式 */
+/* Top Title Style */
 .modal-header {
   padding: 15px 20px;
   background: linear-gradient(to right, var(--color-deep-blue), var(--color-light-blue));
@@ -1128,14 +1111,14 @@ input:focus {
 
 .modal-header h2 {
   color: white !important;
-  /* 使用!important确保覆盖任何其他样式 */
+  /* Use !important to ensure that any other styles are overridden. */
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
   white-space: normal;
 }
 
-/* 关闭按钮 */
+/* close button */
 .modal-close {
   background: none;
   border: none;
@@ -1150,7 +1133,7 @@ input:focus {
   justify-content: center;
 }
 
-/* 导航菜单 */
+/* navigation menu */
 .help-nav {
   background: #f8f9fa;
   padding: 10px 15px;
@@ -1181,7 +1164,7 @@ input:focus {
 }
 
 
-/* 列表样式 */
+/* List Style */
 .help-content ol {
   padding-left: 25px;
   margin: 10px 0;
@@ -1197,48 +1180,48 @@ input:focus {
   line-height: 1.5;
 }
 
-/* 增强对比度解决可读性问题 */
+/* Enhanced Contrast Solves Readability Problems */
 .help-content {
   line-height: 1.5;
   font-size: 0.95rem;
 }
 
-/* 修复列表嵌套问题 */
+/* Fix list nesting problem */
 .help-tab-content ol {
   margin-top: 8px;
 }
 
-/* 确保数据说明部分有足够间距 */
+/* Ensure adequate spacing in the data description section */
 #data {
   padding-bottom: 30px;
 }
 
-/* 解决点击时的滚动定位问题 */
+/* Solve scroll positioning problem when clicking */
 html {
   scroll-padding-top: 60px;
-  /* 为锚点链接提供滚动内边距 */
+  /* Provide scrolling inner margins for anchor links */
 }
 
-/* 1. 修改帮助模态框标题颜色 */
+/* 1. Modify the title color of the help modal box */
 .modal-header h2 {
   color: white !important;
-  /* 使用!important确保覆盖任何其他样式 */
+  /* Use !important to ensure that any other styles are overridden. */
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
   white-space: normal;
 }
 
-/* 2. 修改控制关系详情面板标题颜色 */
+/* 2. Modify the control relationship details panel title color*/
 .panel-header h2 {
   color: white !important;
-  /* 使用!important确保覆盖任何其他样式 */
+  /* Use !important to ensure that any other styles are overridden.*/
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0;
 }
 
-/* 新增以点击城市详细信息*/
+/* Added to click on city details*/
 /* Entity Detail Modal */
 #detail-modal {
   display: flex;

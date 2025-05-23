@@ -1,5 +1,5 @@
         #bubble_summary {
-            /* ⬇️ 颜色变量定义 */
+            /* Color Variable Definition */
             --deep-blue: #1E0F75;
             --mid-blue: #1C1DAB;
             --light-blue: #3785DB;
@@ -31,7 +31,7 @@
             position: relative;
             overflow: hidden;
             background: linear-gradient(to bottom, #1e1e2f, #2a2a40);
-            /* 深灰蓝渐变 */
+            /* Dark Gray Blue Gradient */
             padding: 1rem 0;
             border-right: 1px solid rgba(255, 255, 255, 0.05);
         }
@@ -46,7 +46,7 @@
             align-items: flex-start;
         }
 
-        /* 滚轮选择器容器 */
+        /* Wheel Selector Container */
         #bubble_summary .wheel-wrapper {
             position: relative;
             height: 300px;
@@ -60,7 +60,7 @@
             box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.05);
         }
 
-        /* 所有功能项 */
+        /* All Functional Items */
         #bubble_summary .wheel-container {
             display: flex;
             flex-direction: column;
@@ -68,7 +68,7 @@
             transition: transform 0.3s ease;
         }
 
-        /* 每一项 */
+        /* each of */
         #bubble_summary .wheel-item {
             height: 100px;
             width: 100%;
@@ -95,7 +95,7 @@
         }
 
 
-        /* 当前选中项 */
+        /* Current selection */
         #bubble_summary .wheel-item.highlight {
             color: white;
             font-weight: 600;
@@ -106,7 +106,7 @@
             opacity: 1;
         }
 
-        /* 中心线变为光感滤镜线 */
+        /* The centerline becomes a light-sensitive filter line */
         .center-indicator {
             position: absolute;
             top: 50%;
@@ -153,7 +153,7 @@
             padding: 1rem 2rem;
             border-bottom: none;
             background: #ffffff;
-            /* 修改点 ↓↓↓ */
+
             overflow: hidden;
             position: relative;
         }
@@ -171,7 +171,7 @@
             display: flex;
             flex-direction: column;
             flex: 1;
-            /* 占满剩下空间 */
+            /* fill the remaining space */
             overflow: hidden;
         }
 
@@ -285,16 +285,16 @@
             top: 0.5em;
             transform: translateY(-50%);
             box-shadow: 0 0 0 2px #fff;
-            /* 微边缘感 */
+            /* micro-edge sensation */
         }
 
-        /* 统一标题布局样式 */
+        /* Unified title layout style */
         .chart-title-wrapper {
             height: 40px;
             display: flex;
             align-items: center;
             padding-left: 40px;
-            /* ✅ 控制标题左侧内边距 */
+            /* Control the left inner margin of headings */
         }
 
         .chart-title {
@@ -305,7 +305,7 @@
             text-align: left;
         }
 
-        /* 图表区域主体填满剩余空间 */
+        /* Chart area subjects fill the remaining space */
         .chart-body {
             flex: 1;
             display: flex;
@@ -315,7 +315,7 @@
         }
 
 
-        /* Matrix 区域高度保持不变，但启用垂直布局 */
+        /* Matrix area height stays the same, but vertical layout is enabled */
         .pharma-matrix-area {
             flex: 0.45;
             display: flex;
@@ -323,14 +323,14 @@
             background: #ffffff;
         }
 
-        /* Bubble 区域同样垂直布局 */
+        /* The Bubble area has the same vertical layout */
         .pharma-bubble-area {
             height: 65%;
             display: flex;
             flex-direction: column;
         }
 
-        /* 修正 SVG 图表尺寸，防止被压缩 */
+        /* Fix SVG chart size to prevent compression */
         #bubbleChart,
         #fingerprintChart {
             width: 100%;
@@ -340,7 +340,7 @@
 
         .chart-scale-wrapper {
             transform: scale(0.9);
-            /* ✅ 控制缩放倍数，越小图越小 */
+            /* Controls the zoom factor, the smaller the image the smaller the zoom. */
             transform-origin: center center;
             display: flex;
             align-items: center;
@@ -349,7 +349,7 @@
             height: 100%;
         }
 
-        /* 不再使用统一 svg 样式压缩图表 */
+        /* No more compressed charts with uniform svg styles */
         svg {
             width: 90%;
             height: 90%;

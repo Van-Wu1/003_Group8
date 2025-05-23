@@ -70,7 +70,6 @@
   border: none;
   pointer-events: auto;
   clip-path: inset(0px 0px 60px 0px round 0px);
-  /* 妈的曲线救国了 */
 }
 
 .spline-cover {
@@ -81,13 +80,13 @@
   height: 100%;
   background-color: transparent;
   pointer-events: all;
-  /* 吃掉所有事件，阻断 iframe */
+  /* Eat all events, block iframe */
   z-index: 2;
 }
 
 
 
-/* 滚动淡入动画 */
+/* Scroll Fade Animation */
 .fade-in {
   opacity: 0;
   transform: translateY(30px);
@@ -99,7 +98,7 @@
   transform: translateY(0);
 }
 
-/* 鼠标悬停卡片缩放等通用动效 */
+/* Mouse hover card zoom and other generalized animations */
 .card:hover,
 .section:hover {
   transition: transform 0.4s ease;
