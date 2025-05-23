@@ -402,7 +402,7 @@ function drawRadarChart(props) {
           props.MSCIenvi,
           props.MSCIsocial,
           props.MSCIgovern,
-          props.operatingRevenue,
+          props.operatingRevenue*5,
           props.functionalDiversity
         ],
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
@@ -425,8 +425,8 @@ function drawRadarChart(props) {
       scales: {
         r: {
           angleLines: { color: '#555555', display: true },
-          suggestedMin: 0,
-          suggestedMax: 5,
+          suggestedMin: -1,
+          suggestedMax: 6,
           pointLabels: {
             color: '#000',
             font: { size: 13 },
