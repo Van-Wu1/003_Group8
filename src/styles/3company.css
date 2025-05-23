@@ -1090,7 +1090,7 @@ input:focus {
   background: rgba(0, 0, 0, 0.7);
   justify-content: center;
   align-items: center;
-  z-index: 2000;
+  z-index: 10000;
 }
 
 #help-modal.hidden {
