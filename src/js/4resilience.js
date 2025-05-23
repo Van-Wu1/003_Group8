@@ -24,7 +24,7 @@ const map_re = new mapboxgl.Map({
   container: 'map_re',
   style: 'mapbox://styles/mapbox/light-v11',
   center: [-0.1276, 51.5072],  // 英国伦敦
-  zoom: 6,
+  zoom: 3,
   pitch: 60,                   // 斜视角度
   bearing: 0,
   projection: 'mercator',
