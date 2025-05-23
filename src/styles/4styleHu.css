@@ -248,7 +248,7 @@ body {
 
 .selectorB {
   position: absolute;
-  left: 200px;
+  left: 265px;
   right: 10px;
 }
 
@@ -317,7 +317,7 @@ body {
 
 
 .info-box {
-  margin-top: 80px;
+  margin-top: 60px;
   padding: 16px 20px;
   width: 90%;
   max-width: 260px;
