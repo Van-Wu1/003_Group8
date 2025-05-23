@@ -3,7 +3,7 @@ console.log("✅ 4resilience.js 加载成功");
 let selectedCity = null;
 let overlay;
 let points;
-
+let barChart;
 
 
 function haversineDistance(lat1, lon1, lat2, lon2) {
@@ -24,7 +24,7 @@ const map_re = new mapboxgl.Map({
   container: 'map_re',
   style: 'mapbox://styles/mapbox/light-v11',
   center: [-0.1276, 51.5072],  // 英国伦敦
-  zoom: 6,
+  zoom: 3,
   pitch: 60,                   // 斜视角度
   bearing: 0,
   projection: 'mercator',
@@ -63,6 +63,17 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
 
     // 数据加载后先画一个空雷达图
     drawRadarChart();
+    // 默认画一次
+    drawRankingChart(points, 'resilienceIndex');
+
+    // 加监听器
+    const rankingSelect = document.getElementById('rankingSelect');
+    if (rankingSelect) {
+      rankingSelect.addEventListener('change', (e) => {
+        const metric = e.target.value;
+        drawRankingChart(points, metric);
+      });
+    }
 
 
 
@@ -125,72 +136,93 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
 
 
     //top 5
-    const top5 = points
-      .sort((a, b) => b.resilienceIndex - a.resilienceIndex)
-      .slice(0, 5);
 
-    const ctx = document.getElementById('rankingChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: top5.map(d => d.city),
-        datasets: [{
-          label: 'Resilience Index',
-          data: top5.map(d => d.resilienceIndex),
-          backgroundColor: 'rgba(118, 167, 201, 0.8)',
-          barThickness: 30
-        }]
-      },
-      options: {
-        layout: { padding: { top: 0, bottom: 0 } },
-        maintainAspectRatio: false,
-        responsive: true,
-        interaction: { mode: 'index' },
-        scales: {
-          x: {
-            offset: true,
-            border: { color: '#1E0F75', width: 1 },           // ✅ 改为深灰
-            grid: { display: false },
-            ticks: {
-              drawTicks: true,
-              color: '#000',                              // ✅ 改为深灰
-              font: { size: 10 },
-              maxRotation: 0,
-              minRotation: 0,
-              padding: 5,
-              callback: function (value) {
-                const label = this.getLabelForValue(value);
-                return label.split(' ');
+
+    function metricDisplayName(metric) {
+      return {
+        resilienceIndex: 'Resilience Index',
+        MSCIoverall: 'ESG Index',
+        functionalDiversity: 'Functional Diversity',
+        operatingRevenue: 'Operating Revenue'
+      }[metric] || metric;
+    }
+
+    function drawRankingChart(data, metric = 'resilienceIndex') {
+      console.log("绘制图表");
+      const top5 = [...data]
+        .sort((a, b) => b[metric] - a[metric])
+        .slice(0, 5);
+
+      const ctx = document.getElementById('rankingChart').getContext('2d');
+      if (barChart) barChart.destroy();
+
+      barChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: top5.map(d => d.city),
+          datasets: [{
+            label: metricDisplayName(metric),
+            data: top5.map(d => d[metric]),
+            backgroundColor: 'rgba(118, 167, 201, 0.8)',
+            barThickness: 30
+          }]
+        },
+        options: {
+          animation: {
+            duration: 1000,
+            easing: 'easeOutQuart',
+            animateScale: true,
+            animateRotate: false
+          },
+
+          responsive: true,
+          layout: { padding: { top: 0, bottom: 0 } },
+          maintainAspectRatio: false,
+          responsive: true,
+          interaction: { mode: 'index' },
+          scales: {
+            x: {
+              offset: true,
+              border: { color: '#1E0F75', width: 1 },
+              grid: { display: false },
+              ticks: {
+                color: '#000',
+                font: { size: 10 },
+                maxRotation: 0,
+                minRotation: 0,
+                padding: 5,
+                callback: function (value) {
+                  return this.getLabelForValue(value).split(' ');
+                }
+              }
+            },
+            y: {
+              border: { color: '#1E0F75', width: 1 },
+              grid: { display: false },
+              beginAtZero: true,
+              ticks: {
+                color: '#000',
+                font: { size: 10 },
+                padding: 5
               }
             }
           },
-          y: {
-            border: { color: '#1E0F75', width: 1 },           // ✅ 改为深灰
-            grid: { display: false },
-            beginAtZero: true,
-            ticks: {
-              drawTicks: true,
-              color: '#000',                              // ✅ 改为深灰
-              font: { size: 10 },
-              padding: 5
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: '#000', padding: 0, font: { size: 10 } }
+            },
+            title: {
+              display: true,
+              text: `Top 5 cities by ${metricDisplayName(metric)}`,
+              font: { size: 16 },
+              color: '#000'
             }
           }
-        },
-        plugins: {
-          legend: {
-            position: 'bottom',
-
-            labels: { color: '#000', padding: 0, font: { size: 10 } }
-          },
-          title: {
-            display: true,
-            text: 'Top 5 cities in the resilience index',
-            font: { size: 16 },
-            color: '#000'
-          }
         }
-      }
-    });
+      });
+    }
+
 
     //✅ 添加灰色基座 Layer
     const baseLayer = new deck.ColumnLayer({
@@ -209,23 +241,23 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
 
 
 
-const mainLayer = new deck.ColumnLayer({
-  data: adjustedPoints,
-  getPosition: d => d.adjustedPosition,
-  getElevation: d => d.resilienceIndex * 5000,
-  getFillColor: d => {
-    if (d.city === selectedCity) return [255, 179, 71, 255]; // 🔶 选中的城市变黄色
-    if (d.cluster === 2) return [55, 133, 216, 180];
-    if (d.cluster === 1) return [166, 146, 232, 180];
-    if (d.cluster === 0) return [243, 166, 161, 180];
-    return [200, 200, 200];
-  },
-  getLineColor: d => d.city === selectedCity ? [255, 255, 255] : [0, 0, 0, 0],
-  lineWidthMinPixels: 1, 
-  radius: 21000,
-  extruded: true,
-  elevationScale: 10
-});
+    const mainLayer = new deck.ColumnLayer({
+      data: adjustedPoints,
+      getPosition: d => d.adjustedPosition,
+      getElevation: d => d.resilienceIndex * 5000,
+      getFillColor: d => {
+        if (d.city === selectedCity) return [255, 179, 71, 255]; // 🔶 选中的城市变黄色
+        if (d.cluster === 2) return [55, 133, 216, 180];
+        if (d.cluster === 1) return [166, 146, 232, 180];
+        if (d.cluster === 0) return [243, 166, 161, 180];
+        return [200, 200, 200];
+      },
+      getLineColor: d => d.city === selectedCity ? [255, 255, 255] : [0, 0, 0, 0],
+      lineWidthMinPixels: 1,
+      radius: 21000,
+      extruded: true,
+      elevationScale: 10
+    });
 
 
 
@@ -313,61 +345,54 @@ const mainLayer = new deck.ColumnLayer({
 
       const cityData = points.find(p => p.city.trim() === selectedCity);
 
-
-
-
       if (cityData) {
         drawRadarChart(cityData);
 
-                // ✅ 新增地图飞到该城市
-                map_re.flyTo({
-                    center: cityData.position,
-                    zoom: 6,
-                    speed: 1.2,
-                    curve: 1.5,
-                    easing: t => t
-                });
-                setTimeout(() => {
-                 window.scrollTo({ top: 0, behavior: 'instant' });
-                 }, 0);
-// 🔶 重新创建 mainLayer 并高亮选中柱子
-const filteredData = adjustedPoints.filter(p => filterState[p.cluster]);
-const newMainLayer = new deck.ColumnLayer({
-  data: filteredData,
-  getPosition: d => d.adjustedPosition,
-  getElevation: d => d.resilienceIndex * 5000,
-  getFillColor: d => {
-    if (d.city === selectedCity) return [255, 179, 71, 255]; // 高亮选中
-    if (d.cluster === 2) return [55, 133, 216, 180];
-    if (d.cluster === 1) return [166, 146, 232, 180];
-    if (d.cluster === 0) return [243, 166, 161, 180];
-    return [200, 200, 200];
-  },
-  getLineColor: d => d.city === selectedCity ? [255, 255, 255] : [0, 0, 0, 0],
-  lineWidthMinPixels: 1, 
-  radius: 21000,
-  extruded: true,
-  elevationScale: 10
-});
+        // ✅ 新增地图飞到该城市
+        map_re.flyTo({
+          center: cityData.position,
+          zoom: 6,
+          speed: 1.2,
+          curve: 1.5,
+          easing: t => t
+        });
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        }, 0);
+        // 🔶 重新创建 mainLayer 并高亮选中柱子
+        const filteredData = adjustedPoints.filter(p => filterState[p.cluster]);
+        const newMainLayer = new deck.ColumnLayer({
+          data: filteredData,
+          getPosition: d => d.adjustedPosition,
+          getElevation: d => d.resilienceIndex * 5000,
+          getFillColor: d => {
+            if (d.city === selectedCity) return [255, 179, 71, 255]; // 高亮选中
+            if (d.cluster === 2) return [55, 133, 216, 180];
+            if (d.cluster === 1) return [166, 146, 232, 180];
+            if (d.cluster === 0) return [243, 166, 161, 180];
+            return [200, 200, 200];
+          },
+          getLineColor: d => d.city === selectedCity ? [255, 255, 255] : [0, 0, 0, 0],
+          lineWidthMinPixels: 1,
+          radius: 21000,
+          extruded: true,
+          elevationScale: 10
+        });
 
-// ⚠️ 保留原 baseLayer
-const newBaseLayer = new deck.ColumnLayer({
-  data: filteredData,
-  getPosition: d => d.adjustedPosition,
-  getElevation: 5000,
-  getFillColor: [220, 220, 220, 180],
-  radius: 22000,
-  extruded: true,
-  elevationScale: 1
-});
+        // ⚠️ 保留原 baseLayer
+        const newBaseLayer = new deck.ColumnLayer({
+          data: filteredData,
+          getPosition: d => d.adjustedPosition,
+          getElevation: 5000,
+          getFillColor: [220, 220, 220, 180],
+          radius: 22000,
+          extruded: true,
+          elevationScale: 1
+        });
 
-overlay.setProps({
-  layers: [newBaseLayer, newMainLayer]
-});
-
-
-
-
+        overlay.setProps({
+          layers: [newBaseLayer, newMainLayer]
+        });
       }
     });
   });
@@ -386,7 +411,6 @@ function drawRadarChart(props) {
     functionalDiversity: 0
   };
 
-
   const ctx = document.getElementById('radarChart').getContext('2d');
   if (!ctx) return;
   if (radarChart) radarChart.destroy();
@@ -402,7 +426,7 @@ function drawRadarChart(props) {
           props.MSCIenvi,
           props.MSCIsocial,
           props.MSCIgovern,
-          props.operatingRevenue,
+          props.operatingRevenue * 5,
           props.functionalDiversity
         ],
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
@@ -425,8 +449,8 @@ function drawRadarChart(props) {
       scales: {
         r: {
           angleLines: { color: '#555555', display: true },
-          suggestedMin: 0,
-          suggestedMax: 5,
+          suggestedMin: -1,
+          suggestedMax: 6,
           pointLabels: {
             color: '#000',
             font: { size: 13 },
@@ -448,14 +472,8 @@ function drawRadarChart(props) {
   });
 }
 
-
 document.getElementById('gotoComparison').addEventListener('click', () => {
   document.querySelector('.Section8').style.display = 'none';
   document.querySelector('.Section8-Comparison').style.display = 'block';
   initComparison();
 });
-
-
-
-
-

@@ -17,89 +17,6 @@
   /* 极浅蓝色 */
 }
 
-.Section6 .intro-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 40px 60px;
-}
-
-.Section6 h2 {
-  font-size: 2.5rem;
-  color: #2c3e50;
-  margin-bottom: 40px;
-  font-weight: 600;
-  line-height: 1.2;
-  /* Improved line height for the title */
-  white-space: nowrap;
-  /* Prevent title from breaking */
-}
-
-/* For smaller screens, allow title to wrap but maintain readability */
-@media (max-width: 768px) {
-  .Section6 h2 {
-    white-space: normal;
-    font-size: 2rem;
-  }
-}
-
-.Section6 p {
-  font-size: 1.2rem;
-  line-height: 1.7;
-  color: #34495e;
-  margin-bottom: 30px;
-  max-width: 780px;
-  /* Control line length for better readability */
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.Section6 .highlight {
-  background: linear-gradient(90deg, #BF8CE1 0%, #3498db 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  font-weight: 600;
-  display: inline-block;
-  animation: gradientShift 6s infinite linear;
-}
-
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.Section6 .btn {
-  display: inline-block;
-  padding: 12px 30px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  text-decoration: none;
-  border-radius: 50px;
-  transition: all 0.3s ease;
-  margin-top: 20px;
-  cursor: pointer;
-}
-
-.Section6 .btn-primary {
-  background: linear-gradient(90deg, #e893c5 0%, #BF8CE1 100%);
-  color: white;
-  box-shadow: 0 4px 15px rgba(191, 140, 225, 0.4);
-}
-
-.Section6 .btn-primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 7px 20px rgba(191, 140, 225, 0.5);
-}
-
 .Section7 {
   position: relative;
   scroll-snap-align: start;
@@ -1173,7 +1090,7 @@ input:focus {
   background: rgba(0, 0, 0, 0.7);
   justify-content: center;
   align-items: center;
-  z-index: 2000;
+  z-index: 10000;
 }
 
 #help-modal.hidden {
