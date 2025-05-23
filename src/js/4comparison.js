@@ -1,4 +1,3 @@
-// js/comparison.js
 let selectedCityA = null, selectedCityB = null;
 let overlayA, overlayB;
 
@@ -31,7 +30,7 @@ function initComparison() {
         pitch: 60,
         bearing: 0,
         projection: 'mercator',
-        minZoom: 4,   // Minimum zoom level
+        minZoom: 4,   
         maxZoom: 7
     });
 
@@ -67,8 +66,8 @@ function initComparison() {
             }));
 
 function getFillColor(city, selectedCity) {
-  if (city === selectedCity) return [255, 179, 71, 255]; // 高亮黄色
-  return null; // 返回 null 表示继续用 cluster 颜色
+  if (city === selectedCity) return [255, 179, 71, 255]; 
+  return null; 
 }
 
 function createMainLayer(data, selectedCity) {

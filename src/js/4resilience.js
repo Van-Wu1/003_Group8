@@ -8,7 +8,7 @@ let barChart;
 
 function haversineDistance(lat1, lon1, lat2, lon2) {
   const toRad = deg => deg * Math.PI / 180;
-  const R = 6371; // Earth radius in km
+  const R = 6371; 
   const dLat = toRad(lat2 - lat1);
   const dLon = toRad(lon2 - lon1);
   const a = Math.sin(dLat / 2) ** 2 +
@@ -25,17 +25,17 @@ const map_re = new mapboxgl.Map({
   style: 'mapbox://styles/mapbox/light-v11',
   center: [-0.1276, 51.5072],  // London, England
   zoom: 3,
-  pitch: 60,                   // squint
+  pitch: 60,                
   bearing: 0,
   projection: 'mercator',
-  minZoom: 4,   // Minimum zoom level
-  maxZoom: 7,  // Maximum zoom level
+  minZoom: 4,   
+  maxZoom: 7,  
   maxBounds: [
-    [-180, -85],  // Southwest corner: minimum longitude, minimum latitude
-    [180, 85]     // Northeast corner: maximum longitude, maximum latitude
+    [-180, -85],  
+    [180, 85]     
   ],
   dragPan: {
-    deceleration: 0.9  // The closer to 1, the lower the inertia (optional)
+    deceleration: 0.9  // The closer to 1, the lower the inertia
   }
 
 });
@@ -63,10 +63,10 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
 
     // After the data is loaded first draw an empty radar map
     drawRadarChart();
-    // Default draw once
+   
     drawRankingChart(points, 'resilienceIndex');
 
-    // add listener
+    // listener
     const rankingSelect = document.getElementById('rankingSelect');
     if (rankingSelect) {
       rankingSelect.addEventListener('change', (e) => {
@@ -77,9 +77,9 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
 
 
 
-    const GROUP_DISTANCE_KM = 50;  // Adjustable: maximum distance in the group
-    const OFFSET_KM = 25;          // Adjustable: unfolding radius
-    const DEG_PER_KM = 1 / 111;    // 1km ≈ 0.009°
+    const GROUP_DISTANCE_KM = 50;  
+    const OFFSET_KM = 25;          
+    const DEG_PER_KM = 1 / 111;    
 
     const groups = [];
     const used = new Set();
@@ -136,8 +136,6 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
 
 
     //top 5
-
-
     function metricDisplayName(metric) {
       return {
         resilienceIndex: 'Resilience Index',
@@ -148,7 +146,6 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
     }
 
     function drawRankingChart(data, metric = 'resilienceIndex') {
-      console.log("绘制图表");
       const top5 = [...data]
         .sort((a, b) => b[metric] - a[metric])
         .slice(0, 5);
@@ -224,10 +221,10 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
     }
 
 
-    //Add Gray Base Layer
+    // Gray Base Layer
     const baseLayer = new deck.ColumnLayer({
-      data: adjustedPoints,  // adjustedPoints
-      getPosition: d => d.adjustedPosition,  // Using offset coordinates
+      data: adjustedPoints, 
+      getPosition: d => d.adjustedPosition, 
       getElevation: 5000,
       getFillColor: [220, 220, 220, 180],
       radius: 22000,
@@ -237,10 +234,6 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
 
 
     //  Add Original Column Layer
-
-
-
-
     const mainLayer = new deck.ColumnLayer({
       data: adjustedPoints,
       getPosition: d => d.adjustedPosition,
