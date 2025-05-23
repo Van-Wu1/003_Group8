@@ -8,7 +8,7 @@ let barChart;
 
 function haversineDistance(lat1, lon1, lat2, lon2) {
   const toRad = deg => deg * Math.PI / 180;
-  const R = 6371; // 地球半径，单位：km
+  const R = 6371; // Earth radius in km
   const dLat = toRad(lat2 - lat1);
   const dLon = toRad(lon2 - lon1);
   const a = Math.sin(dLat / 2) ** 2 +
@@ -23,19 +23,19 @@ mapboxgl.accessToken = 'pk.eyJ1IjoieGlueXVlMjMiLCJhIjoiY203amU4bzlrMDR1ZzJvcXR2b
 const map_re = new mapboxgl.Map({
   container: 'map_re',
   style: 'mapbox://styles/mapbox/light-v11',
-  center: [-0.1276, 51.5072],  // 英国伦敦
+  center: [-0.1276, 51.5072],  // London, England
   zoom: 3,
-  pitch: 60,                   // 斜视角度
+  pitch: 60,                   // squint
   bearing: 0,
   projection: 'mercator',
-  minZoom: 4,   // 最小缩放级别（不能缩太远）
-  maxZoom: 7,  // 最大缩放级别（不能缩太近）
+  minZoom: 4,   // Minimum zoom level
+  maxZoom: 7,  // Maximum zoom level
   maxBounds: [
-    [-180, -85],  // 西南角：最小经度、最小纬度
-    [180, 85]     // 东北角：最大经度、最大纬度
+    [-180, -85],  // Southwest corner: minimum longitude, minimum latitude
+    [180, 85]     // Northeast corner: maximum longitude, maximum latitude
   ],
   dragPan: {
-    deceleration: 0.9  // 越接近 1，惯性越小（可选）
+    deceleration: 0.9  // The closer to 1, the lower the inertia (optional)
   }
 
 });
@@ -50,7 +50,7 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
       resilienceIndex: f.properties.resilienceindex,
       cluster: f.properties.cluster,
       city: f.properties.city.trim(),
-      MSCIoverall: f.properties.mscioverall,                 // ✅ 新增
+      MSCIoverall: f.properties.mscioverall,                 
       MSCIenvi: f.properties.mscienvi,
       MSCIsocial: f.properties.mscisocial,
       MSCIgovern: f.properties.mscigovern,
@@ -61,12 +61,12 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
 
 
 
-    // 数据加载后先画一个空雷达图
+    // After the data is loaded first draw an empty radar map
     drawRadarChart();
-    // 默认画一次
+    // Default draw once
     drawRankingChart(points, 'resilienceIndex');
 
-    // 加监听器
+    // add listener
     const rankingSelect = document.getElementById('rankingSelect');
     if (rankingSelect) {
       rankingSelect.addEventListener('change', (e) => {
@@ -77,9 +77,9 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
 
 
 
-    const GROUP_DISTANCE_KM = 50;  // 可调：组内最大距离
-    const OFFSET_KM = 25;          // 可调：展开半径
-    const DEG_PER_KM = 1 / 111;    // 粗略换算：1km ≈ 0.009°
+    const GROUP_DISTANCE_KM = 50;  // Adjustable: maximum distance in the group
+    const OFFSET_KM = 25;          // Adjustable: unfolding radius
+    const DEG_PER_KM = 1 / 111;    // 1km ≈ 0.009°
 
     const groups = [];
     const used = new Set();
@@ -224,10 +224,10 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
     }
 
 
-    //✅ 添加灰色基座 Layer
+    //Add Gray Base Layer
     const baseLayer = new deck.ColumnLayer({
-      data: adjustedPoints,  // ✅ 改成 adjustedPoints
-      getPosition: d => d.adjustedPosition,  // ✅ 使用偏移后坐标
+      data: adjustedPoints,  // adjustedPoints
+      getPosition: d => d.adjustedPosition,  // Using offset coordinates
       getElevation: 5000,
       getFillColor: [220, 220, 220, 180],
       radius: 22000,
@@ -236,7 +236,7 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
     });
 
 
-    // ✅ 添加原始柱子 Layer
+    //  Add Original Column Layer
 
 
 
@@ -246,7 +246,7 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
       getPosition: d => d.adjustedPosition,
       getElevation: d => d.resilienceIndex * 5000,
       getFillColor: d => {
-        if (d.city === selectedCity) return [255, 179, 71, 255]; // 🔶 选中的城市变黄色
+        if (d.city === selectedCity) return [255, 179, 71, 255]; //  Selected cities turn yellow
         if (d.cluster === 2) return [55, 133, 216, 180];
         if (d.cluster === 1) return [166, 146, 232, 180];
         if (d.cluster === 0) return [243, 166, 161, 180];
@@ -264,7 +264,7 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
 
 
 
-    // ✅ 初始化地图
+    //  Initializing the map
     overlay = new deck.MapboxOverlay({
       layers: [baseLayer, mainLayer]
     });
@@ -281,12 +281,12 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
       checkbox.addEventListener('change', () => {
         const cluster = parseInt(checkbox.dataset.cluster);
         filterState[cluster] = checkbox.checked;
-        updateMapLayers();  // 重新渲染图层
+        updateMapLayers();  // Re-rendering layers
       });
     });
 
     function updateMapLayers() {
-      // 只保留选中的cluster
+      // Keep only the selected clusters
       const filteredData = adjustedPoints.filter(p => filterState[p.cluster]);
 
       //update baselayer
@@ -299,7 +299,7 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
         extruded: true,
         elevationScale: 1
       });
-      // 更新主图层（重新创建 ColumnLayer）
+      // Updating the main layer (recreating the ColumnLayer)
       const newMainLayer = new deck.ColumnLayer({
         data: filteredData,
         getPosition: d => d.adjustedPosition,
@@ -315,7 +315,7 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
         elevationScale: 10
       });
 
-      // 重新设置 overlay 图层（保留 baseLayer）
+      // Reset the overlay layer (keep the baseLayer)
       overlay.setProps({
         layers: [newBaseLayer, newMainLayer]
       });
@@ -327,7 +327,7 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
       map_re.getCanvas().style.backgroundColor = '#cfd8dc';
     });
 
-    // ✅ 城市下拉菜单
+    // City drop-down menu
     const dropdown = document.getElementById('cityDropdown');
     const uniqueCities = [...new Set(points.map(p => p.city))].sort();
     uniqueCities.forEach(city => {
@@ -338,7 +338,7 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
     });
 
 
-    // ✅ 下拉菜单事件
+    // Drop-down menu events
     dropdown.addEventListener('change', (e) => {
       const selected = e.target.value.trim();
       selectedCity = selected;
@@ -348,7 +348,7 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
       if (cityData) {
         drawRadarChart(cityData);
 
-        // ✅ 新增地图飞到该城市
+        // Add map to fly to the city
         map_re.flyTo({
           center: cityData.position,
           zoom: 6,
@@ -359,14 +359,14 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
         setTimeout(() => {
           window.scrollTo({ top: 0, behavior: 'instant' });
         }, 0);
-        // 🔶 重新创建 mainLayer 并高亮选中柱子
+        // Recreate the mainLayer and highlight the columns.
         const filteredData = adjustedPoints.filter(p => filterState[p.cluster]);
         const newMainLayer = new deck.ColumnLayer({
           data: filteredData,
           getPosition: d => d.adjustedPosition,
           getElevation: d => d.resilienceIndex * 5000,
           getFillColor: d => {
-            if (d.city === selectedCity) return [255, 179, 71, 255]; // 高亮选中
+            if (d.city === selectedCity) return [255, 179, 71, 255]; // Highlighted
             if (d.cluster === 2) return [55, 133, 216, 180];
             if (d.cluster === 1) return [166, 146, 232, 180];
             if (d.cluster === 0) return [243, 166, 161, 180];
@@ -379,7 +379,7 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
           elevationScale: 10
         });
 
-        // ⚠️ 保留原 baseLayer
+        // Retain the original baseLayer
         const newBaseLayer = new deck.ColumnLayer({
           data: filteredData,
           getPosition: d => d.adjustedPosition,
@@ -397,7 +397,7 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
     });
   });
 
-// ✅ 雷达图绘制函数
+// Radar plotting function
 let radarChart;
 function drawRadarChart(props) {
   props = props || {

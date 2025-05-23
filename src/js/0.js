@@ -80,7 +80,7 @@ window.addEventListener('DOMContentLoaded', () => {
                             'case',
                             ['<', ['get', 'resilienceindex'], 1.5], '#f3a6a1',
                             ['<', ['get', 'resilienceindex'], 2.5], '#a692e8',
-                            '#3785D8'  // 默认：高于2.5
+                            '#3785D8'  // >2.5
                         ],
                         'fill-opacity': 0.6
                     },
@@ -144,7 +144,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            updateBars(features); // 初始显示条形图
+            updateBars(features); // Initial Display Bar
         });
 
     function initMap(containerId) {

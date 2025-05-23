@@ -1,22 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
   const exploreBtn = document.getElementById("exploreBtn");
   const extra = document.getElementById("methodology-extra");
-  const introScreen = document.getElementById("intro-screen"); // ✅ 改成整个块
+  const introScreen = document.getElementById("intro-screen"); // Change to whole block
 
   if (!exploreBtn || !extra || !introScreen) return;
 
   exploreBtn.addEventListener("click", () => {
-    console.log("🎯 点击了 Explore");
+    console.log("🎯 click Explore");
 
-    // 让 intro 整块上滑消失
+    // Make intro disappear by sliding the whole block up
     introScreen.classList.add("slide-up");
 
-    // 等待动画结束后再展示新内容
+    // Wait for the animation to finish before showing new content
     setTimeout(() => {
       introScreen.style.display = "none";
       extra.classList.remove("hidden");
       extra.classList.add("reveal");
-    }, 800);  // 和 transition 一致
+    }, 800);  // and transition consistently
   });
 });
 

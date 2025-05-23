@@ -14,7 +14,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const { root, polygonSeries: ps } = initAmMap();
     polygonSeries = ps;
 
-    // 初始化
+    // initialization
     document.querySelectorAll('.labels span')[0].classList.add('active');
     updateAmMapField(polygonSeries, "total");
     updateD3Treemap("total");
@@ -210,7 +210,7 @@ function iso2to3(iso2) {
 
 
 
-// 矩形树图
+// rectangular tree diagram
 function updateD3Treemap(field) {
     const data = Object.entries(tradeData)
         .map(([iso, d]) => ({ iso, name: d.name || iso, value: typeof d[field] === 'number' ? d[field] : 0 }))
@@ -234,7 +234,7 @@ function updateD3Treemap(field) {
     const nodes = svg.selectAll("g")
         .data(root.leaves(), d => d.data.iso);
 
-    // 更新位置与大小
+    // Update Position and Size
     nodes.transition(t)
         .attr("transform", d => `translate(${d.x0},${d.y0})`);
 
@@ -243,7 +243,7 @@ function updateD3Treemap(field) {
         .attr("height", d => d.y1 - d.y0)
         .attr("fill", d => color(d.value));
 
-    // 进入新节点
+    // Update Position and Size
     const enter = nodes.enter().append("g")
         .attr("transform", d => `translate(${d.x0},${d.y0})`);
 
@@ -291,7 +291,7 @@ function initGlobalSummary() {
     }
 }
 
-// 饼图
+// pie chart
 function updatePieChart(isoCode = 'GLOBAL') {
     const pieContainer = document.querySelector('.piecontent');
     if (!pieContainer) return;

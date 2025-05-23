@@ -6,15 +6,14 @@ const mapboxMap = new mapboxgl.Map({
   zoom: 2.5
 });
 
-// 1. 全局变量
-// ✅ 全局变量（已修正命名冲突与作用域问题）
+// 1. global variable
 let cityData = {};
 const cityMarkers = [];
 
-let countryTopCity = {};           // ✅ 需要被重置和赋值
-let donutChart = null;            // ✅ Chart 实例，不能用 const
-let currentSelectedFunctions = []; // ✅ 多处更新与读取，需 let
-let currentMinCompanyCount = 0;    // ✅ 用于多处赋值
+let countryTopCity = {};           // Needs to be reset and assigned a value
+let donutChart = null;            // Chart instances, not const
+let currentSelectedFunctions = []; // Multiple updates and reads, need to let
+let currentMinCompanyCount = 0;    //For multiple assignments
 let stackedBarChart = null;
 let scatterChart = null;
 
@@ -31,8 +30,8 @@ const colorMap = {
 };
 
 
-//城市说明版
-// 3. DOM 元素
+//City Description Edition
+// 3. DOM elements
 const popup = document.getElementById('popup');
 const defaultMessage = document.getElementById('defaultMessage');
 const cityDetails = document.getElementById('cityDetails');
@@ -52,11 +51,11 @@ function showCityPanel(cityName, functionCategory) {
 
   document.getElementById('cityHeader').innerText = cityName;
 
-  // ✅ 使用已有的函数绘图
+  // Plotting with existing functions
   showCityCard(cityName, donutData, info);
 }
 
-//根据zoom反馈圆圈的半径大小
+//Feedback on the radius size of the circle based on zoom
 function getRadiusByZoomAndValue(zoom, value) {
   if (zoom <= 3) {
     if (value <= 0) return 4;
@@ -105,7 +104,7 @@ function convertCityDataToGeoJSON(cityData, zoom, selectedFunctions = [], minCou
     const lng = Number(company.lng || company.longitude);
     const total = (info.hq_count || 0) + (info.subsidiary_count || 0);
 
-    // ✅【第1层】筛选器约束（最关键）
+    //[Layer 1] Filter constraints (most critical)
     if (total < minCount) return null;
 
     const functionStats = info.sub_function_stats || {};
@@ -116,13 +115,13 @@ function convertCityDataToGeoJSON(cityData, zoom, selectedFunctions = [], minCou
       filteredStats.some(([k]) => selectedFunctions.includes(k));
     if (!hasSelectedFunction) return null;
 
-    // ✅【第2层】zoom <= 3 限制，仅保留 top 城市
+    //[Layer 2] zoom <= 3 restriction, keep only top city
     if (zoom <= 3 && !isTopCityInCountry(cityKey)) return null;
 
-    // ✅【第3层】zoom 仅影响样式（circle 大小），不影响展示资格
+    //[Layer 3] zoom only affects style (circle size), not display eligibility
     const mainFunc = filteredStats.sort((a, b) => b[1] - a[1])[0][0];
     const category = getFunctionCategory(info);
-    const radius = getRadiusByZoomAndValue(zoom, total); // 样式变化
+    const radius = getRadiusByZoomAndValue(zoom, total); // Style Changes
 
     return {
       type: "Feature",
@@ -151,7 +150,7 @@ function convertCityDataToGeoJSON(cityData, zoom, selectedFunctions = [], minCou
 
 
 
-// ✅ 统一写一个函数专门绘制条形图：可重复调用，无需 destroy
+//  Uniformly write a function dedicated to drawing bar graphs: repeatable calls without destroy
 function drawStackedBarChart({ labels, datasets }) {
   const canvas = document.getElementById('stackedBarChart');
   if (!canvas) {
@@ -223,7 +222,7 @@ function drawStackedBarChart({ labels, datasets }) {
   });
 }
 
-//定义城市功能
+//Defining Urban Functions
 function getFunctionStats(info) {
   const rolesRaw = info.sub_function_stats || {};
   const roles = Object.fromEntries(
@@ -239,13 +238,13 @@ function getFunctionStats(info) {
   const roleCount = sortedRoles.length;
   const dominanceRatio = (dominantCount / total).toFixed(2);
 
-  // 计算香农熵
+  // Calculate the Shannon entropy
   const entropy = -sortedRoles.reduce((sum, [_, count]) => {
     const p = count / total;
     return sum + p * Math.log2(p);
   }, 0).toFixed(2);
 
-  // 分类
+  // categorization
   let classification = "Unclassified";
   if (roleCount === 1) classification = "Single-function City";
   else if (entropy < 1) classification = "Weakly Diversified";
@@ -261,7 +260,7 @@ function getFunctionStats(info) {
   };
 }
 
-//给每个城市功能划分
+//Give each city a functional division
 function getFunctionCategory(info) {
   const stats = getFunctionStats(info);
   if (!stats) return "Unclassified";
@@ -311,7 +310,7 @@ function showCityCard(cityKey, donutData, infoFromMapbox) {
     <h3>${cityName.trim()}, ${countryCode.trim()}</h3>
   `;
 
-  // 2. 统计数据
+  // 2. statistical data
   const hqCount = info.hq_count || 0;
   const subCount = info.subsidiary_count || 0;
   const allCompanies = hqCount + subCount;
@@ -324,9 +323,9 @@ function showCityCard(cityKey, donutData, infoFromMapbox) {
     ? (info.hq_companies?.reduce((sum, c) => sum + (c.esg_score || 0), 0) / hqCount).toFixed(1)
     : '–';
 
-  // 职能结构信息卡
+  // Functional structure information card
   const grid = document.getElementById('cityInfoGrid');
-  grid.innerHTML = ''; // 清空旧内容
+  grid.innerHTML = ''; // Emptying old content
 
   const functionCategory = getFunctionCategory(info);
   const companyCount = hqCount + subCount;
@@ -345,8 +344,8 @@ function showCityCard(cityKey, donutData, infoFromMapbox) {
   drawDonutChart(donutData, cityName);
 }
 
-// 3. 绘制甜甜圈
-// 用于保存 Chart 实例
+// 3. Drawing Donuts
+// Used to save Chart instances
 function drawDonutChart(data, cityName) {
   const canvas = document.getElementById("donutChart");
   const ctx = canvas?.getContext("2d");
@@ -433,7 +432,7 @@ function drawScatterPlot(scatterData) {
       datasets: [{
         label: 'Cities',
         data: scatterData.map(d => ({
-          x: d.dominanceRatio,        // 🔄 改为公司数量
+          x: d.dominanceRatio,
           y: d.entropy,
           city: d.city,
           category: d.category,
@@ -458,17 +457,17 @@ function drawScatterPlot(scatterData) {
           callbacks: {
             label: function (context) {
               const d = context.raw;
-              return `${d.city}\nEntropy: ${d.y}\nDominance Ratio: ${d.x}`; // 🔄
+              return `${d.city}\nEntropy: ${d.y}\nDominance Ratio: ${d.x}`; 
             }
           }
         }
       },
       scales: {
         x: {
-          title: { display: true, text: 'Dominance Ratio' }, // 🔄
+          title: { display: true, text: 'Dominance Ratio' }, 
           type: 'linear',
           beginAtZero: true
-          // 可以根据你的数据范围设置 min / max
+
         },
         y: {
           title: { display: true, text: 'Entropy' },
@@ -504,7 +503,7 @@ function getCityCoordinates(info) {
   return [Number(company.lng || company.longitude), Number(company.lat || company.latitude)];
 }
 
-// 条形图更新逻辑
+// Bar chart update logic
 function updateTopCitiesByFunctionMulti(selectedFunctions, limit = 10, minCount = 0) {
   const cityStats = [];
 
@@ -535,7 +534,7 @@ function updateTopCitiesByFunctionMulti(selectedFunctions, limit = 10, minCount 
   drawStackedBarChart({ labels, datasets });
 }
 
-// 工具函数：筛选器状态
+// Utility Function: Filter State
 function getSelectedFunctions() {
   return Array.from(
     document.querySelectorAll('#functionFilters input[type="checkbox"]:checked')
@@ -556,25 +555,25 @@ function updateSliderUI() {
   slider.style.backgroundSize = `${percent}% 100%`;
 }
 
-// 初始更新
+// Initial update
 updateSliderUI();
 
-// 监听滑动
+// Listen to Slide
 slider.addEventListener("input", updateSliderUI);
 
-//初始化展示
+//Initialization Demonstration
 backButton.addEventListener('click', showDefaultMessage);
-showDefaultMessage();//这里结束
+showDefaultMessage();//It ends here.
 
 fetch('data/clean/city_function.json')
   .then(res => res.json())
   .then(data => {
     cityData = data;
 
-    // // 图例初始化
+    // // Legend Initialization
     // renderFunctionLegend("functionFilters");
 
-    // 构建 zoom ≤ 3 用的国家代表城市
+    // Construction of zoom ≤ 3 national representative cities
     buildCountryTopCity(Object.keys(colorMap).filter(f => f !== "Unclassified"));
 
     mapboxMap.on('load', () => {
@@ -634,7 +633,7 @@ fetch('data/clean/city_function.json')
       });
 
 
-      // 鼠标交互 tooltip
+      // Mouse interaction tooltip
       const tooltip = new mapboxgl.Popup({
         closeButton: false,
         closeOnClick: false,
@@ -697,7 +696,7 @@ fetch('data/clean/city_function.json')
 
         mapboxMap.getSource('highlight-city').setData({
           type: 'FeatureCollection',
-          features: [clickedFeature] // 直接把点击的 feature 作为高亮数据
+          features: [clickedFeature] // Highlight the clicked feature directly as highlighted data
         });
 
         const donutData = prepareDonutData(info);
@@ -728,17 +727,17 @@ fetch('data/clean/city_function.json')
       const limit = parseInt(rangeSlider.value, 10) || 10;
       const minCount = parseInt(document.getElementById('minCompanyCount').value, 10) || 0;
 
-      // ✅ 更新顶部城市图表
+      // Updated top city charts
       updateTopCitiesByFunctionMulti(selected, limit, minCount);
 
-      // ✅ 同步地图数据
+      // Synchronization of map data
       const geojson = convertCityDataToGeoJSON(cityData, mapboxMap.getZoom(), selected, minCount);
       const source = mapboxMap.getSource('cities');
       if (source) source.setData(geojson);
     });
 
 
-    // ✅ 加在这两个之后
+    // Add after these two
     document.getElementById('minCompanyCount').addEventListener('change', () => {
       const selected = getSelectedFunctions();
       const limit = parseInt(rangeSlider.value);
@@ -751,29 +750,29 @@ fetch('data/clean/city_function.json')
     });
 
 
-    // 图表首次绘制
+    // Charting for the first time
     const selectedFunctions = Object.keys(colorMap).filter(f => f !== "Unclassified");
     const limit = parseInt(rangeSlider.value) || 10;
     const minCount = parseInt(document.getElementById('minCompanyCount').value, 10) || 0;
     updateTopCitiesByFunctionMulti(selectedFunctions, limit, minCount);
 
-    // 绑定筛选器与滑动条
+    // Binding filters and sliders
     document.querySelectorAll('#filter-panel input[type="checkbox"]').forEach(cb => {
       cb.addEventListener("change", () => {
         const selected = getSelectedFunctions();
         const limit = parseInt(rangeSlider.value) || 10;
         const minCount = parseInt(document.getElementById('minCompanyCount').value, 10) || 0;
 
-        updateTopCitiesByFunctionMulti(selected, limit, minCount); // ✅ 加入 minCount
+        updateTopCitiesByFunctionMulti(selected, limit, minCount); // minCount
 
-        const geojson = convertCityDataToGeoJSON(cityData, mapboxMap.getZoom(), selected, minCount); // ✅ 加入 minCount
+        const geojson = convertCityDataToGeoJSON(cityData, mapboxMap.getZoom(), selected, minCount); 
         const source = mapboxMap.getSource('cities');
         if (source) source.setData(geojson);
       });
     });
   });
 
-//表格
+//table
 document.getElementById('toggleChartsBtn').addEventListener('click', () => {
   const bg = document.getElementById('chartsBackground');
   const charts = document.getElementById('chartsSection');
@@ -784,10 +783,10 @@ document.getElementById('toggleChartsBtn').addEventListener('click', () => {
 
   if (isExpanded) {
     charts.classList.add('expanded');
-    charts.classList.remove('collapsed');  // ✅ 关键：移除 collapsed
+    charts.classList.remove('collapsed');  // Key: remove collapsed
   } else {
     charts.classList.remove('expanded');
-    charts.classList.add('collapsed');     // ✅ 收起时加回 collapsed
+    charts.classList.add('collapsed');     // Add back collapsed when put away
   }
 
   if (wrapper) {
