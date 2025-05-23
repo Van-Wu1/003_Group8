@@ -809,106 +809,62 @@
         </section>
 
         <!-- map4 -->
-        <section class="Section8" id="section8">
-            <div id="map_re">
-                <div id="citySelector">
-                    <label for="cityDropdown">Select City:</label>
-                    <select id="cityDropdown">
-                        <option value="">please select city</option>
-                    </select>
-                </div>
-                <div id="legend">
-                    <div>
-                        <input type="checkbox" data-cluster="2" checked>
-                        <span class="color-box" style="background-color: #3785D8;"></span>
-                        <span class="label-text">Environmentally Oriented City</span>
-                    </div>
-                    <div>
-                        <input type="checkbox" data-cluster="1" checked>
-                        <span class="color-box" style="background-color: #A692E8;"></span>
-                        <span class="label-text">Socially Oriented City</span>
-                    </div>
-                    <div>
-                        <input type="checkbox" data-cluster="0" checked>
-                        <span class="color-box" style="background-color: #F3A6A1;"></span>
-                        <span class="label-text">Governance-oriented City</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="menu">
-                <div id="radar">
-                    <canvas id="radarChart" width="300" height="300"></canvas>
-                </div>
-                <div id="rank" style="position: relative;">
-
-                    <div class="ranking-controls" id="rankingControls">
-                        <label for="rankingSelect">Sort by:</label>
-                        <select id="rankingSelect">
-                            <option value="resilienceIndex">Resilience Index</option>
-                            <option value="MSCIoverall">ESG Index</option>
-                            <option value="functionalDiversity">Functional Diversity</option>
-                            <option value="operatingRevenue">Operating Revenue</option>
+        <div id="section8-container">
+            <section class="Section8" id="section8">
+                <div id="map_re">
+                    <div id="citySelector">
+                        <label for="cityDropdown">Select City:</label>
+                        <select id="cityDropdown">
+                            <option value="">please select city</option>
                         </select>
                     </div>
-                    <canvas id="rankingChart" ...></canvas>
+                    <div id="legend">
+                        <div>
+                            <input type="checkbox" data-cluster="2" checked>
+                            <span class="color-box" style="background-color: #3785D8;"></span>
+                            <span class="label-text">Environmentally Oriented City</span>
+                        </div>
+                        <div>
+                            <input type="checkbox" data-cluster="1" checked>
+                            <span class="color-box" style="background-color: #A692E8;"></span>
+                            <span class="label-text">Socially Oriented City</span>
+                        </div>
+                        <div>
+                            <input type="checkbox" data-cluster="0" checked>
+                            <span class="color-box" style="background-color: #F3A6A1;"></span>
+                            <span class="label-text">Governance-oriented City</span>
+                        </div>
+                    </div>
                 </div>
 
-            </div>
+                <div class="menu">
+                    <div id="radar">
+                        <canvas id="radarChart" width="300" height="300"></canvas>
+                    </div>
+                    <div id="rank" style="position: relative;">
 
-            <button id="gotoComparison" style="
+                        <div class="ranking-controls" id="rankingControls">
+                            <label for="rankingSelect">Sort by:</label>
+                            <select id="rankingSelect">
+                                <option value="resilienceIndex">Resilience Index</option>
+                                <option value="MSCIoverall">ESG Index</option>
+                                <option value="functionalDiversity">Functional Diversity</option>
+                                <option value="operatingRevenue">Operating Revenue</option>
+                            </select>
+                        </div>
+                        <canvas id="rankingChart" ...></canvas>
+                    </div>
+
+                </div>
+
+                <button id="gotoComparison" style="
                        position: absolute; top: 100px; right: 500px; z-index: 9999;
                        
                        padding: 5px 10px; cursor: pointer;">Enter the Comparison Model
-            </button>
-        </section>
+                </button>
+            </section>
+        </div>
 
-        <section class="Section8-Comparison" style="display: none;">
-            <div id="mapContainer">
-                <div class="mapPanel">
-                    <div class="selectorBox">
-                        <label for="cityDropdownA">City A:</label>
-                        <select id="cityDropdownA">
-                            <option value="">Select</option>
-                        </select>
-                    </div>
-
-                    <div id="map11" class="mapBox"></div>
-                </div>
-
-                <div class="centerPanel">
-                    <div id="compareInfoText" class="info-box">
-                        <h3>City Comparison Mode</h3>
-                        <p>
-                            This page allows comparison of ESG indicators between two cities.<br>
-                            To return to single-city view, please click the button below.
-                        </p>
-                    </div>
-
-                    <button id="backButtonHu">Return to Single Map</button>
-                    <div id="radarContainer">
-                        <canvas id="comparisonRadarChart" width="300" height="300"></canvas>
-                    </div>
-                    <div id="legendcon">
-                        <div><span style="background-color: #3785D8;"></span> Environmentally Oriented City</div>
-                        <div><span style="background-color: #A692E8;"></span> Socially Oriented City</div>
-                        <div><span style="background-color: #F3A6A1;"></span> Governance-oriented City</div>
-                    </div>
-                </div>
-
-                <div class="mapPanel">
-                    <div class="selectorBox selectorB">
-                        <label for="cityDropdownB">City B:</label>
-                        <select id="cityDropdownB">
-                            <option value="">Select</option>
-                        </select>
-                    </div>
-                    <div id="map22" class="mapBox"></div>
-                </div>
-            </div>
-        </section>
-
-        
         <section id="section8-new-comparison" class="section-comparison">
             <div class="comparison-container">
                 <!-- left map -->
@@ -926,6 +882,12 @@
                 <div class="comparison-bars-wrapper">
                     <h2 class="comparison-title">City Resilience Comparison</h2>
                     <div class="comparison-bars" id="comparisonBars"></div>
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button id="backToSingleMap"
+                            style="padding: 8px 16px; font-size: 16px; background-color: #1E0F75; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                            ← Return to Single-City View
+                        </button>
+                    </div>
                 </div>
 
 
@@ -1016,10 +978,9 @@
     <script type="module" src="js/summary_bubble.js"></script>
     <script src="js/3company.js"></script>
     <script type="module" src="js/4resilience.js"></script>
-    <script type="module" src="js/4comparison.js"></script>
     <script type="module" src="js/methodology.js"></script>
     <script type="module" src="js/0.js"></script>
-    
+
 </body>
 
 </html>

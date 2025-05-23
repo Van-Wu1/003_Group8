@@ -6,7 +6,7 @@ let barChart;
 
 function haversineDistance(lat1, lon1, lat2, lon2) {
   const toRad = deg => deg * Math.PI / 180;
-  const R = 6371; 
+  const R = 6371;
   const dLat = toRad(lat2 - lat1);
   const dLon = toRad(lon2 - lon1);
   const a = Math.sin(dLat / 2) ** 2 +
@@ -23,14 +23,14 @@ const map_re = new mapboxgl.Map({
   style: 'mapbox://styles/mapbox/light-v11',
   center: [-0.1276, 51.5072],  // London, England
   zoom: 3,
-  pitch: 60,                
+  pitch: 60,
   bearing: 0,
   projection: 'mercator',
-  minZoom: 4,   
-  maxZoom: 7,  
+  minZoom: 4,
+  maxZoom: 7,
   maxBounds: [
-    [-180, -85],  
-    [180, 85]     
+    [-180, -85],
+    [180, 85]
   ],
   dragPan: {
     deceleration: 0.9  // The closer to 1, the lower the inertia
@@ -48,7 +48,7 @@ fetch('/data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.ge
       resilienceIndex: f.properties.resilienceindex,
       cluster: f.properties.cluster,
       city: f.properties.city.trim(),
-      MSCIoverall: f.properties.mscioverall,                 
+      MSCIoverall: f.properties.mscioverall,
       MSCIenvi: f.properties.mscienvi,
       MSCIsocial: f.properties.mscisocial,
       MSCIgovern: f.properties.mscigovern,
@@ -61,7 +61,7 @@ fetch('/data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.ge
 
     // After the data is loaded first draw an empty radar map
     drawRadarChart();
-   
+
     drawRankingChart(points, 'resilienceIndex');
 
     // listener
@@ -75,9 +75,9 @@ fetch('/data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.ge
 
 
 
-    const GROUP_DISTANCE_KM = 50;  
-    const OFFSET_KM = 25;          
-    const DEG_PER_KM = 1 / 111;    
+    const GROUP_DISTANCE_KM = 50;
+    const OFFSET_KM = 25;
+    const DEG_PER_KM = 1 / 111;
 
     const groups = [];
     const used = new Set();
@@ -122,17 +122,6 @@ fetch('/data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.ge
         adjustedPoints.push(d);
       });
     }
-
-
-
-
-
-
-
-
-
-
-
     //top 5
     function metricDisplayName(metric) {
       return {
@@ -188,9 +177,9 @@ fetch('/data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.ge
                 padding: 5,
                 callback: function (value) {
                   const label = this.getLabelForValue(value);
-  return label.length > 8
-    ? label.match(/.{1,8}/g)  
-    : label;
+                  return label.length > 8
+                    ? label.match(/.{1,8}/g)
+                    : label;
                 }
               }
             },
@@ -224,8 +213,8 @@ fetch('/data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.ge
 
     // Gray Base Layer
     const baseLayer = new deck.ColumnLayer({
-      data: adjustedPoints, 
-      getPosition: d => d.adjustedPosition, 
+      data: adjustedPoints,
+      getPosition: d => d.adjustedPosition,
       getElevation: 5000,
       getFillColor: [220, 220, 220, 180],
       radius: 22000,
@@ -254,14 +243,13 @@ fetch('/data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.ge
     });
 
 
-
-
-
-
     //  Initializing the map
     overlay = new deck.MapboxOverlay({
       layers: [baseLayer, mainLayer]
     });
+
+    window.overlay = overlay;
+    window.map_re = map_re; // 如果你也想在 0.js 中操作 map_re
 
 
     //legend listener
@@ -468,6 +456,17 @@ function drawRadarChart(props) {
 
 document.getElementById('gotoComparison').addEventListener('click', () => {
   document.querySelector('.Section8').style.display = 'none';
-  document.querySelector('.Section8-Comparison').style.display = 'block';
-  initComparison();
+  document.querySelector('#section8-new-comparison').style.display = 'block';
 });
+
+window.restoreResilienceOverlay = function () {
+  if (map_re && overlay) {
+    try {
+      map_re.removeControl(overlay);
+    } catch (e) {
+      console.log("overlay 已经被移除或未定义");
+    }
+    map_re.addControl(overlay);
+    map_re.getCanvas().style.backgroundColor = '#cfd8dc'; // 补一下背景色
+  }
+};
