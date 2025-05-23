@@ -101,17 +101,59 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  height: 100%;             /* 防止菜单容器跟随撑高 */
+  overflow: hidden;
 }
 
 #radar {
   flex: 1.5;
   background-color: #ADC6E5;
 }
-
 #rank {
+  height: 300px;           /* 明确限制 #rank 的高度 */
+  overflow-y: hidden;
   flex: 1;
-  background-color: #E6F2FF;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative; 
 }
+.ranking-controls {
+  position: relative;              /* ✅ 让它在 flow 中显示 */
+  left: auto;
+  top: auto;
+  transform: none;
+  display: flex;
+  flex-direction: row;             /* ✅ 横向排列 */
+  align-items: center;
+  justify-content: flex-start;     /* 或 center，如果你希望居中 */
+  gap: 8px;
+  background: none;
+  padding: 0;
+  box-shadow: none;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  margin-bottom: 8px;              /* ✅ 与柱状图之间留点空间 */
+}
+.ranking-controls select {
+  padding: 2px 22px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+
+
+#rankingChart {
+  width: 100%;
+  height: 280px;         /* ✅ 关键：设置固定高度，防止撑出布局 */
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+
 
 #gotoComparison {
   background-color: #1C1DAB;
@@ -212,7 +254,7 @@ body {
 .selectorB {
   position: absolute;
   /* ✅ 必须有 */
-  left: 355px;
+  left: 200px;
   right: 10px;
 }
 
