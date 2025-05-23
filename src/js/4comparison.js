@@ -1,4 +1,6 @@
 // js/comparison.js
+let selectedCityA = null, selectedCityB = null;
+let overlayA, overlayB;
 
 let comparisonInitialized = false;
 function haversineDistance(lat1, lon1, lat2, lon2) {
@@ -63,6 +65,32 @@ function initComparison() {
                 operatingRevenue: f.properties.operatingrevenue,
                 functionalDiversity: f.properties.functionaldiversity
             }));
+
+function getFillColor(city, selectedCity) {
+  if (city === selectedCity) return [255, 179, 71, 255]; // 高亮黄色
+  return null; // 返回 null 表示继续用 cluster 颜色
+}
+
+function createMainLayer(data, selectedCity) {
+  return new deck.ColumnLayer({
+    data,
+    getPosition: d => d.adjustedPosition,
+    getElevation: d => d.resilienceIndex * 5000,
+    getFillColor: d => {
+      const highlight = getFillColor(d.city, selectedCity);
+      if (highlight) return highlight;
+      if (d.cluster === 2) return [55, 133, 216, 180];
+      if (d.cluster === 1) return [166, 146, 232, 180];
+      if (d.cluster === 0) return [243, 166, 161, 180];
+      return [200, 200, 200];
+    },
+    radius: 21000,
+    extruded: true,
+    elevationScale: 10
+  });
+}
+
+
 
             const GROUP_DISTANCE_KM = 50;
             const OFFSET_KM = 25;
@@ -171,8 +199,11 @@ function initComparison() {
                 elevationScale: 10
             });
 
-            mapA.addControl(new deck.MapboxOverlay({ layers: [baseA, mainA] }));
-            mapB.addControl(new deck.MapboxOverlay({ layers: [baseB, mainB] }));
+            overlayA = new deck.MapboxOverlay({ layers: [baseA, mainA] });
+overlayB = new deck.MapboxOverlay({ layers: [baseB, mainB] });
+mapA.addControl(overlayA);
+mapB.addControl(overlayB);
+
 
             let radarChart = null;
 
@@ -290,16 +321,45 @@ function initComparison() {
             let selectedCityB = null;
 
             dropdownA.addEventListener('change', e => {
-                selectedCityA = points.find(p => p.city === e.target.value);
-                if (selectedCityA) mapA.flyTo({ center: selectedCityA.position, zoom: 6 });
-                drawComparisonRadarChart(selectedCityA, selectedCityB);
-            });
+    selectedCityA = points.find(p => p.city === e.target.value);
+    if (selectedCityA) {
+        mapA.flyTo({ center: selectedCityA.position, zoom: 6 });
 
-            dropdownB.addEventListener('change', e => {
-                selectedCityB = points.find(p => p.city === e.target.value);
-                if (selectedCityB) mapB.flyTo({ center: selectedCityB.position, zoom: 6 });
-                drawComparisonRadarChart(selectedCityA, selectedCityB);
-            });
+        const mainLayerA = createMainLayer(points, selectedCityA.city);
+        const baseLayerA = new deck.ColumnLayer({
+            data: points,
+            getPosition: d => d.adjustedPosition,
+            getElevation: 5000,
+            getFillColor: [220, 220, 220, 180],
+            radius: 22000,
+            extruded: true,
+            elevationScale: 1
+        });
+        overlayA.setProps({ layers: [baseLayerA, mainLayerA] });
+    }
+    drawComparisonRadarChart(selectedCityA, selectedCityB);
+});
+
+dropdownB.addEventListener('change', e => {
+    selectedCityB = points.find(p => p.city === e.target.value);
+    if (selectedCityB) {
+        mapB.flyTo({ center: selectedCityB.position, zoom: 6 });
+
+        const mainLayerB = createMainLayer(points, selectedCityB.city);
+        const baseLayerB = new deck.ColumnLayer({
+            data: points,
+            getPosition: d => d.position,
+            getElevation: 5000,
+            getFillColor: [220, 220, 220, 180],
+            radius: 22000,
+            extruded: true,
+            elevationScale: 1
+        });
+        overlayB.setProps({ layers: [baseLayerB, mainLayerB] });
+    }
+    drawComparisonRadarChart(selectedCityA, selectedCityB);
+});
+
 
             drawComparisonRadarChart(null, null);
 

@@ -246,7 +246,7 @@ function drawRankingChart(data, metric = 'resilienceIndex') {
       getPosition: d => d.adjustedPosition,
       getElevation: d => d.resilienceIndex * 5000,
       getFillColor: d => {
-        if (d.city === selectedCity) return [255, 179, 71, 255]; // 🔶 选中的城市变黄色
+        if (d.city === selectedCity) return [255, 179, 71, 255];
         if (d.cluster === 2) return [55, 133, 216, 180];
         if (d.cluster === 1) return [166, 146, 232, 180];
         if (d.cluster === 0) return [243, 166, 161, 180];
