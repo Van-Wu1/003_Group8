@@ -1,3 +1,5 @@
+window.initComparison = initComparison;
+
 let selectedCityA = null, selectedCityB = null;
 let overlayA, overlayB;
 
