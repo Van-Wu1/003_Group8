@@ -14,17 +14,17 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// ⬇️ 新增：点击按钮时显示对比视图并初始化地图
+
 document.getElementById('gotoComparison').addEventListener('click', () => {
   document.querySelector('.Section8').style.display = 'none';
   document.getElementById('section8-new-comparison').style.display = 'block';
 
   setTimeout(() => {
-    initComparison(); // 🟢 初始化地图、绑定事件
+    initComparison(); 
   }, 100);
 });
 
-// ⬅️ 新增：返回按钮
+
 document.getElementById('backToSingleMap').addEventListener('click', () => {
   document.getElementById('section8-new-comparison').style.display = 'none';
 
@@ -37,7 +37,7 @@ document.getElementById('backToSingleMap').addEventListener('click', () => {
   }, 100);
 });
 
-// ✅ 初始化对比页面的逻辑封装为函数
+
 function initComparison() {
   if (!geojsonData) return;
 
