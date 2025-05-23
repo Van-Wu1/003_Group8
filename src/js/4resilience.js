@@ -189,7 +189,10 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
                 minRotation: 0,
                 padding: 5,
                 callback: function (value) {
-                  return this.getLabelForValue(value).split(' ');
+                  const label = this.getLabelForValue(value);
+  return label.length > 8
+    ? label.match(/.{1,8}/g)  
+    : label;
                 }
               }
             },
