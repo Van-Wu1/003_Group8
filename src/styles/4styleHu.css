@@ -401,7 +401,7 @@ select:focus {
   line-height: 1.7;
 }
 
-/* 右侧 */
+
 .flat-categories {
   display: flex;
   height: 80%;
@@ -422,6 +422,7 @@ select:focus {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
 }
 
 .category-block h4 {
@@ -440,4 +441,10 @@ select:focus {
 
 .category-block.purple {
   background: linear-gradient(to right, #F3A6A1, #F7C2B7);
+}
+.category-block:hover {
+  background-position: right center;
+  filter: brightness(1.1);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
