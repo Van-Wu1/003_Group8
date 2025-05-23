@@ -193,7 +193,7 @@ function initComparison() {
                             cityA.MSCIenvi,
                             cityA.MSCIsocial,
                             cityA.MSCIgovern,
-                            cityA.operatingRevenue*5,
+                            cityA.operatingRevenue * 5,
                             cityA.functionalDiversity
                         ],
                         backgroundColor: 'rgba(30, 15, 117, 0.2)',
@@ -211,7 +211,7 @@ function initComparison() {
                             cityB.MSCIenvi,
                             cityB.MSCIsocial,
                             cityB.MSCIgovern,
-                            cityB.operatingRevenue*5,
+                            cityB.operatingRevenue * 5,
                             cityB.functionalDiversity
                         ],
                         backgroundColor: 'rgba(56, 133, 216, 0.2)',

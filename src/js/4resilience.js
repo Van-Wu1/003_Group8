@@ -3,7 +3,7 @@ console.log("✅ 4resilience.js 加载成功");
 let selectedCity = null;
 let overlay;
 let points;
-let barChart; 
+let barChart;
 
 
 function haversineDistance(lat1, lon1, lat2, lon2) {
@@ -63,17 +63,17 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
 
     // 数据加载后先画一个空雷达图
     drawRadarChart();
-// 默认画一次
-drawRankingChart(points, 'resilienceIndex');
+    // 默认画一次
+    drawRankingChart(points, 'resilienceIndex');
 
-// 加监听器
-const rankingSelect = document.getElementById('rankingSelect');
-if (rankingSelect) {
-  rankingSelect.addEventListener('change', (e) => {
-    const metric = e.target.value;
-    drawRankingChart(points, metric);
-  });
-}
+    // 加监听器
+    const rankingSelect = document.getElementById('rankingSelect');
+    if (rankingSelect) {
+      rankingSelect.addEventListener('change', (e) => {
+        const metric = e.target.value;
+        drawRankingChart(points, metric);
+      });
+    }
 
 
 
@@ -138,90 +138,90 @@ if (rankingSelect) {
     //top 5
 
 
-function metricDisplayName(metric) {
-  return {
-    resilienceIndex: 'Resilience Index',
-    MSCIoverall: 'ESG Index',
-    functionalDiversity: 'Functional Diversity',
-    operatingRevenue: 'Operating Revenue'
-  }[metric] || metric;
-}
+    function metricDisplayName(metric) {
+      return {
+        resilienceIndex: 'Resilience Index',
+        MSCIoverall: 'ESG Index',
+        functionalDiversity: 'Functional Diversity',
+        operatingRevenue: 'Operating Revenue'
+      }[metric] || metric;
+    }
 
-function drawRankingChart(data, metric = 'resilienceIndex') {
-  console.log("绘制图表");
-  const top5 = [...data]
-    .sort((a, b) => b[metric] - a[metric])
-    .slice(0, 5);
+    function drawRankingChart(data, metric = 'resilienceIndex') {
+      console.log("绘制图表");
+      const top5 = [...data]
+        .sort((a, b) => b[metric] - a[metric])
+        .slice(0, 5);
 
-  const ctx = document.getElementById('rankingChart').getContext('2d');
-  if (barChart) barChart.destroy();
+      const ctx = document.getElementById('rankingChart').getContext('2d');
+      if (barChart) barChart.destroy();
 
-  barChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: top5.map(d => d.city),
-      datasets: [{
-        label: metricDisplayName(metric),
-        data: top5.map(d => d[metric]),
-        backgroundColor: 'rgba(118, 167, 201, 0.8)',
-        barThickness: 30
-      }]
-    },
-    options: {
-      animation: {
-  duration: 1000,
-  easing: 'easeOutQuart',
-  animateScale: true,
-  animateRotate: false
-},
+      barChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: top5.map(d => d.city),
+          datasets: [{
+            label: metricDisplayName(metric),
+            data: top5.map(d => d[metric]),
+            backgroundColor: 'rgba(118, 167, 201, 0.8)',
+            barThickness: 30
+          }]
+        },
+        options: {
+          animation: {
+            duration: 1000,
+            easing: 'easeOutQuart',
+            animateScale: true,
+            animateRotate: false
+          },
 
-      responsive: true, 
-      layout: { padding: { top: 0, bottom: 0 } },
-      maintainAspectRatio: false,
-      responsive: true,
-      interaction: { mode: 'index' },
-      scales: {
-        x: {
-          offset: true,
-          border: { color: '#1E0F75', width: 1 },
-          grid: { display: false },
-          ticks: {
-            color: '#000',
-            font: { size: 10 },
-            maxRotation: 0,
-            minRotation: 0,
-            padding: 5,
-            callback: function (value) {
-              return this.getLabelForValue(value).split(' ');
+          responsive: true,
+          layout: { padding: { top: 0, bottom: 0 } },
+          maintainAspectRatio: false,
+          responsive: true,
+          interaction: { mode: 'index' },
+          scales: {
+            x: {
+              offset: true,
+              border: { color: '#1E0F75', width: 1 },
+              grid: { display: false },
+              ticks: {
+                color: '#000',
+                font: { size: 10 },
+                maxRotation: 0,
+                minRotation: 0,
+                padding: 5,
+                callback: function (value) {
+                  return this.getLabelForValue(value).split(' ');
+                }
+              }
+            },
+            y: {
+              border: { color: '#1E0F75', width: 1 },
+              grid: { display: false },
+              beginAtZero: true,
+              ticks: {
+                color: '#000',
+                font: { size: 10 },
+                padding: 5
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: '#000', padding: 0, font: { size: 10 } }
+            },
+            title: {
+              display: true,
+              text: `Top 5 cities by ${metricDisplayName(metric)}`,
+              font: { size: 16 },
+              color: '#000'
             }
           }
-        },
-        y: {
-          border: { color: '#1E0F75', width: 1 },
-          grid: { display: false },
-          beginAtZero: true,
-          ticks: {
-            color: '#000',
-            font: { size: 10 },
-            padding: 5
-          }
         }
-      },
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { color: '#000', padding: 0, font: { size: 10 } }
-        },
-        title: {
-          display: true,
-          text: `Top 5 cities by ${metricDisplayName(metric)}`,
-          font: { size: 16 },
-          color: '#000'
-        }
-      }
+      });
     }
-  });
-}
 
 
     //✅ 添加灰色基座 Layer
@@ -426,7 +426,7 @@ function drawRadarChart(props) {
           props.MSCIenvi,
           props.MSCIsocial,
           props.MSCIgovern,
-          props.operatingRevenue*5,
+          props.operatingRevenue * 5,
           props.functionalDiversity
         ],
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
