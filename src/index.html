@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PharmaNexus – Global Pharma City Network</title>
+
+    <link rel="icon" href="../public/favicon.png" type="image/png">
+
     <link rel="stylesheet" href="./styles/0styles.css" />
     <link rel="stylesheet" href="./styles/0navbar.css" />
     <link rel="stylesheet" href="./styles/0home.css" />
@@ -17,6 +20,7 @@
     <link rel="stylesheet" href="./styles/0team.css" />
     <link rel="stylesheet" href="./styles/DataReference.css">
     <link rel="stylesheet" href="./styles/transition.css">
+    <link rel="stylesheet" href="./styles/0.css">
 
     <!-- Mapbox CDN -->
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
@@ -47,19 +51,19 @@
         <div class="logo">PharmaNexus</div>
         <div class="menu-toggle">☰</div>
         <div class="sidebar" id="sidebar">
-            <a href="#home">Home</a>
-            <a href="#pharma-page-1">Introduction</a>
-            <a href="#section3">Map1</a>
-            <a href="#section5">Map2</a>
-            <a href="#section7">Map3</a>
-            <a href="#section8">Map4</a>
-            <a href="#team">Team</a>
-            <a href="#data_reference">About</a>
+            <a href="#home"> Home</a>
+            <a href="#pharma-page-1"> Introduction</a>
+            <a href="#section3"> Global Trade</a>
+            <a href="#section5"> City Functions</a>
+            <a href="#section7"> Pharma Control</a>
+            <a href="#section8"> Resilience & Comparison</a>
+            <a href="#team"> Team</a>
+            <a href="#data_reference">ℹ️ About</a>
         </div>
     </header>
 
     <main>
-        <!-- 封面页！！ -->
+        <!-- cover page！！ -->
         <section class="hero" id="home">
             <div class="hero-wrapper">
                 <div class="hero-text">
@@ -80,7 +84,7 @@
             </div>
         </section>
 
-        <!-- 第二块intro的切入 -->
+        <!-- The second piece of intro cuts in -->
         <!-- Page 2: Pharma Global Importance & Model Rationale -->
         <section class="pharma-section gradient-bg top-padded" id="pharma-page-1">
             <div class="pharma-flex two-column">
@@ -142,7 +146,7 @@
         <!-- Page 3 – Project Logic & Module Overview -->
         <section class="pharma-section gradient-bg center-vertical" id="pharma-intro-3">
             <div class="pharma-flex two-column">
-                <!-- 左侧文字内容 -->
+                <!-- Left text content -->
                 <div class="pharma-left fade-slide">
                     <div class="text-block">
                         <h2 class="section-title">From Trade to Control, Towards Resilience</h2>
@@ -166,7 +170,7 @@
                     </div>
                 </div>
 
-                <!-- 右侧模块展示 -->
+                <!-- Right Module Display -->
                 <div class="pharma-right fade-slide delay-3">
                     <div class="module-grid">
                         <div class="module-card">Global Pharma Trade</div>
@@ -182,7 +186,7 @@
 
         <!-- Map1 -->
         <section class="Section3" id="section3">
-            <!-- 这个是顶上的文字部分 -->
+            <!-- This is the text part at the top -->
             <div class="section-header">
                 <h2 class="section-header-animate">
                     Here we show the trade data of the
@@ -192,9 +196,9 @@
                 </h2>
             </div>
 
-            <!-- 这里是主体模块 123 -->
+            <!-- Here is the main module 123 -->
             <div class="map-legend-container">
-                <!-- 左中：上部地图，下部切换 -->
+                <!-- Center left: upper map, lower switching -->
                 <div class="middle">
                     <div id="map1">
                         <div class="toggle-container">
@@ -212,7 +216,7 @@
                     </div>
                 </div>
 
-                <!-- 右侧：图表区 -->
+                <!--  Right: Chart area -->
                 <div class="chart">
                     <div class="rank">
                         <p>Ranking (Total trade)</p>
@@ -232,7 +236,7 @@
             </div>
         </section>
 
-        <!-- 第一张图的conclusion(map12过渡) -->
+        <!--  Conclusion of the first map (map12 transition) -->
         <section class="pharma-conclusion-section" id="conclusion_map1">
             <div class="pharma-conclusion-inner fade-slide">
                 <h2 class="conclusion-title">Trade Patterns, Power Clues</h2>
@@ -447,7 +451,7 @@
             </div>
         </section>
 
-        <!-- map23过渡 -->
+        <!-- map23transition -->
         <section class="pharma-conclusion-section" id="conclusion_control_network">
             <div class="pharma-conclusion-inner fade-slide">
                 <h2 class="conclusion-title">From Trade Patterns to Corporate Power</h2>
@@ -466,7 +470,7 @@
         <!-- map3 -->
         <section class="Section7" id="section7">
             <div id="left-position-control">
-                <!-- 上半部分国家选择 -->
+                <!-- Country selection in the upper half -->
                 <div id="select20top">
                     <div class="filter-card">
                         <div class="filter-card-title">Control Network Filters</div>
@@ -486,9 +490,9 @@
                         </div>
                     </div>
                 </div>
-                <!-- 下半部分数据展示 -->
+                <!-- Presentation of data in the second half -->
                 <div id="FoldedInformationBar">
-                    <!-- Network Overview 折叠控制按钮 -->
+                    <!-- Network Overview Folding Controls -->
                     <button class="panel-toggle-btn">Network Overview</button>
                     <div class="panel-section2">
                         <div class="stats-card">
@@ -519,7 +523,7 @@
                         </div>
                     </div>
 
-                    <!-- Control Hierarchy 折叠控制按钮 -->
+                    <!-- Control Hierarchy folding control buttons -->
                     <button class="panel-toggle-btn">Control Hierarchy</button>
                     <div class="panel-section2">
                         <div class="hierarchy-diagram" id="hierarchy-viz">
@@ -543,7 +547,7 @@
                         </div>
                     </div>
 
-                    <!-- Power Hub Cities 折叠控制按钮 -->
+                    <!-- Power Hub Cities Folding Controls -->
                     <button class="panel-toggle-btn">Power Hub Cities</button>
                     <div class="panel-section2">
                         <div class="power-centers" id="power-centers-list">
@@ -583,7 +587,7 @@
                             </div>
                         </div>
 
-                        <!-- 添加连接线说明 -->
+                        <!-- Instructions for Adding Connecting Cables -->
                         <div class="legend-section">
                             <h4>Connections</h4>
                             <div class="legend-item">
@@ -645,7 +649,7 @@
                 <div id="details-panel">
                     <div id="panel-resizer"></div>
                     <div class="panel-content-wrapper">
-                        <!-- 1分析图表区域 -->
+                        <!-- 1 Analyze the chart area -->
                         <div class="panel-content active" id="analysis-content">
                             <div class="analysis-section">
                                 <h3>Network Density Analysis</h3>
@@ -669,7 +673,7 @@
                             </div>
 
                         </div>
-                        <!-- 2子公司表格区域 -->
+                        <!-- 2Subsidiary form area -->
                         <div class="panel-content" id="subsidiaries-content">
                             <div class="filter-bar">
                                 <div class="search-box">
@@ -730,7 +734,7 @@
 
 
                     <div id="help-modal-body">
-                        <!-- 帮助内容将通过JavaScript填充 -->
+                        <!-- Help content will be populated via JavaScript -->
                     </div>
                 </div>
             </div>
@@ -747,7 +751,7 @@
             </div>
         </section>
 
-        <!-- map34过渡 -->
+        <!-- map34 transitions -->
         <section class="pharma-conclusion-section" id="conclusion_resilience">
             <div class="pharma-conclusion-inner fade-slide">
                 <h2 class="conclusion-title">After All This... A Final Question:</h2>
@@ -804,8 +808,6 @@
             </div>
         </section>
 
-
-
         <!-- map4 -->
         <section class="Section8" id="section8">
             <div id="map_re">
@@ -838,19 +840,19 @@
                 <div id="radar">
                     <canvas id="radarChart" width="300" height="300"></canvas>
                 </div>
-<div id="rank" style="position: relative;">
+                <div id="rank" style="position: relative;">
 
-  <div class="ranking-controls" id="rankingControls">
-    <label for="rankingSelect">Sort by:</label>
-    <select id="rankingSelect">
-      <option value="resilienceIndex">Resilience Index</option>
-      <option value="MSCIoverall">ESG Index</option>
-      <option value="functionalDiversity">Functional Diversity</option>
-      <option value="operatingRevenue">Operating Revenue</option>
-    </select>
-  </div>
-  <canvas id="rankingChart" ...></canvas>
-</div>
+                    <div class="ranking-controls" id="rankingControls">
+                        <label for="rankingSelect">Sort by:</label>
+                        <select id="rankingSelect">
+                            <option value="resilienceIndex">Resilience Index</option>
+                            <option value="MSCIoverall">ESG Index</option>
+                            <option value="functionalDiversity">Functional Diversity</option>
+                            <option value="operatingRevenue">Operating Revenue</option>
+                        </select>
+                    </div>
+                    <canvas id="rankingChart" ...></canvas>
+                </div>
 
             </div>
 
@@ -906,6 +908,39 @@
             </div>
         </section>
 
+        
+        <section id="section8-new-comparison" class="section-comparison">
+            <div class="comparison-container">
+                <!-- left map -->
+                <div class="map-side">
+                    <!-- <label for="citySelectorLeft">City A:</label> -->
+                    <select id="citySelectorLeft">
+                        <option value="">Select City A</option>
+                    </select>
+                    <div id="mapleftoverview"></div>
+                    <div id="mapLeft" class="comparison-map"></div>
+                </div>
+
+                <!-- Center against the bar -->
+                <!-- field of horizontal bars -->
+                <div class="comparison-bars-wrapper">
+                    <h2 class="comparison-title">City Resilience Comparison</h2>
+                    <div class="comparison-bars" id="comparisonBars"></div>
+                </div>
+
+
+                <!-- right map -->
+                <div class="map-side">
+                    <!-- <label for="citySelectorRight">City B:</label> -->
+                    <select id="citySelectorRight">
+                        <option value="">Select City B</option>
+                    </select>
+                    <div id="maprightoverview"></div>
+                    <div id="mapRight" class="comparison-map"></div>
+                </div>
+            </div>
+        </section>
+
         <!-- TeamIntro -->
         <section class="Team" id="team">
             <h1><strong>Team</strong></h1>
@@ -947,6 +982,7 @@
                         <li><a href="https://www.orbis.bvdinfo.com/" target="_blank">Orbis by Bureau van Dijk: Firm
                                 Ownership Data</a></li>
                         <li><a href="https://www.gfdrr.org/" target="_blank">GFDRR: Resilience Indicators</a></li>
+                        <li><a href="https://gadm.org/index.html" target="_blank">GADM maps and data</a></li>
                     </ul>
                 </div>
 
@@ -982,6 +1018,7 @@
     <script src="./js/4resilience.js"></script>
     <script src="./js/4comparison.js"></script>
     <script src="./js/methodology.js" defer></script>
+    <script src="./js/0.js" defer></script>
 
 </body>
 

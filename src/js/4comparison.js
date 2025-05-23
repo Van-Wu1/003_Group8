@@ -31,7 +31,7 @@ function initComparison() {
         pitch: 60,
         bearing: 0,
         projection: 'mercator',
-        minZoom: 4,   // 最小缩放级别（不能缩太远）
+        minZoom: 4,   // Minimum zoom level
         maxZoom: 7
     });
 
@@ -224,7 +224,7 @@ mapB.addControl(overlayB);
                             cityA.MSCIenvi,
                             cityA.MSCIsocial,
                             cityA.MSCIgovern,
-                            cityA.operatingRevenue*5,
+                            cityA.operatingRevenue * 5,
                             cityA.functionalDiversity
                         ],
                         backgroundColor: 'rgba(30, 15, 117, 0.2)',
@@ -242,7 +242,7 @@ mapB.addControl(overlayB);
                             cityB.MSCIenvi,
                             cityB.MSCIsocial,
                             cityB.MSCIgovern,
-                            cityB.operatingRevenue*5,
+                            cityB.operatingRevenue * 5,
                             cityB.functionalDiversity
                         ],
                         backgroundColor: 'rgba(56, 133, 216, 0.2)',
@@ -252,7 +252,7 @@ mapB.addControl(overlayB);
                     });
                 }
 
-                // 如果两个都为空，也要提供一个空白图形
+                // If both are empty, also provide a blank graphic
                 if (datasets.length === 0) {
                     datasets.push({
                         label: 'No City Selected',

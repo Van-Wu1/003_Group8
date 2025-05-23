@@ -1,4 +1,4 @@
-/* 限定样式只作用于 .Section5 内部 */
+/* Restricted styles only work inside .Section5 */
 .section5 {
     padding-top: 70px;
     height: 100%;
@@ -15,8 +15,8 @@
 }
 
 
-/* dashboard 主容器垂直填满剩余空间 */
-/* dashboard 区域基本设置 */
+/* The dashboard main container fills the remaining space vertically */
+/* Basic dashboard area settings */
 .section5 .dashboard {
     display: grid;
     grid-template-columns: 2fr 460px;
@@ -30,13 +30,13 @@
     overflow: visible;
 }
 
-/* 展开图表时才启用滚动 */
+/* Enable scrolling only when the chart is expanded */
 .section5 .dashboard-scroll-wrapper.scrollable {
     max-height: calc(100vh - 400px);
     overflow-y: auto;
 }
 
-/* 地图区域 */
+/* Map area */
 .section5 .map-container {
     min-height: 800px;
     position: relative;
@@ -53,8 +53,8 @@
 }
 
 
-/* 图例 Legend */
-/* 图例位置仍然相对定位 */
+/* Legend */
+/* Legend position remains relatively localized */
 #border-legend {
     position: absolute;
     bottom: 300px;
@@ -88,7 +88,7 @@
     gap: 8px;
     margin-bottom: 4px;
     white-space: nowrap;
-    /* ✅ 强制不换行 */
+    /* mandatory nonline feed */
 }
 
 #border-legend .legend-item:last-child {
@@ -107,8 +107,8 @@
     white-space: nowrap;
 }
 
-/* 信息卡片与说明文字 */
-/* 信息卡片 */
+/* Information cards with explanatory text */
+/* Infocard */
 .section5 .info-panel {
     background: var(--panel-bg, #fff);
     border-radius: 1rem;
@@ -123,7 +123,7 @@
     color: var(--main-blue, #1C1DAB);
 }
 
-/* 城市详情 */
+/* City Details */
 .section5 .city-info-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -167,7 +167,7 @@
     margin-bottom: 10px;
 }
 
-/* 返回按钮 */
+/* Back button */
 .section5 #backButton {
     padding: 6px 12px;
     font-size: 12px;
@@ -191,7 +191,7 @@
     box-shadow: 0 6px 14px rgba(28, 29, 171, 0.3);
 }
 
-/* 筛选器 */
+/* filter */
 .section5 .filters {
     background: #fff;
     padding: 1rem;

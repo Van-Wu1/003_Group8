@@ -101,7 +101,8 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  height: 100%;             /* 防止菜单容器跟随撑高 */
+  height: 100%;
+  /* 防止菜单容器跟随撑高 */
   overflow: hidden;
 }
 
@@ -109,33 +110,41 @@
   flex: 1.5;
   background-color: #ADC6E5;
 }
+
 #rank {
-  height: 300px;           /* 明确限制 #rank 的高度 */
+  height: 300px;
+  /* 明确限制 #rank 的高度 */
   overflow-y: hidden;
   flex: 1;
   padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  position: relative; 
+  position: relative;
 }
+
 .ranking-controls {
-  position: relative;              /* ✅ 让它在 flow 中显示 */
+  position: relative;
+  /* ✅ 让它在 flow 中显示 */
   left: auto;
   top: auto;
   transform: none;
   display: flex;
-  flex-direction: row;             /* ✅ 横向排列 */
+  flex-direction: row;
+  /* ✅ 横向排列 */
   align-items: center;
-  justify-content: flex-start;     /* 或 center，如果你希望居中 */
+  justify-content: flex-start;
+  /* 或 center，如果你希望居中 */
   gap: 8px;
   background: none;
   padding: 0;
   box-shadow: none;
   font-family: 'Segoe UI', sans-serif;
   font-size: 14px;
-  margin-bottom: 8px;              /* ✅ 与柱状图之间留点空间 */
+  margin-bottom: 8px;
+  /* ✅ 与柱状图之间留点空间 */
 }
+
 .ranking-controls select {
   padding: 2px 22px;
   border-radius: 6px;
@@ -147,7 +156,8 @@
 
 #rankingChart {
   width: 100%;
-  height: 280px;         /* ✅ 关键：设置固定高度，防止撑出布局 */
+  height: 280px;
+  /* ✅ 关键：设置固定高度，防止撑出布局 */
   max-width: 100%;
   display: block;
   margin: 0 auto;
@@ -185,23 +195,23 @@ body {
 #mapContainer {
   display: flex;
   width: 100vw;
-  /* ✅ 让容器宽度等于视口宽度，避免右边空一截 */
+  /* Make the width of the container equal to the width of the viewport to avoid an empty section on the right side */
   height: 100vh;
-  /* ✅ 可选：等高布局 */
+  /*  Optional: Isometric layout */
   overflow: hidden;
-  /* ✅ 防止内容溢出造成横向滚动 */
+  /*  Prevent content overflow from causing horizontal scrolling */
 }
 
 .mapPanel {
   flex: 1 1 0;
-  /* ✅ 明确告诉浏览器“可以伸展” */
+  /* Explicitly tell the browser that it "can stretch” */
   position: relative;
   min-width: 0;
 }
 
 .Section8-Comparison {
   margin-top: 80px;
-  /* ✅ 与标题栏高度一致 */
+  /* Align with the height of the title bar */
 }
 
 
@@ -232,9 +242,9 @@ body {
 
 .centerPanel {
   width: 280px;
-  /* ✅ 明确写死宽度，更直观 */
+  /* Explicitly written dead width, more intuitive */
   flex-shrink: 0;
-  /* ✅ 不允许缩小，防止被压缩 */
+  /* No shrinkage allowed to prevent compression */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -253,7 +263,6 @@ body {
 
 .selectorB {
   position: absolute;
-  /* ✅ 必须有 */
   left: 200px;
   right: 10px;
 }
@@ -270,31 +279,29 @@ body {
 
 #radarContainer {
   width: 260px;
-  /* ✅ 缩小整体容器 */
+  /* Reducing the overall container */
   height: 260px;
   border-radius: 16px;
   background-color: #F5F8FC;
-  /* 或 #ADC6E5 淡蓝灰 */
   border: 1px solid #ADC6E5;
   box-shadow: 0 2px 8px rgba(30, 15, 117, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
   transition: transform 0.3s ease;
-  /* ✅ 平滑放大效果 */
+  /* Smooth zoom effect */
 }
 
-/* ✅ 添加 hover 放大效果 */
+/* Add hover to zoom in */
 #radarContainer:hover {
   transform: scale(1.5);
-  /* 放大 1.25 倍，和你截图中的尺寸接近 */
+  /* Zoom in 1.25x, close to the size in your screenshot */
   z-index: 20;
 }
 
 
 #legendcon {
   background-color: #F5F8FC;
-  /* 或 #ADC6E5 淡蓝灰 */
   border: 1px solid #ADC6E5;
   box-shadow: 0 2px 8px rgba(30, 15, 117, 0.1);
   padding: 5px;
@@ -304,7 +311,7 @@ body {
 #backButtonHu {
   background-color: #1C1DAB;
   ;
-  /* 主色：淡蓝 */
+
   color: white;
   border: none;
   padding: 10px 20px;
@@ -318,10 +325,10 @@ body {
 
 #backButtonHu:hover {
   background-color: #3785D8;
-  /* 悬停变深蓝 */
+
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
-  /* 微微抬起 */
+  /* lift up slightly */
 }
 
 
@@ -332,22 +339,22 @@ body {
   width: 90%;
   max-width: 260px;
   background-color: #F5F8FC;
-  /* 或 #ADC6E5 淡蓝灰 */
+  
   border: 1px solid #ADC6E5;
   box-shadow: 0 2px 8px rgba(30, 15, 117, 0.1);
   border-radius: 12px;
   text-align: center;
   font-family: 'Segoe UI', sans-serif;
 
-  /* ✨ 添加动画支持 */
+  /*  Add animation support */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .info-box:hover {
   transform: scale(1.03);
-  /* ✅ 悬停放大一点点 */
+  /*  Hover to zoom in a little bit */
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-  /* ✅ 加深阴影增强悬浮感 */
+  /* Deepen shadows to enhance suspension */
 }
 
 
@@ -371,10 +378,10 @@ body {
   line-height: 1.5;
 }
 
-/* 🧩 通用美化所有 select 元素 */
+/* Generalized beautification of all select elements */
 select {
   appearance: none;
-  /* 移除浏览器默认样式 */
+  /* Remove Browser Default Style */
   background-color: white;
   border: 1px solid #ccc;
   padding: 8px 12px;
@@ -408,7 +415,7 @@ select:focus {
   gap: 4%;
 }
 
-/* 左侧 */
+/* left side */
 #leftmap4methodology {
   flex: 1;
   padding-right: 10px;
@@ -484,6 +491,7 @@ select:focus {
 .category-block.purple {
   background: linear-gradient(to right, #F3A6A1, #F7C2B7);
 }
+
 .category-block:hover {
   background-position: right center;
   filter: brightness(1.1);

@@ -1,20 +1,20 @@
-// 配置
+// configure
 const MAPBOX_TOKEN = 'pk.eyJ1IjoicWl1eXVlcWl1MjAwMiIsImEiOiJjbWFjejV3OGMwOThiMmtzaGswMWRmam16In0.8one7mciYXQt13wcK5yxHQ';
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
-// 全局变量
-let map;                     // 地图对象
-let pharmaData = [];         // 原始制药公司数据
-let uniqueCompanies = [];    // 唯一公司列表（按收入排序）
-let currentCompany = '';     // 当前选中的公司
-let minOwnershipFilter = 50;  // 所有权筛选阈值
-let labelsVisible = true;    // 标签是否可见
-let isInitialized = false;   // 是否已初始化
-let citySubsidiaries = {};   // 每个城市的子公司集合
-let lastCenterPosition = null; // 上次地图中心位置
-let sideAnalysisPanelVisible = false; // 是否显示侧边分析面板
+// global variable
+let map;                     // Map Objects
+let pharmaData = [];         // Original pharmaceutical company data
+let uniqueCompanies = [];    // List of unique companies (in order of revenue)
+let currentCompany = '';     // Currently selected companies
+let minOwnershipFilter = 50;  //  Ownership screening thresholds
+let labelsVisible = true;    // Whether the label is visible or not
+let isInitialized = false;   // Initialized or not
+let citySubsidiaries = {};   // A collection of subsidiaries in each city
+let lastCenterPosition = null; // Last map center location
+let sideAnalysisPanelVisible = false; // Whether to display the side analysis panel
 
-// 大洲名称映射
+// Mapping of continent names
 const CONTINENT_NAMES = {
   'NA': 'North America',
   'SA': 'South America',
@@ -24,10 +24,10 @@ const CONTINENT_NAMES = {
   'OC': 'Oceania'
 };
 
-// DOM元素引用
+// DOM element references
 const dom = {};
 
-// 初始化DOM引用
+// Initializing DOM references
 function initDOMReferences() {
   dom.loadingIndicator = document.getElementById('loading-indicator');
   dom.companySelector = document.getElementById('company-selector');
@@ -55,25 +55,25 @@ function initDOMReferences() {
   dom.analysisContent = document.getElementById('analysis-content');
   dom.panelResizer = document.getElementById('panel-resizer');
   dom.detailsPanel = document.getElementById('details-panel');
-  // 新增的DOM引用
+  // Added DOM references
   dom.sideAnalysisPanelTrigger = document.getElementById('side-analysis-panel-trigger');
   dom.sideAnalysisPanel = document.getElementById('side-analysis-panel');
-  // 添加新的DOM引用
+  // Adding a new DOM reference
   dom.analysisContent = document.getElementById('analysis-content');
   dom.toggleAnalysisBtn = document.getElementById('toggle-analysis');
   dom.panelContentWrapper = document.querySelector('.panel-content-wrapper');
-  // 新增
+  // additional
   dom.infoArea = document.getElementById('information_area');
   dom.slidetab = document.getElementById('slide-tab');
 }
 
-// 初始化
+// initialization
 document.addEventListener('DOMContentLoaded', async () => {
-  // 初始化DOM引用
+  // Initializing DOM references
   console.log("Initializing pharmaceutical network visualization...");
   initDOMReferences();
 
-  // 检查必要的DOM元素是否存在
+  // Checking for the presence of necessary DOM elements
   if (!checkRequiredElements()) {
     console.error('Necessary DOM elements are missing');
     return;
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   showLoading(true);
 
   try {
-    // 初始化地图
+    // Initializing the map
     await initMap();
 
     // Add a forced resize after map initialization
@@ -90,16 +90,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       map.resize();
     }
 
-    // 加载数据
+    // Load data
     await loadData();
 
-    // 初始化UI事件
+    // Initialize UI events
     initEventListeners();
 
-    // 更新初始可视化
+    // Updating the initial visualization
     updateVisualization();
 
-    // 初始化成功标记
+    // Initialization success flag
     isInitialized = true;
     console.log("Initialization completed successfully");
   } catch (error) {
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   ensureHelpButtonWorks();
 });
 
-// 检查必要DOM元素是否存在
+// Checking for the existence of necessary DOM elements
 function checkRequiredElements() {
   const requiredElements = [
     'loading-indicator',
@@ -138,7 +138,7 @@ function checkRequiredElements() {
   return allExist;
 }
 
-// 初始化地图
+// Initializing the map
 async function initMap() {
   return new Promise((resolve, reject) => {
     try {
@@ -154,7 +154,7 @@ async function initMap() {
       map.addControl(new mapboxgl.NavigationControl());
 
       map.on('load', () => {
-        // 添加数据源
+        // Adding a Data Source
         map.addSource('entities', {
           type: 'geojson',
           data: {
@@ -171,7 +171,7 @@ async function initMap() {
           }
         });
 
-        // 添加连接线图层
+        // Adding a Connection Line Layer
         map.addLayer({
           id: 'connections-layer',
           type: 'line',
@@ -182,14 +182,14 @@ async function initMap() {
           },
           paint: {
             'line-color': ['get', 'color'],
-            'line-width': 2, // 固定线宽，不再根据所有权变化
+            'line-width': 2, // Fixed line widths, no more changes based on ownership
             'line-opacity': 0.7
           }
         });
 
-        // 添加实体节点图层
+        // Adding a solid node layer
 
-        // 子公司图层
+        // Subsidiary Layers
         map.addLayer({
           id: 'subsidiary-layer',
           type: 'circle',
@@ -199,7 +199,7 @@ async function initMap() {
             'circle-radius': [
               'step',
               ['zoom'],
-              4,    // 默认值：zoom < 3
+              4,    // Default: zoom < 3
               3, 6, // zoom >= 3 → 6
               5, 10,// zoom >= 5 → 10
               8, 14 // zoom >= 8 → 14f
@@ -211,7 +211,7 @@ async function initMap() {
           }
         });
 
-        // 总部图层（晚添加 → 显示在最上层）
+        // HQ Layer (Late Add → Show at top)
         map.addLayer({
           id: 'hq-layer',
           type: 'circle',
@@ -221,7 +221,7 @@ async function initMap() {
             'circle-radius': [
               'step',
               ['zoom'],
-              4,    // 默认值：zoom < 3
+              4,    // Default: zoom < 3
               3, 6, // zoom >= 3 → 6
               5, 10,// zoom >= 5 → 10
               8, 14 // zoom >= 8 → 14f
@@ -233,7 +233,7 @@ async function initMap() {
           }
         });
 
-        // 实体标签
+        // entity label
         map.addLayer({
           id: 'entities-labels',
           type: 'symbol',
@@ -256,7 +256,7 @@ async function initMap() {
           minzoom: 3
         });
 
-        // 设置交互
+        // Setting up interactions
         setupMapInteractions();
 
         resolve();
@@ -277,21 +277,21 @@ async function initMap() {
   });
 }
 
-// 加载数据
+//  Load data
 async function loadData() {
   try {
-    // 示例数据路径 - 在真实环境中需要替换
+    // Sample data paths - need to be replaced in a real environment
     const response = await fetch('data/clean/world_com_top20_by_revenue_eng.json');
     if (!response.ok) {
-      // 模拟数据用于演示
+      // Simulated data for demonstration purposes
       console.warn('Demonstration using modelled data');
       pharmaData = generateMockData();
     } else {
-      // 解析JSON数据
+      // Parsing JSON data
       pharmaData = await response.json();
     }
 
-    // 按收入计算公司排名
+    // Ranking of companies by revenue
     const companyRevenue = {};
     pharmaData.forEach(d => {
       if (d.company) {
@@ -301,47 +301,47 @@ async function loadData() {
       }
     });
 
-    // 按照收入排序并取前20
+    // Sort by income and take the top 20
     uniqueCompanies = Object.keys(companyRevenue)
       .sort((a, b) => companyRevenue[b] - companyRevenue[a])
       .slice(0, 20);
 
     console.log(`Loaded ${pharmaData.length} data records, filtered ${uniqueCompanies.length} companies.`);
 
-    // 不在设置默认选中的公司
+    // Not setting the default selected company 
     // currentCompany = uniqueCompanies[0] || '';
 
-    // 填充公司选择器
+    // Populate Company Selector
     populateCompanySelector();
 
-    // 构建城市子公司索引
+    // Building an Index of Urban Subsidiaries
     buildCitySubsidiariesIndex();
 
     return pharmaData;
   } catch (error) {
     console.error('Failed to load data:', error);
-    // 使用模拟数据作为备用
+    // Use analog data as a backup
     pharmaData = generateMockData();
 
-    // 获取唯一公司
+    // Get the only company
     const companySet = new Set();
     pharmaData.forEach(d => companySet.add(d.company));
     uniqueCompanies = Array.from(companySet).slice(0, 20);
 
-    // 不再设置默认选中的公司
+    // No more default selected companies
     // currentCompany = uniqueCompanies[0] || '';
 
-    // 填充公司选择器
+    // Populate Company Selector
     populateCompanySelector();
 
-    // 构建城市子公司索引
+    // Building an Index of Urban Subsidiaries
     buildCitySubsidiariesIndex();
 
     return pharmaData;
   }
 }
 
-// 构建城市子公司索引 - 用于改进详情弹窗
+// Build City Subsidiary Index - for improved detail popups
 function buildCitySubsidiariesIndex() {
   citySubsidiaries = {};
 
@@ -366,13 +366,13 @@ function buildCitySubsidiariesIndex() {
   });
 }
 
-// 填充公司选择器
+// Populate Company Selector
 function populateCompanySelector() {
   if (!dom.companySelector) return;
 
   dom.companySelector.innerHTML = '';
 
-  // 添加所有公司选项
+  // Add All Companies Option
   const defaultOption = document.createElement('option');
   defaultOption.value = "";
   defaultOption.textContent = "Please select a company to view";
@@ -380,13 +380,13 @@ function populateCompanySelector() {
   defaultOption.disabled = true;
   dom.companySelector.appendChild(defaultOption);
 
-  // 添加所有公司选项
+  // Add All Companies Option
   const allOption = document.createElement('option');
   allOption.value = 'ALL';
   allOption.textContent = 'ALL TOP 20 COMPANIES';
   dom.companySelector.appendChild(allOption);
 
-  // 添加公司选项（按收入排序）
+  // Add company options (sorted by revenue)
   uniqueCompanies.forEach(company => {
     const option = document.createElement('option');
     option.value = company;
@@ -394,49 +394,49 @@ function populateCompanySelector() {
     dom.companySelector.appendChild(option);
   });
 
-  // 设置默认选中的公司
+  // Setting the default selected company
   dom.companySelector.value = currentCompany;
 }
 
-// 格式化数值显示
-// 修改formatValue函数，使用英文格式显示数值
+// Formatted Numeric Display
+// Modify the formatValue function to display values in English format.
 function formatValue(value, isEstimated = false, unit = '') {
   if (value === null || value === undefined || value === 0) {
     return 'No data';
   }
 
-  // 针对不同大小的数值使用不同单位
+  // Use different units for different sized values
   let formatted;
   let unitLabel = '';
 
   if (value >= 1000000000) {
-    // 十亿及以上
+    // One billion and above
     formatted = (value / 1000000000).toFixed(2);
     unitLabel = ' B'; // Billion
   } else if (value >= 1000000) {
-    // 百万到十亿
+    // Millions to billions
     formatted = (value / 1000000).toFixed(2);
     unitLabel = ' M'; // Million
   } else if (value >= 1000) {
-    // 千到百万
+    // Thousands to millions
     formatted = (value / 1000).toFixed(2);
     unitLabel = ' K'; // Thousand
   } else {
-    // 小于千
+    // less than a thousand
     formatted = value.toFixed(2);
   }
 
-  // 添加千分位逗号
+  // Adding the thousandths comma
   formatted = formatted.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-  // 添加单位
+  // Add Unit
   if (unit) {
     formatted += unit;
   } else {
     formatted += unitLabel;
   }
 
-  // 如果是估计值，添加星号
+  // Add an asterisk if it is an estimate
   if (isEstimated) {
     formatted += '*';
   }
@@ -444,37 +444,37 @@ function formatValue(value, isEstimated = false, unit = '') {
   return formatted;
 }
 
-// 准备网络数据
+// Preparing network data
 function prepareNetworkData() {
-  // 筛选当前公司的数据
+  // Filtering current company data
   const filteredData = currentCompany === 'ALL' ?
     pharmaData.filter(d => d.Ownership_filled >= minOwnershipFilter) :
     pharmaData.filter(d => d.company === currentCompany && d.Ownership_filled >= minOwnershipFilter);
 
-  // 存储节点和连接
+  // Storage nodes and connections
   const entities = [];
   const connections = [];
   const processedCities = new Map();
 
-  // 颜色映射
+  // color mapping
   const continentColors = {
-    NA: '#E893C5', // 北美 - 粉色
-    EU: '#3785D8', // 欧洲 - 蓝色
-    AS: '#ADC6E5', // 亚洲 - 浅蓝色
-    AF: '#BF8CE1', // 非洲 - 紫色
-    SA: '#EBB2C3', // 南美 - 浅粉色
-    OC: '#CBD8E8',  // 大洋洲 - 最浅蓝色
+    NA: '#E893C5', // North America - Pink
+    EU: '#3785D8', // Europe - Blue
+    AS: '#ADC6E5', // Asia - Light Blue
+    AF: '#BF8CE1', // Africa - Purple
+    SA: '#EBB2C3', // South America - Light Pink
+    OC: '#CBD8E8',  // Oceania - lightest blue
     'default': '#95a5a6'
   };
 
-  // 处理每条记录，创建节点和连接
+  // Process each record, create nodes and connections
   filteredData.forEach(d => {
-    // 创建子公司城市节点
+    // Creating Subsidiary City Nodes
     if (d.Subsidiary_City_clean && d.sub_lat && d.sub_lng) {
       const cityKey = `${d.Subsidiary_City_clean}|${d.Country_sub}`;
 
       if (!processedCities.has(cityKey)) {
-        // 计算节点大小（使用收入数据）
+        // Calculate node size (using revenue data)
         const revenue = d.sub_Operating_Revenue_millionUSD || 0;
         const size = Math.min(15, Math.max(5, Math.log10(revenue + 1) * 3));
 
@@ -508,7 +508,7 @@ function prepareNetworkData() {
       }
     }
 
-    // 创建总部节点
+    // Creating a headquarters node
     if (d.Parent_City_clean && d.head_lat && d.head_lng) {
       const hqKey = `${d.Parent_City_clean}|${d.Country_head}`;
 
@@ -540,7 +540,7 @@ function prepareNetworkData() {
       }
     }
 
-    // 创建连接（仅当总部和子公司是不同城市时）
+    // Create a connection (only if the headquarters and subsidiary are different cities)
     if (d.Parent_City_clean && d.Subsidiary_City_clean &&
       d.head_lat && d.head_lng && d.sub_lat && d.sub_lng &&
       (d.Parent_City_clean !== d.Subsidiary_City_clean || d.Country_head !== d.Country_sub)) {
@@ -570,7 +570,7 @@ function prepareNetworkData() {
   return { entities, connections };
 }
 
-// 更新地图数据
+// Updated map data
 function updateMapData(entities, connections) {
   if (!map || !map.getSource('entities') || !map.getSource('connections')) {
     console.error('Map source not ready');
@@ -588,9 +588,9 @@ function updateMapData(entities, connections) {
   });
 }
 
-// 设置地图交互
+// Setting up map interactions
 function setupMapInteractions() {
-  // 鼠标悬停效果
+  // Mouse hover effect
   map.on('mouseenter', 'entities-layer', () => {
     map.getCanvas().style.cursor = 'pointer';
   });
@@ -599,22 +599,22 @@ function setupMapInteractions() {
     map.getCanvas().style.cursor = '';
   });
 
-  // 点击节点显示详情
-  // 子公司节点点击
+  // Click on the node to show details
+  // Subsidiary node click
   map.on('click', 'subsidiary-layer', (e) => {
     if (!e.features || e.features.length === 0) return;
     const props = e.features[0].properties;
     showEntityDetails(props);
   });
 
-  // 总部节点点击
+  // Headquarters node click
   map.on('click', 'hq-layer', (e) => {
     if (!e.features || e.features.length === 0) return;
     const props = e.features[0].properties;
     showEntityDetails(props);
   });
 
-  // 悬停时改变鼠标样式
+  // Change mouse style on hover
   ['subsidiary-layer', 'hq-layer'].forEach(layerId => {
     map.on('mouseenter', layerId, () => {
       map.getCanvas().style.cursor = 'pointer';
@@ -625,7 +625,7 @@ function setupMapInteractions() {
   });
 }
 
-// 显示实体详情 - 增强版显示城市子公司列表
+// Show Entity Details - Enhanced to show list of city subsidiaries
 function showEntityDetails(props) {
   let modalContent = '';
 
@@ -666,7 +666,7 @@ function showEntityDetails(props) {
       </div>
     `;
   } else {
-    // 子公司城市详情 - 显示该城市所有子公司
+    // Subsidiary City Details - shows all subsidiaries in that city
     const cityKey = `${props.name}|${props.country}`;
     const subsidiariesInCity = citySubsidiaries[cityKey] || [];
 
@@ -735,7 +735,7 @@ function showEntityDetails(props) {
     `;
   }
 
-  // 显示模态窗口
+  // Show Modal Window
   const modalTitle = document.getElementById('modal-title');
   const modalBody = document.getElementById('modal-body');
   const detailModal = document.getElementById('detail-modal');
@@ -747,35 +747,35 @@ function showEntityDetails(props) {
   }
 }
 
-// 新增专门用于格式化财务数字的函数
+// New function dedicated to formatting financial figures
 function formatNumberToFinancial(num) {
   if (!num) return "0";
 
-  // 判断数值大小，选择适当的单位
+  // Judging the magnitude of values and choosing appropriate units
   let value, unit;
 
   if (num >= 1000000000000) {
     value = num / 1000000000000;
-    unit = " T"; // 万亿/trillion
+    unit = " T"; // trillion
   } else if (num >= 1000000000) {
     value = num / 1000000000;
-    unit = " B"; // 十亿/billion
+    unit = " B"; // billion
   } else if (num >= 1000000) {
     value = num / 1000000;
-    unit = " M"; // 百万/million
+    unit = " M"; // million
   } else if (num >= 1000) {
     value = num / 1000;
-    unit = " K"; // 千/thousand
+    unit = " K"; // thousand
   } else {
     value = num;
     unit = "";
   }
 
-  // 格式化为两位小数并添加千分位分隔符
+  // Formatting to two decimals and adding thousand separators
   return value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + unit;
 }
 
-// 计算城市子公司的平均控股比例
+// Calculation of the average holding percentage of city subsidiaries
 function calculateAvgOwnership(subsidiaries) {
   if (!subsidiaries || subsidiaries.length === 0) return 0;
 
@@ -783,22 +783,22 @@ function calculateAvgOwnership(subsidiaries) {
   return (total / subsidiaries.length).toFixed(1);
 }
 
-// 计算城市子公司的总资产
-// 修改计算城市子公司总资产的函数
+// Calculate total assets of city subsidiaries
+// Modify the function that calculates the total assets of city subsidiaries
 function calculateTotalAssets(subsidiaries) {
   if (!subsidiaries || subsidiaries.length === 0) return "0";
 
   const total = subsidiaries.reduce((sum, sub) => sum + (sub.assets || 0), 0);
-  return formatNumberToFinancial(total); // 使用新的财务数字格式化函数
+  return formatNumberToFinancial(total); // Using the new financial number formatting function
 }
 
-// 更新网络统计
+// Updating network statistics
 function updateNetworkStatistics() {
   const filteredData = currentCompany === 'ALL' ?
     pharmaData.filter(d => d.Ownership_filled >= minOwnershipFilter) :
     pharmaData.filter(d => d.company === currentCompany && d.Ownership_filled >= minOwnershipFilter);
 
-  // 统计计算
+  // statistical computing
   const uniqueHQs = new Set(filteredData.filter(d => d.Parent_City_clean && d.head_lat && d.head_lng).map(d => `${d.Parent_City_clean}|${d.Country_head}`));
   const uniqueSubs = new Set(filteredData.filter(d => d.Subsidiary_City_clean).map(d => `${d.Subsidiary_City_clean}|${d.Country_sub}`));
 
@@ -808,11 +808,11 @@ function updateNetworkStatistics() {
   const internationalCount = filteredData.filter(d => d.is_international === 1).length;
   const intlRatio = filteredData.length > 0 ? (internationalCount / filteredData.length) * 100 : 0;
 
-  // 使用收入数据替代资产数据
+  // Use of income data as a substitute for asset data
   const totalRevenue = filteredData.reduce((sum, d) => sum + (d.sub_Operating_Revenue_millionUSD || 0), 0);
   const directControl = filteredData.filter(d => d.Ownership_filled === 100).length;
 
-  // 更新DOM
+  // Updating the DOM
   updateDOMElement('total-entities', uniqueHQs.size + uniqueSubs.size);
   updateDOMElement('hq-count', uniqueHQs.size);
   updateDOMElement('sub-count', uniqueSubs.size);
@@ -820,15 +820,15 @@ function updateNetworkStatistics() {
   updateDOMElement('intl-ratio', intlRatio.toFixed(1) + '%');
   updateDOMElement('total-assets', '$' + formatNumber(totalRevenue) + 'M'); // 更改为总收入
 
-  // 更新层级图示 - 改进布局
+  // Updated Hierarchy Icons - Improved Layout
   updateHierarchyDiagram(uniqueHQs.size, uniqueSubs.size, directControl, internationalCount);
 
-  // 更新主要控制中心
+  // Updating of the main control center
   updatePowerCenters(filteredData);
 }
 
-// 更新子公司表格
-// 在updateSubsidiariesTable函数中修改资产显示部分
+// Update Subsidiary Forms
+// Modifying the asset display section in the updateSubsidiariesTable function
 function updateSubsidiariesTable() {
   if (!dom.subsidiariesTable) return;
 
@@ -846,12 +846,12 @@ function updateSubsidiariesTable() {
     row.dataset.ownership = sub.Ownership_filled || 0;
     row.dataset.assets = sub.sub_Assets_filled || 0;
 
-    // NACE代码和类别
+    // NACE Codes and Categories
     const naceInfo = sub.sub_nace_code ?
       `${sub.sub_nace_code} (${sub.sub_nace_category || 'Other'})` :
       'N/A';
 
-    // 为子公司名称添加title属性，便于鼠标悬停查看完整名称
+    // Add a title attribute to the name of the subsidiary to make it easier to hover over it to see the full name
     const subsidiaryName = sub.Subsidiary_Name || 'Unnamed Subsidiary';
 
     row.innerHTML = `
@@ -867,13 +867,13 @@ function updateSubsidiariesTable() {
   });
 }
 
-// 更新可视化（主函数）
+// Update visualization (main function)
 function updateVisualization() {
   if (!isInitialized) return;
 
-  // 如果没有选择公司，显示提示信息
+  // If no company is selected, a prompt message is displayed
   if (!currentCompany) {
-    // 清空数据显示
+    // Clear data display
     updateDOMElement('total-entities', '0');
     updateDOMElement('hq-count', '0');
     updateDOMElement('sub-count', '0');
@@ -881,12 +881,12 @@ function updateVisualization() {
     updateDOMElement('intl-ratio', '0%');
     updateDOMElement('total-assets', '$0M');
 
-    // 清空表格和其他可视化
+    // Empty tables and other visualizations
     if (dom.subsidiariesTable) {
       dom.subsidiariesTable.innerHTML = '';
     }
 
-    // 重置地图
+    // Reset map
     if (map && map.getSource('entities') && map.getSource('connections')) {
       map.getSource('entities').setData({
         type: 'FeatureCollection',
@@ -903,7 +903,7 @@ function updateVisualization() {
 
   showLoading(true);
 
-  // 保存当前地图中心 - 解决所有权筛选导致地图重置的问题
+  // Save Current Map Center - Resolve an issue where ownership filtering was causing the map to reset
   if (map && currentCompany !== 'ALL') {
     lastCenterPosition = {
       center: map.getCenter(),
@@ -918,14 +918,14 @@ function updateVisualization() {
       updateNetworkStatistics();
       updateSubsidiariesTable();
 
-      // 更新分析图表 - 修改这里，只要不是collapsed状态就更新
+      // Update Analytics Chart - Modify here to update as long as the status is not collapsed
       if (!dom.analysisContent.classList.contains('collapsed')) {
         initAnalysisCharts();
       }
 
-      // 根据策略决定是否更新地图位置
+      // Decide whether to update map locations based on strategy
       if (currentCompany !== 'ALL') {
-        // 聚焦当前公司总部位置
+        // Spotlight on Current Corporate Headquarters Locations
         const hq = pharmaData.find(d => d.company === currentCompany && d.head_lat && d.head_lng);
         if (hq) {
           map.flyTo({
@@ -936,7 +936,7 @@ function updateVisualization() {
           });
         }
       } else {
-        fitMapToData(); // 查看全部公司则适应所有数据
+        fitMapToData(); // See all data for all companies
       }
     } catch (error) {
       console.error('更新可视化失败:', error);
@@ -946,23 +946,23 @@ function updateVisualization() {
   }, 100);
 }
 
-// 初始化分析图表
+// Initializing Analytics Charts
 function initAnalysisCharts() {
   console.log("这个函数至少被调用到了");
-  // 如果分析面板已折叠，则不初始化图表
+  // If the analysis panel is collapsed, the chart is not initialized
   if (dom.analysisContent && dom.analysisContent.classList.contains('collapsed')) {
     return;
   }
   console.log("你看到这个信息就是没被拦截");
-  // 获取图表容器
+  // Get Chart Container
   const densityChart = document.getElementById('density-chart');
   const distanceChart = document.getElementById('distance-chart');
   const hubChart = document.getElementById('hub-chart');
 
   if (!densityChart || !distanceChart || !hubChart) return;
 
-  // 清除现有图表
-  // 使用Chart.js的destroy方法清除旧图表
+  // Clearing an Existing Chart
+  //  Clearing old charts using the destroy method of Chart.js
   const chartInstances = [
     Chart.getChart(densityChart),
     Chart.getChart(distanceChart),
@@ -975,26 +975,26 @@ function initAnalysisCharts() {
     }
   });
 
-  // 准备数据
+  // Prepare data
   const filteredData = currentCompany === 'ALL' ?
     pharmaData.filter(d => d.Ownership_filled >= minOwnershipFilter) :
     pharmaData.filter(d => d.company === currentCompany && d.Ownership_filled >= minOwnershipFilter);
 
-  // 1. 控制网络密度分析
+  // 1. Control network density analysis
   createNetworkDensityChart(densityChart, filteredData);
 
-  // 2. 跨国控制路径统计
+  // 2. Statistics on transnational control pathways
   createControlDistanceChart(distanceChart, filteredData);
 
-  // 3. 权力枢纽城市分析
+  // 3. Power Hub City Analysis
   createPowerHubChart(hubChart, filteredData);
 }
 
-// 创建网络密度图表
+// Creating Network Density Graphs
 function createNetworkDensityChart(canvas, data) {
   const ctx = canvas.getContext('2d');
 
-  // 计算每个大洲的控制网络密度
+  // Calculation of control network density per continent
   const continentDensity = {};
   const continentConnections = {};
 
@@ -1003,21 +1003,21 @@ function createNetworkDensityChart(canvas, data) {
       const fromContinent = d.continent_head;
       const toContinent = d.continent_sub;
 
-      // 统计每个大洲的节点数
+      // Counting the number of nodes per continent
       continentDensity[fromContinent] = (continentDensity[fromContinent] || 0) + 1;
       continentDensity[toContinent] = (continentDensity[toContinent] || 0) + 1;
 
-      // 统计大洲间的连接数
+      // Counting intercontinental connections
       const key = `${fromContinent}-${toContinent}`;
       continentConnections[key] = (continentConnections[key] || 0) + 1;
     }
   });
 
-  // 准备图表数据
+  // Preparing chart data
   const continents = Object.keys(CONTINENT_NAMES);
   const densityData = continents.map(code => continentDensity[code] || 0);
 
-  // 创建图表
+  // Creating Charts
   new Chart(ctx, {
     type: 'bar',
     data: {
@@ -1026,21 +1026,21 @@ function createNetworkDensityChart(canvas, data) {
         label: 'Number of nodes',
         data: densityData,
         backgroundColor: [
-          // 使用夜空色卡颜色:
-          'rgba(232, 147, 197, 0.8)', // 粉色 - NA
-          'rgba(235, 178, 195, 0.8)', // 浅粉色 - SA
-          'rgba(55, 133, 216, 0.8)',  // 蓝色 - EU
-          'rgba(173, 198, 229, 0.8)', // 浅蓝色 - AS
-          'rgba(191, 140, 225, 0.8)', // 紫色 - AF
-          'rgba(203, 216, 232, 0.8)'  // 最浅蓝色 - OC
+          // Use the Night Sky swatch color: 
+          'rgba(232, 147, 197, 0.8)', // Pink - NA
+          'rgba(235, 178, 195, 0.8)', // Light Pink - SA
+          'rgba(55, 133, 216, 0.8)',  // Blue - EU
+          'rgba(173, 198, 229, 0.8)', // Light Blue - AS
+          'rgba(191, 140, 225, 0.8)', // Purple - AF
+          'rgba(203, 216, 232, 0.8)'  // Lightest Blue - OC
         ],
         borderColor: [
-          'rgba(232, 147, 197, 1)', // 粉色
-          'rgba(235, 178, 195, 1)', // 浅粉色
-          'rgba(55, 133, 216, 1)',  // 蓝色
-          'rgba(173, 198, 229, 1)', // 浅蓝色
-          'rgba(191, 140, 225, 1)', // 紫色
-          'rgba(203, 216, 232, 1)'  // 最浅蓝色
+          'rgba(232, 147, 197, 1)', 
+          'rgba(235, 178, 195, 1)',
+          'rgba(55, 133, 216, 1)',
+          'rgba(173, 198, 229, 1)',
+          'rgba(191, 140, 225, 1)',
+          'rgba(203, 216, 232, 1)' 
         ],
         borderWidth: 1
       }]
@@ -1076,11 +1076,11 @@ function createNetworkDensityChart(canvas, data) {
   });
 }
 
-// 创建控制距离图表
+// Creating Control Distance Charts
 function createControlDistanceChart(canvas, data) {
   const ctx = canvas.getContext('2d');
 
-  // 计算控制距离（总部到子公司的地理距离）
+  // Calculation of control distance (geographic distance from headquarters to subsidiaries)
   const distances = [];
 
   data.forEach(d => {
@@ -1095,7 +1095,7 @@ function createControlDistanceChart(canvas, data) {
     }
   });
 
-  // 按距离分组
+  // Grouping by distance
   const distanceGroups = [
     { label: '0–1000 km', min: 0, max: 1000, count: 0, international: 0 },
     { label: '1000–3000 km', min: 1000, max: 3000, count: 0, international: 0 },
@@ -1112,7 +1112,7 @@ function createControlDistanceChart(canvas, data) {
     }
   });
 
-  // 创建图表
+  // Creating Charts
   new Chart(ctx, {
     type: 'bar',
     data: {
@@ -1120,14 +1120,14 @@ function createControlDistanceChart(canvas, data) {
       datasets: [{
         label: 'Total Controls',
         data: distanceGroups.map(g => g.count),
-        backgroundColor: 'rgba(55, 133, 216, 0.8)', // 蓝色
-        borderColor: 'rgba(55, 133, 216, 1)', // 蓝色
+        backgroundColor: 'rgba(55, 133, 216, 0.8)', 
+        borderColor: 'rgba(55, 133, 216, 1)', 
         borderWidth: 1
       }, {
         label: 'International Controls',
         data: distanceGroups.map(g => g.international),
-        backgroundColor: 'rgba(232, 147, 197, 0.8)', // 粉色
-        borderColor: 'rgba(232, 147, 197, 1)', // 粉色
+        backgroundColor: 'rgba(232, 147, 197, 0.8)', 
+        borderColor: 'rgba(232, 147, 197, 1)', 
         borderWidth: 1
       }]
     },
@@ -1163,11 +1163,11 @@ function createControlDistanceChart(canvas, data) {
   });
 }
 
-// 创建权力枢纽城市图表
+// Create power hub city charts
 function createPowerHubChart(canvas, data) {
   const ctx = canvas.getContext('2d');
 
-  // 统计每个城市控制的子公司数量和公司数
+  // Counting the number of subsidiaries and companies controlled by each city
   const cityData = {};
 
   data.forEach(d => {
@@ -1190,12 +1190,12 @@ function createPowerHubChart(canvas, data) {
     }
   });
 
-  // 排序并取前10
+  // Sort and take the top 10
   const topCities = Object.values(cityData)
     .sort((a, b) => b.companies.size - a.companies.size)
     .slice(0, 10);
 
-  // 创建图表
+  // Creating Charts
   new Chart(ctx, {
     type: 'bar',
     data: {
@@ -1203,8 +1203,8 @@ function createPowerHubChart(canvas, data) {
       datasets: [{
         label: 'Number of Controlling Companies',
         data: topCities.map(c => c.companies.size),
-        backgroundColor: 'rgba(173, 198, 229, 0.8)', // 浅蓝色
-        borderColor: 'rgba(173, 198, 229, 1)', // 浅蓝色
+        backgroundColor: 'rgba(173, 198, 229, 0.8)', 
+        borderColor: 'rgba(173, 198, 229, 1)', 
         borderWidth: 1
       }]
     },
@@ -1234,9 +1234,9 @@ function createPowerHubChart(canvas, data) {
   });
 }
 
-// 计算地理距离（使用Haversine公式）
+// Calculating geographic distances (using Haversine's formula)
 function calculateDistance(lat1, lon1, lat2, lon2) {
-  const R = 6371; // 地球半径（公里）
+  const R = 6371; // Earth radius (kilometers)
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLon = (lon2 - lon1) * Math.PI / 180;
   const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
@@ -1246,20 +1246,20 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
   return R * c;
 }
 
-// 初始化事件监听器
+// Initializing event listeners
 function initEventListeners() {
 
-  // 公司选择
+  // Company Selection
   if (dom.companySelector) {
     dom.companySelector.addEventListener('change', (e) => {
-      if (e.target.value) { // 确保选择了有效的值
+      if (e.target.value) { // Make sure a valid value is selected
         currentCompany = e.target.value;
         updateVisualization();
       }
     });
   }
 
-  // 所有权筛选
+  // Ownership Screening
   if (dom.ownershipSlider) {
     dom.ownershipSlider.addEventListener('input', (e) => {
       minOwnershipFilter = parseInt(e.target.value);
@@ -1273,7 +1273,7 @@ function initEventListeners() {
     });
   }
 
-  // 地图控件
+  // Map Controls
   if (dom.zoomFitBtn) {
     dom.zoomFitBtn.addEventListener('click', fitMapToData);
   }
@@ -1286,7 +1286,7 @@ function initEventListeners() {
     dom.toggleLabelsBtn.addEventListener('click', toggleLabels);
   }
 
-  // 面板标签切换
+  // Panel tab switching
   if (dom.panelTabs) {
     dom.panelTabs.forEach(tab => {
       tab.addEventListener('click', (e) => {
@@ -1295,17 +1295,17 @@ function initEventListeners() {
     });
   }
 
-  // 子公司搜索
+  // Subsidiary Search
   if (dom.subsidiarySearch) {
     dom.subsidiarySearch.addEventListener('input', filterSubsidiaries);
   }
 
-  // 大洲筛选
+  // Continent Screening
   if (dom.continentFilter) {
     dom.continentFilter.addEventListener('change', filterSubsidiaries);
   }
 
-  // 排序按钮
+  // Sort Buttons
   if (dom.sortBtns) {
     dom.sortBtns.forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -1314,7 +1314,7 @@ function initEventListeners() {
     });
   }
 
-  // 模态窗口关闭
+  // Modal window closes
   if (dom.modalCloseBtn) {
     dom.modalCloseBtn.addEventListener('click', () => {
       if (dom.detailModal) {
@@ -1323,7 +1323,7 @@ function initEventListeners() {
     });
   }
 
-  // 点击模态框外部关闭
+  // Click outside the modal box to close it
   if (dom.detailModal) {
     dom.detailModal.addEventListener('click', (e) => {
       if (e.target === dom.detailModal) {
@@ -1332,7 +1332,7 @@ function initEventListeners() {
     });
   }
 
-  // 详情面板大小调整
+  // Details panel resizing
   if (dom.panelResizer && dom.detailsPanel) {
     let startY, startHeight;
 
@@ -1357,37 +1357,37 @@ function initEventListeners() {
     }
   }
 
-  // 侧边分析面板触发器（悬停显示）
+  // Side-by-side analysis panel triggers (hover display)
   if (dom.sideAnalysisPanelTrigger && dom.sideAnalysisPanel) {
-    // 鼠标悬停在触发器上时显示侧边面板
+    // Show side panel when hovering over a trigger
     dom.sideAnalysisPanelTrigger.addEventListener('mouseenter', () => {
       showSideAnalysisPanel(true);
     });
 
-    // 鼠标移出侧边面板时隐藏
+    // Hidden on mouse over side panel
     dom.sideAnalysisPanel.addEventListener('mouseleave', () => {
       showSideAnalysisPanel(false);
     });
   }
 
-  // 添加分析面板切换按钮的事件监听
+  // Add event listener for the Analyze panel toggle button
   if (dom.toggleAnalysisBtn) {
     dom.toggleAnalysisBtn.addEventListener('click', toggleAnalysisPanel);
   }
 
-  // 添加帮助按钮点击事件
+  // Adding a help button click event
   if (document.getElementById('help-btn')) {
     document.getElementById('help-btn').addEventListener('click', showHelpModal);
   }
 
-  // 添加帮助模态框关闭按钮事件
+  // Add help modal box close button event
   if (document.getElementById('help-modal-close')) {
     document.getElementById('help-modal-close').addEventListener('click', () => {
       document.getElementById('help-modal').classList.add('hidden');
     });
   }
 
-  // 点击模态框外部关闭
+  // Click outside the modal box to close it
   if (document.getElementById('help-modal')) {
     document.getElementById('help-modal').addEventListener('click', (e) => {
       if (e.target === document.getElementById('help-modal')) {
@@ -1407,10 +1407,10 @@ function initEventListeners() {
 
   if (dom.toggleAnalysisBtn) {
     dom.toggleAnalysisBtn.addEventListener('click', () => {
-      // 判断当前是否图表处于显示状态
+      // Determine if the chart is currently displayed
       const isChartVisible = dom.analysisContent.classList.contains('active');
 
-      // 切换 class
+      // Switch class
       if (isChartVisible) {
         dom.analysisContent.classList.remove('active');
         dom.subsidiariesContent.classList.add('active');
@@ -1423,7 +1423,7 @@ function initEventListeners() {
     });
   }
 
-  // 右侧悬浮功能修改
+  // Modification of the right hover function
   let hoverTimeout;
 
   if (dom.infoArea && dom.slidetab) {
@@ -1450,7 +1450,7 @@ function initEventListeners() {
     closeBtn.addEventListener('click', closeHelpModal);
   }
 
-  // 点击模态框外部关闭
+  // Click outside the modal box to close it
   const helpModal = document.getElementById('help-modal');
   if (helpModal) {
     helpModal.addEventListener('click', (event) => {
@@ -1460,7 +1460,7 @@ function initEventListeners() {
     });
   }
 
-  // ESC键关闭模态框
+  // ESC key to close the modal box
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       closeHelpModal();
@@ -1471,7 +1471,7 @@ function initEventListeners() {
 
 }
 
-// 显示帮助模态框函数
+// Show help modal box function
 function showHelpModal() {
   console.log("Help button clicked, opening help modal");
   const helpModalBody = document.getElementById('help-modal-body');
@@ -1606,7 +1606,7 @@ function showHelpModal() {
   setupHelpNavigation();
 }
 
-// 关闭帮助模态框
+// Close the help modal box
 function closeHelpModal() {
   const helpModal = document.getElementById('help-modal');
   if (helpModal) {
@@ -1614,15 +1614,15 @@ function closeHelpModal() {
   }
 }
 
-// 在页面加载完成后初始化帮助模态框事件
+// Initialize help modal box event after page load is complete
 function initHelpModalEvents() {
-  // 关闭按钮点击事件
+  // Close button click event
   const closeBtn = document.getElementById('help-modal-close');
   if (closeBtn) {
     closeBtn.addEventListener('click', closeHelpModal);
   }
 
-  // 点击模态框外部关闭
+  // Click outside the modal box to close it
   const helpModal = document.getElementById('help-modal');
   if (helpModal) {
     helpModal.addEventListener('click', (event) => {
@@ -1632,14 +1632,14 @@ function initHelpModalEvents() {
     });
   }
 
-  // ESC键关闭模态框
+  // ESC key to close the modal box
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       closeHelpModal();
     }
   });
 
-  // 帮助按钮点击事件
+  // Help button click event
   const helpBtn = document.getElementById('help-btn');
   if (helpBtn) {
     helpBtn.addEventListener('click', showHelpModal);
@@ -1647,30 +1647,30 @@ function initHelpModalEvents() {
 }
 
 
-// 设置帮助导航功能
+// Setting up the help navigation function
 function setupHelpNavigation() {
-  // 获取所有导航项和帮助区块
+  // Get all navigation items and help blocks
   const navItems = document.querySelectorAll('.help-nav .nav-item');
   const helpSections = document.querySelectorAll('.help-section');
   const helpModalBody = document.getElementById('help-modal-body');
 
-  // 导航项点击事件
+  // Navigation item click event
   navItems.forEach(item => {
     item.addEventListener('click', () => {
-      // 移除所有激活状态
+      // Remove all activations
       navItems.forEach(nav => nav.classList.remove('active'));
 
-      // 添加当前项激活状态
+      // Add current item activation status
       item.classList.add('active');
 
-      // 滚动到目标区块
+      // Scroll to target block
       const targetId = item.getAttribute('data-target');
       const targetSection = document.getElementById(targetId);
 
       if (targetSection && helpModalBody) {
-        // 计算正确的滚动位置，考虑导航栏高度
+        // Calculate the correct scroll position, taking into account the height of the navigation bar
         const navHeight = document.querySelector('.help-nav').offsetHeight;
-        const offsetPosition = targetSection.offsetTop - navHeight - 15; // 15px额外间距
+        const offsetPosition = targetSection.offsetTop - navHeight - 15; // 15px
 
         helpModalBody.scrollTo({
           top: offsetPosition,
@@ -1680,18 +1680,18 @@ function setupHelpNavigation() {
     });
   });
 
-  // 监听滚动事件以更新活动导航项
+  // Listen to scroll events to update active navigation items
   if (helpModalBody) {
     helpModalBody.addEventListener('scroll', () => {
-      // 获取当前滚动位置
+      // Get current scroll position
       const scrollPosition = helpModalBody.scrollTop;
       const navHeight = document.querySelector('.help-nav').offsetHeight;
 
-      // 查找当前可见的部分
+      // Find the currently visible part
       let currentSectionId = '';
 
       helpSections.forEach(section => {
-        // 考虑导航栏高度和偏移量
+        // Consider navigation bar height and offset
         const sectionTop = section.offsetTop - navHeight - 20;
         const sectionBottom = sectionTop + section.offsetHeight;
 
@@ -1700,7 +1700,7 @@ function setupHelpNavigation() {
         }
       });
 
-      // 更新导航项激活状态
+      // Update navigation item activation status
       if (currentSectionId) {
         navItems.forEach(item => {
           const targetId = item.getAttribute('data-target');
@@ -1715,15 +1715,15 @@ function setupHelpNavigation() {
   }
 }
 
-// 确保帮助按钮工作正常
+// Make sure the help button is working properly
 function ensureHelpButtonWorks() {
   const helpBtn = document.getElementById('help-btn');
   if (helpBtn) {
-    // 通过克隆节点移除任何现有的事件监听器
+    // Remove any existing event listeners by cloning the node
     const newHelpBtn = helpBtn.cloneNode(true);
     helpBtn.parentNode.replaceChild(newHelpBtn, helpBtn);
 
-    // 添加事件监听器
+    // Adding event listeners
     newHelpBtn.addEventListener('click', showHelpModal);
     console.log("帮助按钮事件监听器已附加");
   }
@@ -1743,16 +1743,16 @@ function ensureHelpButtonWorks() {
   }
 }
 
-// 切换面板标签
+// Toggle Panel Tabs
 function switchPanelTab(clickedTab) {
-  // 移除所有活跃状态
+  // Remove all active statuses
   dom.panelTabs.forEach(tab => tab.classList.remove('active'));
   clickedTab.classList.add('active');
 
-  // 获取目标面板
+  // Get target panel
   const tabType = clickedTab.dataset.tab;
 
-  // 切换面板内容
+  // Toggle panel content
   if (tabType === 'subsidiaries') {
     dom.subsidiariesContent.classList.remove('hidden');
     dom.analysisContent.classList.add('hidden');
@@ -1762,34 +1762,34 @@ function switchPanelTab(clickedTab) {
   }
 }
 
-// 切换分析面板显示/隐藏
+// Toggle analyzer panel show/hide
 function toggleAnalysisPanel() {
   if (!dom.analysisContent) return;
 
-  // 切换分析面板的折叠状态
+  // Toggles the collapsed state of the analysis panel
   dom.analysisContent.classList.toggle('collapsed');
 
-  // 更新按钮状态
+  // Update button status
   if (dom.toggleAnalysisBtn) {
     if (dom.analysisContent.classList.contains('collapsed')) {
       dom.toggleAnalysisBtn.classList.remove('active');
-      dom.toggleAnalysisBtn.innerHTML = '<i class="fas fa-table"></i>'; // 图表图标
+      dom.toggleAnalysisBtn.innerHTML = '<i class="fas fa-table"></i>'; // Chart Icons
     } else {
       dom.toggleAnalysisBtn.classList.add('active');
-      dom.toggleAnalysisBtn.innerHTML = '<i class="fas fa-table"></i>'; // 表格图标
+      dom.toggleAnalysisBtn.innerHTML = '<i class="fas fa-table"></i>'; // Table Icons
     }
   }
 
-  // 保存用户偏好
+  // Saving user preferences
   localStorage.setItem('analysisPanel', dom.analysisContent.classList.contains('collapsed') ? 'collapsed' : 'expanded');
 }
 
-// 在初始化完成后调用此函数
+// Call this function after initialization is complete
 function initUserPreferences() {
   initAnalysisCharts();
 }
 
-// 其他辅助函数...
+// Other auxiliary functions...
 function showLoading(show) {
   if (dom.loadingIndicator) {
     dom.loadingIndicator.style.display = show ? 'flex' : 'none';
@@ -1811,7 +1811,7 @@ function updateDOMElement(id, value) {
   }
 }
 
-// 改进的层级图示更新函数
+// Improved Hierarchical Icon Update Functions
 function updateHierarchyDiagram(hqCount, subCount, directControl, internationalCount) {
   const hierarchyViz = document.getElementById('hierarchy-viz');
   if (!hierarchyViz) return;
@@ -1842,7 +1842,7 @@ function updatePowerCenters(filteredData) {
   const powerCentersList = document.getElementById('power-centers-list');
   if (!powerCentersList) return;
 
-  // 统计每个城市控制的子公司数量
+  // Counting the number of subsidiaries controlled by each city
   const cityControl = {};
 
   filteredData.forEach(d => {
@@ -1861,7 +1861,7 @@ function updatePowerCenters(filteredData) {
     }
   });
 
-  // 排序并取前5 - 优先显示不同公司控制的城市
+  // Sort and take the top 5 - prioritize cities controlled by different companies
   const sortedCenters = Object.values(cityControl)
     .sort((a, b) => b.companies.size - a.companies.size || b.count - a.count)
     .slice(0, 5);
@@ -1922,7 +1922,7 @@ function zoomToHeadquarters() {
       zoom: 6
     });
 
-    // 保存这个位置作为参考点
+    // Save this location as a reference point
     lastCenterPosition = {
       center: map.getCenter(),
       zoom: map.getZoom()
@@ -1950,7 +1950,7 @@ function filterSubsidiaries() {
 }
 
 function sortSubsidiaries(clickedBtn) {
-  // 更新活跃状态
+  // Update Active Status
   dom.sortBtns.forEach(btn => btn.classList.remove('active'));
   clickedBtn.classList.add('active');
 
@@ -1966,12 +1966,12 @@ function sortSubsidiaries(clickedBtn) {
     return 0;
   });
 
-  // 重新添加排序后的行
+  // Re-add sorted rows
   dom.subsidiariesTable.innerHTML = '';
   rows.forEach(row => dom.subsidiariesTable.appendChild(row));
 }
 
-// 生成模拟数据 - 用于开发和测试
+// Generate simulation data - for development and testing
 function generateMockData() {
   console.log('生成模拟数据用于演示');
 
@@ -2015,29 +2015,29 @@ function generateMockData() {
 
   const mockData = [];
 
-  // 生成每个公司的总部和子公司
+  // Generate headquarters and subsidiaries for each company
   companies.forEach((company, idx) => {
-    // 决定总部所在大洲
+    // Decide on the continent where the headquarters will be located
     const hqContinent = idx % 3 === 0 ? 'NA' : (idx % 3 === 1 ? 'EU' : 'AS');
     const hqCityIdx = idx % cities[hqContinent].length;
     const hqCity = cities[hqContinent][hqCityIdx];
 
-    // 公司基本信息
+    // Basic Company Information
     const revenue = 1000000 + Math.random() * 90000000;
     const assets = revenue * (1 + Math.random());
     const employees = 1000 + Math.floor(Math.random() * 100000);
 
-    // 生成5-15个子公司
+    // Generation of 5-15 subsidiaries
     const subCount = 5 + Math.floor(Math.random() * 10);
 
     for (let i = 0; i < subCount; i++) {
-      // 选择子公司所在大洲和城市
+      // Select the continent and city of the subsidiary
       let subContinent;
       if (i % 5 === 0) {
-        // 20%的子公司和总部在同一大洲
+        // 20% of subsidiaries and headquarters on the same continent
         subContinent = hqContinent;
       } else {
-        // 80%的子公司分布在其他大洲
+        // 80% of subsidiaries on other continents
         const continents = Object.keys(cities);
         subContinent = continents[Math.floor(Math.random() * continents.length)];
       }
@@ -2045,11 +2045,11 @@ function generateMockData() {
       const subCityIdx = Math.floor(Math.random() * cities[subContinent].length);
       const subCity = cities[subContinent][subCityIdx];
 
-      // 子公司功能分类
+      // Functional classification of subsidiaries
       const naceIdx = Math.floor(Math.random() * naceCategories.length);
       const nace = naceCategories[naceIdx];
 
-      // 所有权比例: 30%完全控股(100%), 50%多数控股(51-99%), 20%少数控股(10-50%)
+      // Ownership: 30% fully owned (100%), 50% majority owned (51-99%), 20% minority owned (10-50%)
       let ownership;
       const r = Math.random();
       if (r < 0.3) {
@@ -2060,15 +2060,15 @@ function generateMockData() {
         ownership = 10 + Math.floor(Math.random() * 41);
       }
 
-      // 子公司规模
+      // Subsidiary size
       const subRevenue = revenue * 0.01 * Math.random() * 2;
       const subAssets = subRevenue * (0.5 + Math.random());
       const subEmployees = 10 + Math.floor(Math.random() * 2000);
 
-      // 是否国际子公司
+      // Whether international subsidiaries
       const isInternational = hqCity.country !== subCity.country ? 1 : 0;
 
-      // 生成记录
+      // Generating records
       mockData.push({
         company: company,
         Parent_City_clean: hqCity.city,
@@ -2111,7 +2111,7 @@ function generateMockData() {
         node_type: hqCity.city === subCity.city && hqCity.country === subCity.country ? 'mixed' : 'sub'
       });
 
-      // 如果是总部城市，添加一个总部记录
+      // If it is a headquarters city, add a headquarters record
       if (i === 0) {
         mockData.push({
           company: company,

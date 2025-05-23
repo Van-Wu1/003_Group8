@@ -10,7 +10,7 @@
   gap: 10px;
 }
 
-/* !!!!!!!!!!!! 1 顶部标题 !!!!!!!!!!!!*/
+/* !!!!!!!!!!!! 1 top heading !!!!!!!!!!!!*/
 .section-header {
   margin-top: 10px;
   text-align: center;
@@ -144,7 +144,7 @@
 }
 
 /* !!!!!!!!! Right: chart !!!!!!!!!*/
-/* 右侧整体 */
+/* Right overall */
 .chart {
   width: 25%;
   display: flex;
@@ -171,7 +171,7 @@
   display: block;
 }
 
-/* 矩形树图 */
+/* rectangular tree diagram */
 .rank {
   flex: 1.45;
   /* background-color: #ffffff; */
@@ -183,7 +183,7 @@
   text-align: center;
 }
 
-/* 饼图 */
+/* pie chart */
 .pie {
   flex: 1;
   padding: 10px 0 14px;
@@ -238,13 +238,13 @@
 }
 
 
-/* 动画 */
-/* 淡入 + 上移 */
+/* anime */
+/* Fade In + Move Up */
 .section-header-animate {
   animation: fadeInUp 1s ease-out both;
 }
 
-/* 关键词渐变强调 */
+/* Keyword Gradient Emphasis */
 .highlight {
   background: linear-gradient(90deg, #002fff, #88a6ff);
   background-clip: text;

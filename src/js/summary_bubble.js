@@ -3,7 +3,7 @@ let currentIndex = 0;
 let citybData = {};
 let currentSimulation = null;
 
-// 数据提取与处理
+// Data Extraction and Processing
 const funcMap = {
     'rd': 'R&D',
     'raw': 'API',
@@ -13,7 +13,7 @@ const funcMap = {
     'retail': 'Retail/Medical',
     'support': 'Support/Other'
 };
-// 提取目标功能的城市气泡信息
+// Extracting Urban Bubble Information for Targeted Functions
 function extractFunctionBubbles(data, targetFunction, topN = 30) {
     const bubbles = [];
 
@@ -62,7 +62,7 @@ function extractFunctionBubbles(data, targetFunction, topN = 30) {
     return bubbles.sort((a, b) => b.value - a.value).slice(0, topN);
 }
 
-// 计算某城市的功能结构统计值
+// Calculate the statistical value of the functional structure of a city
 function getFunctionStats(info) {
     const rolesRaw = info.sub_function_stats || {};
     const roles = Object.fromEntries(Object.entries(rolesRaw).filter(([k]) => k !== "Unclassified"));
@@ -87,7 +87,7 @@ function getFunctionStats(info) {
     return { dominantRole, roleCount, entropy, dominanceRatio, classification, total };
 }
 
-// 根据功能结构返回功能分类
+// Return to Functional Classification according to Functional Structure
 function getFunctionCategory(info) {
     const stats = getFunctionStats(info);
     if (!stats) return "Unclassified";
@@ -97,7 +97,7 @@ function getFunctionCategory(info) {
     return "Weakly Diversified";
 }
 
-// 可视化：力导向图
+// Visualization: Force Oriented Mapping
 function drawForceGraph(bubbles) {
     const svg = d3.select("#bubbleChart");
     svg.selectAll("*").remove();
@@ -105,7 +105,7 @@ function drawForceGraph(bubbles) {
     const width = parseInt(svg.style("width"));
     const height = parseInt(svg.style("height"));
 
-    // 添加图内标题
+    // Add in-figure caption
     svg.append("text")
         .attr("x", 20)
         .attr("y", 26)
@@ -213,13 +213,13 @@ Dominance Ratio: ${stats?.dominanceRatio}
     const simulation = d3.forceSimulation(cleanBubbles)
         .alpha(1)
         .alphaDecay(0.02)
-        .velocityDecay(0.2) // 增加阻尼
-        .force("gravity", d3.forceY(height * 0.9).strength(0.008)) // 减少下落拉力
+        .velocityDecay(0.2) // Increased Damping
+        .force("gravity", d3.forceY(height * 0.9).strength(0.008)) // Reducing the falling pull
         .force("x", d3.forceX(width / 2).strength(0.01))
         .force("collide", d3.forceCollide().radius(d => d.r + 1.5).iterations(2))
         .on("tick", () => {
             nodeGroup.attr("transform", d => {
-                d.vy *= 0.98; // 手动摩擦阻力
+                d.vy *= 0.98; // Manual friction resistance
                 d.x = Math.max(d.r, Math.min(width - d.r, d.x));
                 if (d.y + d.r > height) {
                     d.vy *= -0.3;
@@ -231,7 +231,7 @@ Dominance Ratio: ${stats?.dominanceRatio}
     window.currentSimulation = simulation;
 }
 
-// 可视化：散点图（local/global ratio）
+// Visualization: scatterplot (local/global ratio)
 function drawFunctionCityScatter(data, targetFunction) {
     const container = d3.select(".pharma-matrix-area");
     container.selectAll("*").remove();
@@ -264,7 +264,7 @@ function drawFunctionCityScatter(data, targetFunction) {
 
     const svg = container.append("svg")
         .attr("viewBox", `0 0 ${width} ${height}`)
-        .attr("preserveAspectRatio", "xMidYMid meet")  // 👈 中心对齐
+        .attr("preserveAspectRatio", "xMidYMid meet")  // center alignment
         .style("width", "100%")
         .style("height", "100%");
 
@@ -351,8 +351,8 @@ function updateWheel(highlight = true) {
     const container = document.querySelector('.wheel-container');
     const items = document.querySelectorAll('.wheel-item');
 
-    // 滑动效果
-    const offset = -currentIndex * 100; // 每项高度 100px
+    // sliding effect
+    const offset = -currentIndex * 100;
     container.style.transform = `translateY(${offset}px)`;
 
     items.forEach(item => item.classList.remove('highlight'));
@@ -374,7 +374,7 @@ function initControlledWheel() {
     const items = document.querySelectorAll('.wheel-item');
     const maxIndex = items.length - 1;
 
-    // 禁用默认滚动
+    // Disable default scrolling
     const wrapper = document.querySelector('.wheel-wrapper');
     wrapper.addEventListener('wheel', (e) => {
         e.preventDefault();
@@ -386,7 +386,7 @@ function initControlledWheel() {
         updateWheel();
     });
 
-    // 点击某项直接选中
+    // Click on an item to select it directly
     items.forEach((item, idx) => {
         item.addEventListener('click', () => {
             currentIndex = idx;
@@ -426,7 +426,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     drawForceGraph(bubbles);
                     drawFunctionCityScatter(citybData, fullFuncName);
 
-                    // 让 wheel-container 自动滚动到对应项
+                    // Make the wheel-container automatically scroll to the corresponding item.
                     const targetItem = document.querySelector(`.wheel-item[data-function="${func}"]`);
                     if (targetItem) {
                         const container = document.querySelector('.wheel-container');
@@ -435,7 +435,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
                         setTimeout(() => {
                             highlightCenterItem(false);
-                        }, 300); // 等待滚动完成后更新 highlight
+                        }, 300); // Waiting for scrolling to complete to update highlight
                     }
                 });
             });

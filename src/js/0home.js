@@ -1,4 +1,4 @@
-// 打字动画
+// Typing animation
 const typeText = (element, text, delay = 60, callback = null) => {
   let i = 0;
   const type = () => {
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const text1 = "Connecting Cities,";
   const text2 = "Through Pharmaceutical.";
 
-  // 提前占位
+  // reserve a place in advance
   line1.innerHTML = "&nbsp;";
   line2.innerHTML = "&nbsp;";
 
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// 滚动淡入动画
+// Scroll Fade Animation
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -55,13 +55,13 @@ document.querySelectorAll(".section").forEach((section) => {
   observer.observe(section);
 });
 
-// 平滑测试
+// Smoothness Test
 // new fullpage('#fullpage', {
 //   autoScrolling: true,
 //   scrollHorizontally: false,
 //   navigation: true,
 //   onLeave: function(origin, destination, direction){
-//     // 动画钩子：离开 origin，进入 destination
+//     // Animation hooks: leaving origin, entering destination
 //     const current = destination.item;
 //     current.querySelectorAll('.fade-slide')?.forEach(el => {
 //       el.classList.remove('active');
