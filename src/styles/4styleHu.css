@@ -254,7 +254,7 @@ body {
 .selectorB {
   position: absolute;
   /* ✅ 必须有 */
-  left: 355px;
+  left: 200px;
   right: 10px;
 }
 
