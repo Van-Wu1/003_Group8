@@ -459,14 +459,3 @@ document.getElementById('gotoComparison').addEventListener('click', () => {
   document.querySelector('#section8-new-comparison').style.display = 'block';
 });
 
-window.restoreResilienceOverlay = function () {
-  if (map_re && overlay) {
-    try {
-      map_re.removeControl(overlay);
-    } catch (e) {
-      console.log("overlay 已经被移除或未定义");
-    }
-    map_re.addControl(overlay);
-    map_re.getCanvas().style.backgroundColor = '#cfd8dc'; // 补一下背景色
-  }
-};
