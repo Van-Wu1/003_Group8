@@ -209,23 +209,23 @@ fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.g
 
 
 
-const mainLayer = new deck.ColumnLayer({
-  data: adjustedPoints,
-  getPosition: d => d.adjustedPosition,
-  getElevation: d => d.resilienceIndex * 5000,
-  getFillColor: d => {
-    if (d.city === selectedCity) return [255, 179, 71, 255]; // 🔶 选中的城市变黄色
-    if (d.cluster === 2) return [55, 133, 216, 180];
-    if (d.cluster === 1) return [166, 146, 232, 180];
-    if (d.cluster === 0) return [243, 166, 161, 180];
-    return [200, 200, 200];
-  },
-  getLineColor: d => d.city === selectedCity ? [255, 255, 255] : [0, 0, 0, 0],
-  lineWidthMinPixels: 1, 
-  radius: 21000,
-  extruded: true,
-  elevationScale: 10
-});
+    const mainLayer = new deck.ColumnLayer({
+      data: adjustedPoints,
+      getPosition: d => d.adjustedPosition,
+      getElevation: d => d.resilienceIndex * 5000,
+      getFillColor: d => {
+        if (d.city === selectedCity) return [255, 179, 71, 255]; // 🔶 选中的城市变黄色
+        if (d.cluster === 2) return [55, 133, 216, 180];
+        if (d.cluster === 1) return [166, 146, 232, 180];
+        if (d.cluster === 0) return [243, 166, 161, 180];
+        return [200, 200, 200];
+      },
+      getLineColor: d => d.city === selectedCity ? [255, 255, 255] : [0, 0, 0, 0],
+      lineWidthMinPixels: 1,
+      radius: 21000,
+      extruded: true,
+      elevationScale: 10
+    });
 
 
 
@@ -313,61 +313,54 @@ const mainLayer = new deck.ColumnLayer({
 
       const cityData = points.find(p => p.city.trim() === selectedCity);
 
-
-
-
       if (cityData) {
         drawRadarChart(cityData);
 
-                // ✅ 新增地图飞到该城市
-                map_re.flyTo({
-                    center: cityData.position,
-                    zoom: 6,
-                    speed: 1.2,
-                    curve: 1.5,
-                    easing: t => t
-                });
-                setTimeout(() => {
-                 window.scrollTo({ top: 0, behavior: 'instant' });
-                 }, 0);
-// 🔶 重新创建 mainLayer 并高亮选中柱子
-const filteredData = adjustedPoints.filter(p => filterState[p.cluster]);
-const newMainLayer = new deck.ColumnLayer({
-  data: filteredData,
-  getPosition: d => d.adjustedPosition,
-  getElevation: d => d.resilienceIndex * 5000,
-  getFillColor: d => {
-    if (d.city === selectedCity) return [255, 179, 71, 255]; // 高亮选中
-    if (d.cluster === 2) return [55, 133, 216, 180];
-    if (d.cluster === 1) return [166, 146, 232, 180];
-    if (d.cluster === 0) return [243, 166, 161, 180];
-    return [200, 200, 200];
-  },
-  getLineColor: d => d.city === selectedCity ? [255, 255, 255] : [0, 0, 0, 0],
-  lineWidthMinPixels: 1, 
-  radius: 21000,
-  extruded: true,
-  elevationScale: 10
-});
+        // ✅ 新增地图飞到该城市
+        map_re.flyTo({
+          center: cityData.position,
+          zoom: 6,
+          speed: 1.2,
+          curve: 1.5,
+          easing: t => t
+        });
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        }, 0);
+        // 🔶 重新创建 mainLayer 并高亮选中柱子
+        const filteredData = adjustedPoints.filter(p => filterState[p.cluster]);
+        const newMainLayer = new deck.ColumnLayer({
+          data: filteredData,
+          getPosition: d => d.adjustedPosition,
+          getElevation: d => d.resilienceIndex * 5000,
+          getFillColor: d => {
+            if (d.city === selectedCity) return [255, 179, 71, 255]; // 高亮选中
+            if (d.cluster === 2) return [55, 133, 216, 180];
+            if (d.cluster === 1) return [166, 146, 232, 180];
+            if (d.cluster === 0) return [243, 166, 161, 180];
+            return [200, 200, 200];
+          },
+          getLineColor: d => d.city === selectedCity ? [255, 255, 255] : [0, 0, 0, 0],
+          lineWidthMinPixels: 1,
+          radius: 21000,
+          extruded: true,
+          elevationScale: 10
+        });
 
-// ⚠️ 保留原 baseLayer
-const newBaseLayer = new deck.ColumnLayer({
-  data: filteredData,
-  getPosition: d => d.adjustedPosition,
-  getElevation: 5000,
-  getFillColor: [220, 220, 220, 180],
-  radius: 22000,
-  extruded: true,
-  elevationScale: 1
-});
+        // ⚠️ 保留原 baseLayer
+        const newBaseLayer = new deck.ColumnLayer({
+          data: filteredData,
+          getPosition: d => d.adjustedPosition,
+          getElevation: 5000,
+          getFillColor: [220, 220, 220, 180],
+          radius: 22000,
+          extruded: true,
+          elevationScale: 1
+        });
 
-overlay.setProps({
-  layers: [newBaseLayer, newMainLayer]
-});
-
-
-
-
+        overlay.setProps({
+          layers: [newBaseLayer, newMainLayer]
+        });
       }
     });
   });
@@ -385,7 +378,6 @@ function drawRadarChart(props) {
     operatingRevenue: 0,
     functionalDiversity: 0
   };
-
 
   const ctx = document.getElementById('radarChart').getContext('2d');
   if (!ctx) return;
@@ -448,14 +440,8 @@ function drawRadarChart(props) {
   });
 }
 
-
 document.getElementById('gotoComparison').addEventListener('click', () => {
   document.querySelector('.Section8').style.display = 'none';
   document.querySelector('.Section8-Comparison').style.display = 'block';
   initComparison();
 });
-
-
-
-
-

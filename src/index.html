@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="./styles/4styleHu.css" />
     <link rel="stylesheet" href="./styles/0team.css" />
     <link rel="stylesheet" href="./styles/DataReference.css">
+    <link rel="stylesheet" href="./styles/transition.css">
 
     <!-- Mapbox CDN -->
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
@@ -231,23 +232,23 @@
             </div>
         </section>
 
-        <!-- 第一张图的conclusion -->
-        <section id="conclusion_map1">
-            <div class="conclusion-centered fade-slide">
+        <!-- 第一张图的conclusion(map12过渡) -->
+        <section class="pharma-conclusion-section" id="conclusion_map1">
+            <div class="pharma-conclusion-inner fade-slide">
                 <h2 class="conclusion-title">Trade Patterns, Power Clues</h2>
                 <div class="conclusion-paragraphs">
-                    <p>Our maps reveal clear patterns: <br>the U.S. leads in imports, <br>while Germany and Switzerland
-                        dominate
+                    <p>Our maps reveal clear patterns: the U.S. leads in imports, while Germany and Switzerland dominate
                         exports.</p>
-                    <p>Some countries, like Belgium and Ireland, show balance; others, <br>like China and the UK, lean
+                    <p>Some countries, like Belgium and Ireland, show balance; others, like China and the UK, lean
                         toward consumption.</p>
-                    <p>But trade flows alone don't explain control. <br>What follows digs deeper into
+                    <p>But trade flows alone don't explain control. What follows digs deeper into
                         <strong>ownership</strong>, <strong>organization</strong>, and <strong>urban function</strong>.
                     </p>
                 </div>
+                <a href="#section5" class="explore-button">Explore the Urban Structure ↓</a>
             </div>
-            <a href="#section5" class="explore-button fade-slide delay-5">Explore the Urban Structure ↓</a>
         </section>
+
 
         <!-- Map2 -->
         <section class="section5" id="section5">
@@ -363,6 +364,7 @@
             </div>
         </section>
 
+        <!-- map2summary -->
         <section id="bubble_summary">
             <div class="pharma-horizontal-wrapper">
                 <div class="pharma-function-bar wheel-selector">
@@ -445,28 +447,23 @@
             </div>
         </section>
 
-        <section class="Section6" id="section6">
-            <div class="intro-container">
-                <h2>From Trade Patterns to Corporate Power</h2>
-
-                <p>
-                    Over the previous sections we've mapped global pharmaceutical trade flows and
-                    functional clusters. Now we shift focus to the
-                    <span class="highlight">ownership control network</span>—the equity links
-                    between headquarters and subsidiaries that govern city hierarchies and
-                    spatial power.
-                </p>
-
-                <p>
-                    Click the “Explore” button below to dive into the interactive Control
-                    Network map and uncover control radii, power‑hub cities, and cross‑border
-                    paths for the Top‑20 pharma companies.
-                </p>
-
-                <a href="#section7" class="btn btn-primary">Explore the Control Network</a>
+        <!-- map23过渡 -->
+        <section class="pharma-conclusion-section" id="conclusion_control_network">
+            <div class="pharma-conclusion-inner fade-slide">
+                <h2 class="conclusion-title">From Trade Patterns to Corporate Power</h2>
+                <div class="conclusion-paragraphs">
+                    <p>Over the previous sections we've mapped global pharmaceutical trade flows and functional
+                        clusters. Now we shift focus to the <span class="highlight">ownership control network</span> —
+                        the equity links between headquarters and subsidiaries that govern city hierarchies and spatial
+                        power.</p>
+                    <p>Click the “Explore” button below to dive into the interactive Control Network map and uncover
+                        control radii, power‑hub cities, and cross‑border paths for the Top‑20 pharma companies.</p>
+                </div>
+                <a href="#section7" class="explore-button">Explore the Control Network ↓</a>
             </div>
         </section>
 
+        <!-- map3 -->
         <section class="Section7" id="section7">
             <div id="left-position-control">
                 <!-- 上半部分国家选择 -->
@@ -750,89 +747,66 @@
             </div>
         </section>
 
+        <!-- map34过渡 -->
+        <section class="pharma-conclusion-section" id="conclusion_resilience">
+            <div class="pharma-conclusion-inner fade-slide">
+                <h2 class="conclusion-title">After All This... A Final Question:</h2>
+                <div class="conclusion-paragraphs">
+                    <p>Why have some cities managed to occupy the core of the network for so long?</p>
+                    <p>Which cities are likely to rise as new hubs?</p>
+                    <p>Perhaps the <span class="highlight">Urban Resilience Index</span> can answer your questions.</p>
+                </div>
+                <a href="#map4methodology" class="explore-button">Explore Urban Resilience ↓</a>
+            </div>
+        </section>
 
-        <section class="Section_m" id="methodology">
-
-
-            <div id="intro-screen">
-                <div class="intro-content">
-                    <h1>After reading all this, perhaps you're also wondering:</h1>
-                    <p>
-                        Why have some cities managed to occupy the core of the network for so long?<br>
-                        Which cities are likely to rise as new hubs?<br>
-                        What are the key factors that need to be focused on to reduce risk?<br>
-                        Perhaps the <span class="gradient-text">Urban Resilience Index</span> can answer your questions.
+        <section id="map4methodology" class="flat-section">
+            <div id="leftmap4methodology">
+                <div class="flat-intro">
+                    <h2 class="flat-title">Urban Resilience Index</h2>
+                    <p class="flat-lead">
+                        The Urban Resilience Index (URI) evaluates how well a city can respond to and recover from
+                        shocks
+                        like
+                        pandemics, climate change, and economic disruption.
                     </p>
-                    <button id="exploreBtn">Explore</button>
+                    <ul class="flat-list">
+                        <li><strong>FD:</strong> Functional Diversity</li>
+                        <li><strong>OR:</strong> Operating Revenue (normalized to 0-5)</li>
+                        <li><strong>ESG:</strong> Environmental, Social, and Governance Index</li>
+                    </ul>
+                </div>
+
+                <div class="flat-esg">
+                    <h3 class="flat-subtitle">What is ESG Index?</h3>
+                    <p>ESG is a global standard to assess corporate sustainability:</p>
+                    <ul class="flat-list">
+                        <li><strong>Environmental (E):</strong> Green performance and pollution control</li>
+                        <li><strong>Social (S):</strong> Equity, labor care, community impact</li>
+                        <li><strong>Governance (G):</strong> Transparency and institutional soundness</li>
+                    </ul>
                 </div>
             </div>
 
-
-
-            <!-- 🟡 右侧内容，初始隐藏 -->
-            <div id="methodology-extra" class="hidden">
-                <div class="content-wrapper">
-                    <div class="definition-row">
-                        <div class="card">
-                            <h2>What is Urban Resilience Index?</h2>
-                            <p>When the cities we live in face shocks such as global epidemics, climate change, and
-                                economic
-                                crises, some cities are able to adapt quickly and grow steadily, while others are
-                                vulnerable
-                                to severe impacts.
-                                The Urban Resilience Index (URI) is a comprehensive measure of a city's ability to
-                                stabilise, recover and continue to function in such “volatile environments”.</p>
-                            <ul>
-                                <li>Functional Diversity(FD)</li>
-                                <li>Operating Revenue(OP: normalized to 0-5)</li>
-                                <li>ESG Index</li>
-                            </ul>
-                        </div>
-                        <div class="card">
-                            <h2>What is ESG index?</h2>
-                            <ul>
-                                <p>ESG index is now an important criterion used globally to judge whether a business is
-                                    responsible and sustainable.</p>
-                                <li><strong>Environmental(E)</strong>: whether a company attaches importance to green
-                                    development and pollution reduction</li>
-                                <li><strong>Social(S)</strong>: whether the treatment of employees, customer relations,
-                                    and
-                                    community impact are good</li>
-                                <li><strong>Governance(G)</strong>: whether the management is transparent and the system
-                                    is
-                                    sound</li>
-                                <li><strong>Overall(O)</strong>: A composite score</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="cluster-row">
-                        <div class="cluster-card green">
-                            <h3>Environmentally Orientated City</h3>
-                            <p>Environmentally friendly, energy efficient and carbon reducing; and have a strong ability
-                                to
-                                adapt to climate policies</p>
-                        </div>
-                        <div class="cluster-card blue">
-                            <h3>Socially Orientated City</h3>
-                            <p>Perform well in terms of employee well-being and community responsibility; place more
-                                emphasis on social equity and public relations; and are more likely to gain social
-                                support
-                                and trust in the event of a public incident</p>
-                        </div>
-                        <div class="cluster-card purple">
-                            <h3>Governance-oriented City</h3>
-                            <p>Transparent and compliant in their management; have well-developed systems and clear
-                                response
-                                mechanisms; and are more able to respond quickly to emergencies and allocate resources
-                                efficiently</p>
-                        </div>
-                    </div>
+            <div class="flat-categories">
+                <div class="category-block green">
+                    <h4>Environmentally Oriented City</h4>
+                    <p>Eco-efficient, climate-adaptive, and low-emission.</p>
+                </div>
+                <div class="category-block blue">
+                    <h4>Socially Oriented City</h4>
+                    <p>Trusted, inclusive, and strong in community engagement.</p>
+                </div>
+                <div class="category-block purple">
+                    <h4>Governance-Oriented City</h4>
+                    <p>Efficient, responsive, and transparent in crisis response.</p>
                 </div>
             </div>
         </section>
 
-        <!-- huxinyue -->
+
+
+        <!-- map4 -->
         <section class="Section8" id="section8">
             <div id="map_re">
                 <div id="citySelector">
@@ -949,6 +923,7 @@
             </div>
         </section>
 
+        <!-- data&reference&footer -->
         <section id="data_reference">
             <div class="reference-wrapper fade-slide">
                 <h2 class="reference-title">About</h2>
