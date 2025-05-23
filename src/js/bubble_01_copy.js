@@ -458,14 +458,14 @@ function drawScatterPlot(scatterData) {
           callbacks: {
             label: function (context) {
               const d = context.raw;
-              return `${d.city}\nEntropy: ${d.y}\nCompany Count: ${d.x}`; // 🔄
+              return `${d.city}\nEntropy: ${d.y}\nDominance Ratio: ${d.x}`; // 🔄
             }
           }
         }
       },
       scales: {
         x: {
-          title: { display: true, text: 'Company Count' }, // 🔄
+          title: { display: true, text: 'Dominance Ratio' }, // 🔄
           type: 'linear',
           beginAtZero: true
           // 可以根据你的数据范围设置 min / max
