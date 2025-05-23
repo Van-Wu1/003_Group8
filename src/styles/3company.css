@@ -17,16 +17,6 @@
   /* 极浅蓝色 */
 }
 
-.Section6 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #F7F9FB;
-  padding: 20px;
-  text-align: center;
-}
-
 .Section6 .intro-container {
   max-width: 900px;
   margin: 0 auto;
@@ -112,7 +102,6 @@
 
 .Section7 {
   position: relative;
-  margin-top: 180px;
   scroll-snap-align: start;
   font-family: 'Helvetica Neue', sans-serif;
   box-sizing: border-box;
