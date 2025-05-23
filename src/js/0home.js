@@ -54,18 +54,3 @@ document.querySelectorAll(".section").forEach((section) => {
   section.classList.add("fade-in");
   observer.observe(section);
 });
-
-// Smoothness Test
-// new fullpage('#fullpage', {
-//   autoScrolling: true,
-//   scrollHorizontally: false,
-//   navigation: true,
-//   onLeave: function(origin, destination, direction){
-//     // Animation hooks: leaving origin, entering destination
-//     const current = destination.item;
-//     current.querySelectorAll('.fade-slide')?.forEach(el => {
-//       el.classList.remove('active');
-//       setTimeout(() => el.classList.add('active'), 10);
-//     });
-//   }
-// });

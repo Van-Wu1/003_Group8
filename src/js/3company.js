@@ -281,7 +281,7 @@ async function initMap() {
 async function loadData() {
   try {
     // Sample data paths - need to be replaced in a real environment
-    const response = await fetch('data/clean/world_com_top20_by_revenue_eng.json');
+    const response = await fetch('/data/clean/world_com_top20_by_revenue_eng.json');
     if (!response.ok) {
       // Simulated data for demonstration purposes
       console.warn('Demonstration using modelled data');
@@ -948,12 +948,10 @@ function updateVisualization() {
 
 // Initializing Analytics Charts
 function initAnalysisCharts() {
-  console.log("这个函数至少被调用到了");
   // If the analysis panel is collapsed, the chart is not initialized
   if (dom.analysisContent && dom.analysisContent.classList.contains('collapsed')) {
     return;
   }
-  console.log("你看到这个信息就是没被拦截");
   // Get Chart Container
   const densityChart = document.getElementById('density-chart');
   const distanceChart = document.getElementById('distance-chart');
@@ -1725,7 +1723,7 @@ function ensureHelpButtonWorks() {
 
     // Adding event listeners
     newHelpBtn.addEventListener('click', showHelpModal);
-    console.log("帮助按钮事件监听器已附加");
+    console.log("The help button event listener has been attached");
   }
 }
 
@@ -1739,7 +1737,6 @@ function ensureHelpButtonWorks() {
 
     // Add the event listener
     newHelpBtn.addEventListener('click', showHelpModal);
-    console.log("Help button event listener attached");
   }
 }
 
@@ -1973,7 +1970,7 @@ function sortSubsidiaries(clickedBtn) {
 
 // Generate simulation data - for development and testing
 function generateMockData() {
-  console.log('生成模拟数据用于演示');
+  console.log('Generate simulation data for demonstration');
 
   const companies = [
     'JOHNSON & JOHNSON', 'PFIZER', 'ROCHE', 'NOVARTIS', 'MERCK',

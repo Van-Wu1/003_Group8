@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', () => {
     let mapLeft, mapRight;
     let leftCity = '', rightCity = '';
 
-    fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.geojson')
+    fetch('/data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.geojson')
         .then(res => res.json())
         .then(data => {
             geojsonData = data;

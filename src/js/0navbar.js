@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // Close menu when clicking on other areas
   document.addEventListener('click', function (event) {
     const isClickInside = sidebar.contains(event.target) || toggle.contains(event.target);
-    console.log("click");
 
     if (!isClickInside && sidebar.classList.contains('show')) {
       sidebar.classList.remove('show');

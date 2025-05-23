@@ -1,5 +1,3 @@
-console.log("✅ 4resilience.js 加载成功");
-
 let selectedCity = null;
 let overlay;
 let points;
@@ -42,7 +40,7 @@ const map_re = new mapboxgl.Map({
 
 map_re.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
-fetch('./data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.geojson')
+fetch('/data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.geojson')
   .then(response => response.json())
   .then(data => {
     points = data.features.map(f => ({
