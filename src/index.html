@@ -805,8 +805,6 @@
             </div>
         </section>
 
-
-
         <!-- map4 -->
         <section class="Section8" id="section8">
             <div id="map_re">
@@ -896,6 +894,39 @@
             </div>
         </section>
 
+        <!-- 极速版尝试 -->
+        <section id="section8-new-comparison" class="section-comparison">
+            <div class="comparison-container">
+                <!-- 左地图 -->
+                <div class="map-side">
+                    <!-- <label for="citySelectorLeft">City A:</label> -->
+                    <select id="citySelectorLeft">
+                        <option value="">Select City A</option>
+                    </select>
+                    <div id="mapleftoverview"></div>
+                    <div id="mapLeft" class="comparison-map"></div>
+                </div>
+
+                <!-- 中间对抗横条 -->
+                <!-- 对抗横条区域 -->
+                <div class="comparison-bars-wrapper">
+                    <h2 class="comparison-title">City Resilience Comparison</h2>
+                    <div class="comparison-bars" id="comparisonBars"></div>
+                </div>
+
+
+                <!-- 右地图 -->
+                <div class="map-side">
+                    <!-- <label for="citySelectorRight">City B:</label> -->
+                    <select id="citySelectorRight">
+                        <option value="">Select City B</option>
+                    </select>
+                    <div id="maprightoverview"></div>
+                    <div id="mapRight" class="comparison-map"></div>
+                </div>
+            </div>
+        </section>
+
         <!-- TeamIntro -->
         <section class="Team" id="team">
             <h1><strong>Team</strong></h1>
@@ -972,6 +1003,7 @@
     <script src="./js/4resilience.js"></script>
     <script src="./js/4comparison.js"></script>
     <script src="./js/methodology.js" defer></script>
+    <script src="./js/0.js" defer></script>
 
 </body>
 
