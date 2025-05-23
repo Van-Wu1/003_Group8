@@ -2,6 +2,7 @@ let selectedCity = null;
 let overlay;
 let points;
 let barChart;
+export function initResilience() {
 
 
 function haversineDistance(lat1, lon1, lat2, lon2) {
@@ -57,7 +58,7 @@ fetch('/data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.ge
 
     }));
 
-
+  
 
     // After the data is loaded first draw an empty radar map
     drawRadarChart();
@@ -458,4 +459,5 @@ document.getElementById('gotoComparison').addEventListener('click', () => {
   document.querySelector('.Section8').style.display = 'none';
   document.querySelector('#section8-new-comparison').style.display = 'block';
 });
-
+}
+initResilience(); // 页面首次加载时执行

@@ -265,22 +265,18 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+import { initResilience } from './4resilience.js';
+
 document.getElementById('backToSingleMap').addEventListener('click', () => {
-    // 1. 隐藏当前页面
     document.getElementById('section8-new-comparison').style.display = 'none';
 
-    // 2. 还原原始HTML内容
     const container = document.getElementById('section8-container');
     container.innerHTML = originalSection8HTML;
 
-    // 3. 重新加载 map 和 deck.gl 的逻辑
-    const script = document.createElement('script');
-    script.src = 'js/4resilience.js';
-    script.type = 'module';
-    document.body.appendChild(script);
-
-    // 4. 滚动到视图顶部
+    // 等 DOM 替换完再执行初始化
     setTimeout(() => {
+        initResilience();
         document.getElementById('section8').scrollIntoView({ behavior: 'instant' });
-    }, 300);
+    }, 100);
 });
+
