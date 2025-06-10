@@ -7,7 +7,7 @@ let mapLeft, mapRight;
 let mapLeftOverview, mapRightOverview, markerLeft, markerRight;
 
 window.addEventListener('DOMContentLoaded', () => {
-  fetch('/data/clean/City_level_resilience_data_UPDATED_only_revenue_normalized.geojson')
+  fetch('/data/City_level_resilience_data_UPDATED_only_revenue_normalized.geojson')
     .then(res => res.json())
     .then(data => {
       geojsonData = data;
@@ -79,7 +79,7 @@ function initComparison() {
   mapLeft.on('load', () => {
     mapLeft.addSource('city-boundary', {
       type: 'geojson',
-      data: './data/clean/city_highlight.geojson'
+      data: './data/city_highlight.geojson'
     });
     mapLeft.addLayer({
       id: 'city-boundary-fill',
@@ -101,7 +101,7 @@ function initComparison() {
   mapRight.on('load', () => {
     mapRight.addSource('city-boundary', {
       type: 'geojson',
-      data: './data/clean/city_highlight.geojson'
+      data: './data/city_highlight.geojson'
     });
     mapRight.addLayer({
       id: 'city-boundary-fill',

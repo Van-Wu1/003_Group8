@@ -281,7 +281,7 @@ async function initMap() {
 async function loadData() {
   try {
     // Sample data paths - need to be replaced in a real environment
-    const response = await fetch('/data/clean/world_com_top20_by_revenue_eng.json');
+    const response = await fetch('/data/world_com_top20_by_revenue_eng.json');
     if (!response.ok) {
       // Simulated data for demonstration purposes
       console.warn('Demonstration using modelled data');
