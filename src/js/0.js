@@ -7,7 +7,7 @@ let mapLeft, mapRight;
 let mapLeftOverview, mapRightOverview, markerLeft, markerRight;
 
 window.addEventListener('DOMContentLoaded', () => {
-  fetch('/data/City_level_resilience_data_UPDATED_only_revenue_normalized.geojson')
+  fetch('data/City_level_resilience_data_UPDATED_only_revenue_normalized.geojson')
     .then(res => res.json())
     .then(data => {
       geojsonData = data;

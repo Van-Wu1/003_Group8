@@ -565,7 +565,7 @@ slider.addEventListener("input", updateSliderUI);
 backButton.addEventListener('click', showDefaultMessage);
 showDefaultMessage();//It ends here.
 
-fetch('/data/city_function.json')
+fetch('data/city_function.json')
   .then(res => res.json())
   .then(data => {
     cityData = data;

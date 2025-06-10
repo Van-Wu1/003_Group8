@@ -281,7 +281,7 @@ async function initMap() {
 async function loadData() {
   try {
     // Sample data paths - need to be replaced in a real environment
-    const response = await fetch('/data/world_com_top20_by_revenue_eng.json');
+    const response = await fetch('data/world_com_top20_by_revenue_eng.json');
     if (!response.ok) {
       // Simulated data for demonstration purposes
       console.warn('Demonstration using modelled data');
@@ -1710,20 +1710,6 @@ function setupHelpNavigation() {
         });
       }
     });
-  }
-}
-
-// Make sure the help button is working properly
-function ensureHelpButtonWorks() {
-  const helpBtn = document.getElementById('help-btn');
-  if (helpBtn) {
-    // Remove any existing event listeners by cloning the node
-    const newHelpBtn = helpBtn.cloneNode(true);
-    helpBtn.parentNode.replaceChild(newHelpBtn, helpBtn);
-
-    // Adding event listeners
-    newHelpBtn.addEventListener('click', showHelpModal);
-    console.log("The help button event listener has been attached");
   }
 }
 

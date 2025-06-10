@@ -41,7 +41,7 @@ const map_re = new mapboxgl.Map({
 
 map_re.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
-fetch('/data/City_level_resilience_data_UPDATED_only_revenue_normalized.geojson')
+fetch('data/City_level_resilience_data_UPDATED_only_revenue_normalized.geojson')
   .then(response => response.json())
   .then(data => {
     points = data.features.map(f => ({
