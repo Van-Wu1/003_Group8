@@ -8,9 +8,9 @@
 This platform provides multi-level insight into how cities participate in pharmaceutical trade, governance, and resilience. It includes four core visualization modules and supporting introductory content.
 
 
-## 🌐 Live Demo
+## 🌐 Our web
 
-> _Coming Soon_ 
+[PharmaNexus – Global Pharma City Network](https://van-wu1.github.io/PharmaNexus_Global-Pharma-City-Network/)
 
 
 ## 📊 Modules
